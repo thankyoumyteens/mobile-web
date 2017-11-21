@@ -3,6 +3,8 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+// 加载样式
+import '@/commons/index.styl'
 
 Vue.config.productionTip = false
 
