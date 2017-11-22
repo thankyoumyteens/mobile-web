@@ -5,19 +5,26 @@
         <div class="close" @click="hide"><i class="icon-cross"></i></div>
         <div class="search-bar-page">
           <i class="search-bar-icon icon-search"></i>
-          <input type="text" name="" id="">
+          <input type="text" id="searchContent" name="searchContent">
         </div>
         <div class="search-button">搜索</div>
       </header>
+      <!--<split></split>-->
       <section class="history-wrapper">
-        <h3>历史搜索</h3>
+        <h3 class="history-title">历史搜索</h3>
+        <div class="history-item">暂无记录</div>
       </section>
     </div>
   </transition>
 </template>
 
 <script type="text/ecmascript-6">
+  import split from '@/components/Util/Split/Split'
+
   export default {
+    components: {
+      split
+    },
     data () {
       return {
         searchShow: false
@@ -26,6 +33,7 @@
     methods: {
       show () {
         this.searchShow = true
+//        document.getElementById('searchContent').focus()
       },
       hide () {
         this.searchShow = false
@@ -35,6 +43,8 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+  @import "../../../commons/mixin.styl"
+
   @keyframes bounce-in
     0%
       transform translate3d(100%, 0, 0)
@@ -61,6 +71,7 @@
     header
       padding 1em
       text-align center
+      border-1px(#ccc)
       .close
         margin-top 0.3em
         margin-right 0.5em
@@ -93,4 +104,12 @@
     .history-wrapper
       width 90%
       margin auto
+      .history-title
+        padding 1em
+        padding-left 0.5em
+        border-1px(#ccc)
+      .history-item
+        padding 1em
+        border-1px(#ccc)
+        color #ccc
 </style>
