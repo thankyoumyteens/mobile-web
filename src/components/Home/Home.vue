@@ -92,10 +92,10 @@
 <style lang="stylus" rel="stylesheet/stylus">
   .image-enter-active
     transform translateX(0)
-    transition all 1.5s ease
+    transition all 1s ease
   .image-leave-active
     transform translateX(-100%)
-    transition all 1.5s ease
+    transition all 1s ease
   .image-enter
     transform translateX(100%)
   .image-leave
@@ -123,7 +123,7 @@
           text-align center
           span
             width 1em
-            height 0.3em
+            height 0.2em
             background #fff
             display inline-block
             margin-right 0.5em
