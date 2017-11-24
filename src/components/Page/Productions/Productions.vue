@@ -1,41 +1,45 @@
 <template>
   <transition name="search-move">
-    <div class="search" v-show="searchShow">
+    <div class="productions" v-show="productionsShow">
       <header>
         <div class="close" @click="hide"><i class="icon-cross"></i></div>
-        <div class="search-bar-page">
+        <div @click="openSearchPage" class="search-bar">
           <i class="search-bar-icon icon-search"></i>
-          <input type="text" id="searchContent" name="searchContent">
+          <div>搜索商品</div>
         </div>
-        <div class="search-button">搜索</div>
       </header>
-      <!--<split></split>-->
-      <section class="history-wrapper">
-        <h3 class="history-title">历史搜索</h3>
-        <div class="history-item">暂无记录</div>
-      </section>
+      {{category['name']}}
+      <search ref="search"></search>
     </div>
   </transition>
 </template>
 
 <script type="text/ecmascript-6">
-  import split from '@/components/Util/Split/Split'
+  import search from '@/components/Page/Search/Search'
 
   export default {
+    props: {
+      category: {
+        type: Object
+      }
+    },
     components: {
-      split
+      search
     },
     data () {
       return {
-        searchShow: false
+        productionsShow: false
       }
     },
     methods: {
+      openSearchPage () {
+        this.$refs.search.show()
+      },
       show () {
-        this.searchShow = true
+        this.productionsShow = true
       },
       hide () {
-        this.searchShow = false
+        this.productionsShow = false
       }
     }
   }
@@ -58,7 +62,7 @@
     animation bounce-in .2s linear
   .search-move-leave-active
     animation bounce-out .2s linear
-  .search
+  .productions
     position fixed
     top 0
     left 0
@@ -68,14 +72,17 @@
     background #fff
     box-sizing border-box
     header
+      width 100%
       padding 1em
+      box-sizing border-box
       text-align center
       border-1px(#ccc)
       .close
         margin-top 0.3em
         margin-right 0.5em
         float left
-      .search-bar-page
+      .search-bar
+        width 70%
         position relative
         display inline-block
         .search-bar-icon
@@ -83,12 +90,13 @@
           left 1em
           top 0.5em
           color #777
-        input
+        div
+          text-align left
           border 0
           outline none
           background #ccc
           color #777
-          height 2.5em
+          line-height 2em
           padding 0
           padding-left 3em
           border-top-left-radius 2em
@@ -100,15 +108,4 @@
         font-size 1.3em
         float right
         margin-top 0.1em
-    .history-wrapper
-      width 90%
-      margin auto
-      .history-title
-        padding 1em
-        padding-left 0.5em
-        border-1px(#ccc)
-      .history-item
-        padding 1em
-        border-1px(#ccc)
-        color #ccc
 </style>

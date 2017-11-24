@@ -4,6 +4,7 @@
 export function path () {
   let server = '/'
   return {
+    'categoryList': server + 'category/all',
     'homeImgList': server + 'home/images',
     'homePlaceholder': server + 'home/placeholder'
   }

@@ -62,6 +62,44 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           'data': 'iphone X'
         })
       })
+      app.get('/category/all', (req, res) => {
+        res.json({
+          'status': 200,
+          'message': 'OK',
+          'data': [
+            {
+              'id': 0,
+              'name': '360',
+              'logo': '/static/360.jpg'
+            },
+            {
+              'id': 1,
+              'name': 'honor',
+              'logo': '/static/honor.jpg'
+            },
+            {
+              'id': 2,
+              'name': 'oneplus',
+              'logo': '/static/oneplus.jpg'
+            },
+            {
+              'id': 3,
+              'name': 'samsung',
+              'logo': '/static/samsung.jpg'
+            },
+            {
+              'id': 4,
+              'name': 'vivo',
+              'logo': '/static/vivo.jpg'
+            },
+            {
+              'id': 5,
+              'name': 'xiaomi',
+              'logo': '/static/xiaomi.jpg'
+            }
+          ]
+        })
+      })
     }
   },
   plugins: [
