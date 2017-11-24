@@ -23,9 +23,9 @@
 <script type="text/ecmascript-6">
   import Vue from 'vue'
   import search from '@/components/Page/Search/Search'
-  import testImg1 from './1.jpg'
-  import testImg2 from './2.jpg'
-  import testImg3 from './3.jpg'
+  import {
+    path
+  } from '@/commons/address.js'
 
   export default {
     components: {
@@ -33,25 +33,32 @@
     },
     created () {
       // 获取图片
-      let o = {
-        img: testImg1,
-        link: '0000000000'
-      }
-      Vue.set(this.imgList, 0, o)
-      o = {
-        img: testImg2,
-        link: '11111111111'
-      }
-      Vue.set(this.imgList, 1, o)
-      o = {
-        img: testImg3,
-        link: '222222222222'
-      }
-      Vue.set(this.imgList, 2, o)
-      // 开启图片轮播
-      this.autoChange()
+      this.$http.get(path()['homeImgList']).then((response) => {
+        let status = response.body['status']
+        let message = response.body['message']
+        let data = response.body['data']
+        if (status === 200) {
+          for (let i = 0; i < data.length; i++) {
+            let item = data[i]
+            Vue.set(this.imgList, i, item)
+          }
+          // 开启图片轮播
+          this.autoChange()
+        } else {
+          console.log(message)
+        }
+      })
       // 获取搜索框提示文字
-      this.placeholder = 'iphone X'
+      this.$http.get(path()['homePlaceholder']).then((response) => {
+        let status = response.body['status']
+        let message = response.body['message']
+        let data = response.body['data']
+        if (status === 200) {
+          this.placeholder = data
+        } else {
+          console.log(message)
+        }
+      })
     },
     data () {
       return {
@@ -123,7 +130,7 @@
           text-align center
           span
             width 1em
-            height 0.2em
+            height 0.1em
             background #fff
             display inline-block
             margin-right 0.5em

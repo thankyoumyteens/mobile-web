@@ -14,7 +14,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   },
   // cheap-module-eval-source-map is faster for development
   devtool: config.dev.devtool,
-  
+
   // these devServer options should be customized in /config/index.js
   devServer: {
     clientLogLevel: 'warning',
@@ -32,12 +32,42 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       poll: config.dev.poll,
+    },
+    // 模拟数据
+    before (app) {
+      app.get('/home/images', (req, res) => {
+        res.json({
+          'status': 200,
+          'message': 'OK',
+          'data': [
+            {
+              'img': '/static/1.jpg',
+              'link': 'http://localhost:8080/'
+            },
+            {
+              'img': '/static/2.jpg',
+              'link': 'http://localhost:8080/'
+            },
+            {
+              'img': '/static/3.jpg',
+              'link': 'http://localhost:8080/'
+            }
+          ]
+        })
+      })
+      app.get('/home/placeholder', (req, res) => {
+        res.json({
+          'status': 200,
+          'message': 'OK',
+          'data': 'iphone X'
+        })
+      })
     }
   },
   plugins: [
     new webpack.DefinePlugin({
       'process.env': require('../config/dev.env')
-    }), 
+    }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(), // HMR shows correct file names in console on update.
     new webpack.NoEmitOnErrorsPlugin(),

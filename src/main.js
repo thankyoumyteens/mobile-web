@@ -3,8 +3,11 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import VueResource from 'vue-resource'
 // 加载样式
 import '@/commons/index.styl'
+// 使用vue-resource
+Vue.use(VueResource)
 
 Vue.config.productionTip = false
 
