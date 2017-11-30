@@ -8,14 +8,30 @@
           <div>搜索商品</div>
         </div>
       </header>
-      {{category['name']}}
+      <section class="production-list scroll-wrapper" ref="scrollWrapperProductionList">
+        <div>
+          <div class="production" v-for="production in productionList">
+            <div class="production-img"><img :src="production['img']" alt=""></div>
+            <div class="production-detail">
+              <p class="production-title">{{production['name']}}</p>
+              <p class="production-price">{{production['price']}}</p>
+              <p class="production-review">{{production['review']}}</p>
+            </div>
+          </div>
+        </div>
+      </section>
       <search ref="search"></search>
     </div>
   </transition>
 </template>
 
 <script type="text/ecmascript-6">
+  import Vue from 'vue'
+  import BetterScroll from 'better-scroll'
   import search from '@/components/Page/Search/Search'
+  import {
+    path
+  } from '@/commons/address.js'
 
   export default {
     props: {
@@ -26,20 +42,56 @@
     components: {
       search
     },
+    watch: {
+      'category' () {
+        this.getProductionList()
+        this.initScroll()
+      }
+    },
     data () {
       return {
-        productionsShow: false
+        scrollProductionList: null,
+        productionsShow: false,
+        productionList: []
       }
     },
     methods: {
       openSearchPage () {
         this.$refs.search.show()
       },
+      initScroll () {
+        this.$nextTick(() => {
+          if (!this.scrollProductionList) {
+            this.scrollProductionList = new BetterScroll(this.$refs.scrollWrapperProductionList, {
+              click: true
+            })
+          } else {
+            this.scrollProductionList.refresh()
+          }
+        })
+      },
       show () {
         this.productionsShow = true
       },
       hide () {
         this.productionsShow = false
+      },
+      getProductionList () {
+        this.$http.get(path()['productionList'] + '?category=' + this.category['name']
+        ).then((response) => {
+          let status = response.body['status']
+          let message = response.body['message']
+          let data = response.body['data']
+          if (status === 200) {
+            for (let i = 0; i < data.length; i++) {
+              let item = data[i]
+              Vue.set(this.productionList, i, item)
+            }
+            this.initScroll()
+          } else {
+            console.log(message)
+          }
+        })
       }
     }
   }
@@ -73,9 +125,11 @@
     box-sizing border-box
     header
       width 100%
+      height 4em
       padding 1em
       box-sizing border-box
       text-align center
+      background #fff
       border-1px(#ccc)
       .close
         margin-top 0.3em
@@ -108,4 +162,29 @@
         font-size 1.3em
         float right
         margin-top 0.1em
+    .production-list
+      position fixed
+      z-index -1
+      top 5em
+      left 0
+      bottom 0
+      right 0
+      .production
+        width 100%
+        height 12em
+        border-1px(#ccc)
+        margin 0.5em
+        box-sizing border-box
+        .production-img
+          float left
+          height 11em
+          img
+            height 100%
+        .production-detail
+          .production-title
+            font-weight bold
+          .production-price
+            color #e31d1a
+          .production-review
+            color #777
 </style>
