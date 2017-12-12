@@ -12,7 +12,7 @@
       <!--<split></split>-->
       <section class="history-wrapper">
         <h3 class="history-title">历史搜索</h3>
-        <div class="history-item" v-for="item in historyList">{{item}}</div>
+        <div class="history-item" @click="addToBar(item)" v-for="item in historyList">{{item}}</div>
         <div class="history-item" v-if="historyList.length <= 0">暂无记录</div>
       </section>
     </div>
@@ -34,6 +34,9 @@
       }
     },
     methods: {
+      addToBar (item) {
+        document.getElementById('searchContent').value = item
+      },
       show () {
         document.getElementById('searchContent').value = ''
         let history = localStorage.getItem('history')
