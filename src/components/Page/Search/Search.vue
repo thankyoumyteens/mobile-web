@@ -7,18 +7,20 @@
           <i class="search-bar-icon icon-search"></i>
           <input type="text" id="searchContent" name="searchContent">
         </div>
-        <div class="search-button">搜索</div>
+        <div class="search-button" @click="search">搜索</div>
       </header>
       <!--<split></split>-->
       <section class="history-wrapper">
         <h3 class="history-title">历史搜索</h3>
-        <div class="history-item">暂无记录</div>
+        <div class="history-item" v-for="item in historyList">{{item}}</div>
+        <div class="history-item" v-if="historyList.length <= 0">暂无记录</div>
       </section>
     </div>
   </transition>
 </template>
 
 <script type="text/ecmascript-6">
+  import Vue from 'vue'
   import split from '@/components/Util/Split/Split'
 
   export default {
@@ -27,15 +29,37 @@
     },
     data () {
       return {
-        searchShow: false
+        searchShow: false,
+        historyList: []
       }
     },
     methods: {
       show () {
+        document.getElementById('searchContent').value = ''
+        let history = localStorage.getItem('history')
+        if (history !== null) {
+          let arr = history.split(';')
+          for (let i = 0; i < arr.length; i++) {
+            Vue.set(this.historyList, i, arr[i])
+          }
+        } else {
+          // 暂无记录
+        }
         this.searchShow = true
       },
       hide () {
         this.searchShow = false
+      },
+      search () {
+        let searchContent = document.getElementById('searchContent').value
+        this.$emit('find', searchContent)
+        let history = localStorage.getItem('history')
+        if (history !== null) {
+          localStorage.setItem('history', searchContent + ';' + history)
+        } else {
+          localStorage.setItem('history', searchContent)
+        }
+        this.hide()
       }
     }
   }

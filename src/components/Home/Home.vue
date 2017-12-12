@@ -16,7 +16,7 @@
         <div>{{placeholder}}</div>
       </div>
     </header>
-    <search ref="search"></search>
+    <search @find="find" ref="search"></search>
   </div>
 </template>
 
@@ -69,6 +69,9 @@
       }
     },
     methods: {
+      find (text) {
+        console.log(text)
+      },
       openSearchPage () {
         this.$refs.search.show()
       },
