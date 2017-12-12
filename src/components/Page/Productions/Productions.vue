@@ -3,7 +3,7 @@
     <div class="productions" v-show="productionsShow">
       <header>
         <div class="close" @click="hide"><i class="icon-cross"></i></div>
-        <div @click="openSearchPage" class="search-bar">
+        <div @click="openSearchPage" class="productions-search-bar">
           <i class="search-bar-icon icon-search"></i>
           <div>搜索商品</div>
         </div>
@@ -16,6 +16,14 @@
               <p class="production-title">{{production['name']}}</p>
               <p class="production-price">{{production['price']}}</p>
               <p class="production-review">{{production['review']}}</p>
+            </div>
+          </div>
+          <div class="production" v-if="productionList.length <= 0">
+            <div class="production-img"></div>
+            <div class="production-detail">
+              <p class="production-title">暂无商品</p>
+              <p class="production-price"></p>
+              <p class="production-review"></p>
             </div>
           </div>
         </div>
@@ -37,6 +45,9 @@
     props: {
       category: {
         type: Object
+      },
+      searchInfo: {
+        type: Object
       }
     },
     components: {
@@ -44,7 +55,12 @@
     },
     watch: {
       'category' () {
-        this.getProductionList()
+        this.getProductionList('c')
+        this.initScroll()
+      },
+      'searchInfo' () {
+        console.log(this.searchInfo)
+        this.getProductionList('s')
         this.initScroll()
       }
     },
@@ -76,9 +92,16 @@
       hide () {
         this.productionsShow = false
       },
-      getProductionList () {
-        this.$http.get(path()['productionList'] + '?category=' + this.category['name']
-        ).then((response) => {
+      getProductionList (type) {
+        let url = path()['productionList']
+        switch (type) {
+          case 'c':
+            url = url + '?category=' + this.category['name']
+            break
+          case 's':
+            url = url + '?search=' + this.searchInfo['text']
+        }
+        this.$http.get(url).then((response) => {
           let status = response.body['status']
           let message = response.body['message']
           let data = response.body['data']
@@ -135,7 +158,7 @@
         margin-top 0.3em
         margin-right 0.5em
         float left
-      .search-bar
+      .productions-search-bar
         width 70%
         position relative
         display inline-block

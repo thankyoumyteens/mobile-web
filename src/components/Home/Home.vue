@@ -17,19 +17,22 @@
       </div>
     </header>
     <search @find="find" ref="search"></search>
+    <productions ref="productions" :searchInfo="searchInfo"></productions>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import Vue from 'vue'
   import search from '@/components/Page/Search/Search'
+  import productions from '@/components/Page/Productions/Productions'
   import {
     path
   } from '@/commons/address.js'
 
   export default {
     components: {
-      search
+      search,
+      productions
     },
     created () {
       // 获取图片
@@ -62,6 +65,7 @@
     },
     data () {
       return {
+        searchInfo: null,
         imgTimer: null, // 图片轮播计时器
         currentImgIndex: 0, // 当前显示的图片在imgList中的索引
         placeholder: '查找商品', // 搜索框提示文字
@@ -70,7 +74,11 @@
     },
     methods: {
       find (text) {
-        console.log(text)
+        let o = {
+          'text': text
+        }
+        this.searchInfo = o
+        this.$refs.productions.show()
       },
       openSearchPage () {
         this.$refs.search.show()
