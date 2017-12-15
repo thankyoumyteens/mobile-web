@@ -3,21 +3,16 @@
     <div class="category-item" @click="detail(item)" v-for="item in categoryList">
       <div class="company-logo"><img :src="item['logo']" alt=""></div>
     </div>
-    <productions ref="productions" :category="currentCategory"></productions>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import Vue from 'vue'
-  import productions from '@/components/Page/Productions/Productions'
   import {
     path
   } from '@/commons/address.js'
 
   export default {
-    components: {
-      productions
-    },
     created () {
       this.$http.get(path()['categoryList']).then((response) => {
         let status = response.body['status']
@@ -35,14 +30,12 @@
     },
     data () {
       return {
-        categoryList: [],
-        currentCategory: {}
+        categoryList: []
       }
     },
     methods: {
       detail (category) {
-        this.currentCategory = category
-        this.$refs.productions.show()
+        this.$emit('category', category)
       }
     }
   }

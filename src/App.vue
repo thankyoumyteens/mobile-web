@@ -2,7 +2,7 @@
   <div id="app">
     <header></header>
     <section id="viewer">
-      <router-view></router-view>
+      <router-view @search="openSearch" @category="openProductions"></router-view>
     </section>
     <section id="navBar">
       <div @click="goto('home')" :class="[currentComponent=='home'?'nav-active':'']" class="nav-item"><i class="nav-item-icon icon-home"></i><span class="nav-item-text">首页</span></div>
@@ -11,14 +11,22 @@
       <div @click="goto('cart')" :class="[currentComponent=='cart'?'nav-active':'']" class="nav-item"><i class="nav-item-icon icon-cart"></i><span class="nav-item-text">购物车</span></div>
       <div @click="goto('user')" :class="[currentComponent=='user'?'nav-active':'']" class="nav-item"><i class="nav-item-icon icon-user"></i><span class="nav-item-text">我的</span></div>
     </section>
+    <search @find="find" ref="search"></search>
+    <productions @search="openSearch" ref="productions" :productionInfo="productionInfo"></productions>
   </div>
 </template>
 
 <script>
   import router from './router'
+  import search from '@/components/Page/Search/Search'
+  import productions from '@/components/Page/Productions/Productions'
 
   export default {
     name: 'app',
+    components: {
+      search,
+      productions
+    },
     created () {
       // 刷新页面后保持底部导航栏选中样式
       let address = this.$route.path
@@ -31,10 +39,36 @@
     },
     data () {
       return {
+        productionInfo: null,
         currentComponent: 'home'
       }
     },
     methods: {
+      openProductions (category) {
+        let o = {
+          'type': 'c',
+          'data': category
+        }
+        this.productionInfo = o
+        this.$refs.productions.show()
+      },
+      openSearch (who) {
+        switch (who) {
+          case 'Home':
+            break
+          case 'Productions':
+            break
+        }
+        this.$refs.search.show()
+      },
+      find (text) {
+        let o = {
+          'type': 's',
+          'data': text
+        }
+        this.productionInfo = o
+        this.$refs.productions.show()
+      },
       // 切换component
       goto (address) {
         this.currentComponent = address

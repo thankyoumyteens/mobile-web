@@ -28,7 +28,6 @@
           </div>
         </div>
       </section>
-      <search ref="search"></search>
     </div>
   </transition>
 </template>
@@ -36,31 +35,20 @@
 <script type="text/ecmascript-6">
   import Vue from 'vue'
   import BetterScroll from 'better-scroll'
-  import search from '@/components/Page/Search/Search'
   import {
     path
   } from '@/commons/address.js'
 
   export default {
     props: {
-      category: {
-        type: Object
-      },
-      searchInfo: {
+      productionInfo: {
         type: Object
       }
     },
-    components: {
-      search
-    },
     watch: {
-      'category' () {
-        this.getProductionList('c')
-        this.initScroll()
-      },
-      'searchInfo' () {
-        console.log(this.searchInfo)
-        this.getProductionList('s')
+      'productionInfo' () {
+        console.log(this.productionInfo)
+        this.getProductionList()
         this.initScroll()
       }
     },
@@ -73,7 +61,7 @@
     },
     methods: {
       openSearchPage () {
-        this.$refs.search.show()
+        this.$emit('search', 'Productions')
       },
       initScroll () {
         this.$nextTick(() => {
@@ -92,19 +80,22 @@
       hide () {
         this.productionsShow = false
       },
-      getProductionList (type) {
-        let url = path()['productionList']
+      getProductionList () {
+        let type = this.productionInfo['type']
+        let data = this.productionInfo['data']
+        let url = ''
         switch (type) {
           case 'c':
-            url = url + '?category=' + this.category['name']
+            url = path()['productionList'] + '?category=' + data['name']
             break
           case 's':
-            url = url + '?search=' + this.searchInfo['text']
+            url = path()['productionListByKeywords'] + '?key=' + data
         }
         this.$http.get(url).then((response) => {
           let status = response.body['status']
           let message = response.body['message']
           let data = response.body['data']
+          this.productionList = []
           if (status === 200) {
             for (let i = 0; i < data.length; i++) {
               let item = data[i]

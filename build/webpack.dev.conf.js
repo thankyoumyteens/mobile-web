@@ -205,6 +205,111 @@ const devWebpackConfig = merge(baseWebpackConfig, {
             break
         }
       })
+      app.get('/productions/keywords', (req, res) => {
+        let params = req.query
+        switch (params['key']) {
+          case '360':
+            res.json({
+              'status': 200,
+              'message': 'OK',
+              'data': [
+                {
+                  'id': 0,
+                  'name': '360手机 N6 Pro 全网通 6GB+64GB 极夜黑 移动联通电信4G手机 双卡双待',
+                  'price': '￥1899.00',
+                  'review': '605条评价 98%好评',
+                  'img': '/static/360n6pro1.jpg'
+                },
+                {
+                  'id': 1,
+                  'name': '360手机 N6 Pro 全网通 6GB+64GB 极夜黑 移动联通电信4G手机 双卡双待',
+                  'price': '￥1899.00',
+                  'review': '605条评价 98%好评',
+                  'img': '/static/360n6pro1.jpg'
+                },
+                {
+                  'id': 2,
+                  'name': '360手机 N6 Pro 全网通 6GB+64GB 极夜黑 移动联通电信4G手机 双卡双待',
+                  'price': '￥1899.00',
+                  'review': '605条评价 98%好评',
+                  'img': '/static/360n6pro1.jpg'
+                },
+                {
+                  'id': 3,
+                  'name': '360手机 N6 Pro 全网通 6GB+64GB 极夜黑 移动联通电信4G手机 双卡双待',
+                  'price': '￥1899.00',
+                  'review': '605条评价 98%好评',
+                  'img': '/static/360n6pro1.jpg'
+                },
+                {
+                  'id': 4,
+                  'name': '360手机 N6 Pro 全网通 6GB+64GB 极夜黑 移动联通电信4G手机 双卡双待',
+                  'price': '￥1899.00',
+                  'review': '605条评价 98%好评',
+                  'img': '/static/360n6pro1.jpg'
+                },
+                {
+                  'id': 5,
+                  'name': '360手机 N6 Pro 全网通 6GB+64GB 极夜黑 移动联通电信4G手机 双卡双待',
+                  'price': '￥1899.00',
+                  'review': '605条评价 98%好评',
+                  'img': '/static/360n6pro1.jpg'
+                },
+                {
+                  'id': 6,
+                  'name': '360手机 N6 Pro 全网通 6GB+64GB 极夜黑 移动联通电信4G手机 双卡双待',
+                  'price': '￥1899.00',
+                  'review': '605条评价 98%好评',
+                  'img': '/static/360n6pro1.jpg'
+                },
+                {
+                  'id': 7,
+                  'name': '360手机 N6 Pro 全网通 6GB+64GB 极夜黑 移动联通电信4G手机 双卡双待',
+                  'price': '￥1899.00',
+                  'review': '605条评价 98%好评',
+                  'img': '/static/360n6pro1.jpg'
+                },
+              ]
+            })
+            break
+          case 'honor':
+            res.json({
+              'status': 200,
+              'message': 'OK',
+              'data': [
+                {
+                  'id': 8,
+                  'name': 'HONOR 荣耀 畅玩6 2GB+16GB全网通4G手机 双卡双待 金色 全网通2GB+16GB',
+                  'price': '￥699.00',
+                  'review': '2300条评价 97%好评',
+                  'img': '/static/honor6x1.jpg'
+                },
+                {
+                  'id': 9,
+                  'name': 'HONOR 荣耀 畅玩6 2GB+16GB全网通4G手机 双卡双待 金色 全网通2GB+16GB',
+                  'price': '￥699.00',
+                  'review': '2300条评价 97%好评',
+                  'img': '/static/honor6x1.jpg'
+                },
+                {
+                  'id': 10,
+                  'name': 'HONOR 荣耀 畅玩6 2GB+16GB全网通4G手机 双卡双待 金色 全网通2GB+16GB',
+                  'price': '￥699.00',
+                  'review': '2300条评价 97%好评',
+                  'img': '/static/honor6x1.jpg'
+                }
+              ]
+            })
+            break
+          default:
+            res.json({
+              'status': 404,
+              'message': '暂无商品',
+              'data': []
+            })
+            break
+        }
+      })
     }
   },
   plugins: [
