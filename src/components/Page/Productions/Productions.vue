@@ -47,7 +47,6 @@
     },
     watch: {
       'productionInfo' () {
-        console.log(this.productionInfo)
         this.getProductionList()
         this.initScroll()
       }

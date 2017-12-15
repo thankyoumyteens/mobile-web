@@ -13,6 +13,7 @@
     </section>
     <search @find="find" ref="search"></search>
     <productions @search="openSearch" @detail="detail" ref="productions" :productionInfo="productionInfo"></productions>
+    <production ref="production" :productionSimple="productionSimple"></production>
   </div>
 </template>
 
@@ -20,12 +21,14 @@
   import router from './router'
   import search from '@/components/Page/Search/Search'
   import productions from '@/components/Page/Productions/Productions'
+  import production from '@/components/Page/Production/Production'
 
   export default {
     name: 'app',
     components: {
       search,
-      productions
+      productions,
+      production
     },
     created () {
       // 刷新页面后保持底部导航栏选中样式
@@ -39,13 +42,15 @@
     },
     data () {
       return {
+        productionSimple: null,
         productionInfo: null,
         currentComponent: 'home'
       }
     },
     methods: {
       detail (item) {
-        console.log(item)
+        this.productionSimple = item
+        this.$refs.production.show()
       },
       openProductions (category) {
         let o = {
