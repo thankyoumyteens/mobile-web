@@ -42,15 +42,15 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           'data': [
             {
               'img': '/static/1.jpg',
-              'link': 'http://localhost:8080/'
+              'link': 'http://localhost:8080/nav1'
             },
             {
               'img': '/static/2.jpg',
-              'link': 'http://localhost:8080/'
+              'link': 'http://localhost:8080/nav2'
             },
             {
               'img': '/static/3.jpg',
-              'link': 'http://localhost:8080/'
+              'link': 'http://localhost:8080/nav3'
             }
           ]
         })

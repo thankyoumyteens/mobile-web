@@ -43,6 +43,7 @@
         if (history !== null) {
           let arr = history.split(';')
           for (let i = 0; i < arr.length; i++) {
+            if (i > 5) break // 显示5条历史记录
             Vue.set(this.historyList, i, arr[i])
           }
         } else {
@@ -56,6 +57,7 @@
       search () {
         let searchContent = document.getElementById('searchContent').value
         this.$emit('find', searchContent)
+        // 存储搜索历史
         let history = localStorage.getItem('history')
         if (history !== null) {
           localStorage.setItem('history', searchContent + ';' + history)

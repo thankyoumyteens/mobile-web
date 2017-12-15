@@ -1,10 +1,10 @@
 <template>
   <div class="home">
     <header>
-      <div class="wall" @mouseover="stop" @mouseout="start">
+      <div class="wall">
         <transition-group class="img-wrapper" tag="div" name="image">
           <!--<div class="img-wrapper">-->
-            <img :src="item['img']" v-show="index===currentImgIndex" class="img-item" v-for="(item,index) in imgList" :key="index">
+            <img @click="openDetail(item)" :src="item['img']" v-show="index===currentImgIndex" class="img-item" v-for="(item,index) in imgList" :key="index">
           <!--</div>-->
         </transition-group>
         <div class="count-bar">
@@ -64,6 +64,9 @@
       }
     },
     methods: {
+      openDetail (item) {
+        console.log(item['img'])
+      },
       openSearchPage () {
         this.$emit('search', 'Home')
       },

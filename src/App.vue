@@ -12,7 +12,7 @@
       <div @click="goto('user')" :class="[currentComponent=='user'?'nav-active':'']" class="nav-item"><i class="nav-item-icon icon-user"></i><span class="nav-item-text">我的</span></div>
     </section>
     <search @find="find" ref="search"></search>
-    <productions @search="openSearch" ref="productions" :productionInfo="productionInfo"></productions>
+    <productions @search="openSearch" @detail="detail" ref="productions" :productionInfo="productionInfo"></productions>
   </div>
 </template>
 
@@ -44,6 +44,9 @@
       }
     },
     methods: {
+      detail (item) {
+        console.log(item)
+      },
       openProductions (category) {
         let o = {
           'type': 'c',

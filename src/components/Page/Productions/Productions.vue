@@ -10,7 +10,7 @@
       </header>
       <section class="production-list scroll-wrapper" ref="scrollWrapperProductionList">
         <div>
-          <div class="production" v-for="production in productionList">
+          <div class="production" @click="showDetail(production)" v-for="production in productionList">
             <div class="production-img"><img :src="production['img']" alt=""></div>
             <div class="production-detail">
               <p class="production-title">{{production['name']}}</p>
@@ -60,6 +60,9 @@
       }
     },
     methods: {
+      showDetail (item) {
+        this.$emit('detail', item)
+      },
       openSearchPage () {
         this.$emit('search', 'Productions')
       },
