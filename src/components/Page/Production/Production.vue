@@ -11,7 +11,13 @@
               <div class="production-nav-item" @click="changeTab(2)" :class="[currentProductionNavIndex==2?'active':'']">评价</div>
             </div>
             <section class="production-home" v-show="currentProductionNavIndex==0">
-              商品
+              <div class="ph-image-show">
+                <div class="ph-image-wrapper"
+                     @touchstart='touchStartImage' @touchmove='touchMoveImage' @touchend='touchEndImage'>
+                  <img class="ph-img" :src="item" alt="" v-for="item,index in productionDetail['production']['images']">
+                </div>
+                <div class="ph-image-index">{{currentImageIndex+1}}/{{productionDetail['production']['images'].length}}</div>
+              </div>
             </section>
             <section class="production-more" v-show="currentProductionNavIndex==1">
               详情
@@ -46,10 +52,36 @@
       'productionSimple' () {
         this.getProduction()
         this.initScroll()
+      },
+      'productionDetail' () {
+//        console.log(this.productionDetail)
+      }
+    },
+    updated () {
+      if (this.touchImage['width']) return
+      let el = document.getElementsByClassName('ph-image-wrapper')[0]
+      if (el) {
+        if (this.productionDetail) {
+          let width = el.offsetWidth
+          let height = el.offsetHeight
+          el.style.width = (width * this.productionDetail['production']['images'].length) + 'px'
+          let imgs = document.getElementsByClassName('ph-img')
+          let imgWidth = height
+          let remain = width - imgWidth
+          let margin = remain / 2
+          for (let i = 0; i < imgs.length; i++) {
+            imgs[i].style.width = imgWidth + 'px'
+            imgs[i].style.marginLeft = margin + 'px'
+            imgs[i].style.marginRight = margin + 'px'
+          }
+          this.touchImage['width'] = width
+        }
       }
     },
     data () {
       return {
+        touchImage: {},
+        currentImageIndex: 0,
         currentProductionNavIndex: 0,
         scrollProduction: null,
         productionDetail: null,
@@ -57,6 +89,41 @@
       }
     },
     methods: {
+      touchStartImage (e) {
+        e = e || event
+        // tounches类数组，等于1时表示此时有只有一只手指在触摸屏幕
+        if (e.touches.length === 1) {
+          // 记录开始位置
+          this.touchImage['startX'] = e.touches[0].clientX
+          console.log(this.touchImage)
+        }
+      },
+      touchMoveImage (e) {
+        e = e || event
+      },
+      touchEndImage (e) {
+        e = e || event
+        if (e.changedTouches.length === 1) {
+          let endX = e.changedTouches[0].clientX
+          let disX = this.touchImage['startX'] - endX
+          console.log('滑动距离 ->' + disX)
+          if (disX > 100) {
+            // 右滑
+            let el = document.getElementsByClassName('ph-image-wrapper')[0]
+            if (this.currentImageIndex >= this.productionDetail['production']['images'].length - 1) {
+              this.currentImageIndex = 0
+              el.style.left = 0 + 'px'
+              return
+            }
+            let left = el.offsetLeft - this.touchImage['width']
+            el.style.left = left + 'px'
+            this.currentImageIndex++
+          }
+          if (disX < -100) {
+            // todo 左滑
+          }
+        }
+      },
       changeTab (index) {
         this.currentProductionNavIndex = index
       },
@@ -84,7 +151,6 @@
           let status = response.body['status']
           let message = response.body['message']
           let data = response.body['data']
-          console.log(data)
           this.productionDetail = null
           if (status === 200) {
             this.productionDetail = data
@@ -125,13 +191,13 @@
     background #fff
     box-sizing border-box
     .close
-      margin-top 0.3em
-      margin-right 0.5em
+      margin-top 0.9em
+      margin-left 0.5em
       float left
     .production-detail
       position fixed
       z-index -1
-      top 5em
+      top 0
       left 0
       bottom 0
       right 0
@@ -149,4 +215,25 @@
             text-align center
             &.active
               color #e31d1a
+        .production-home
+          .ph-image-show
+            position relative
+            width 100%
+            overflow hidden
+            height 15em
+            .ph-image-wrapper
+              position absolute
+              left 0
+              top 0
+              height 100%
+              text-align center
+              box-sizing border-box
+              border-1px(#ccc)
+              img
+                float left
+                height 100%
+            .ph-image-index
+              position absolute
+              right 1em
+              bottom 1em
 </style>
