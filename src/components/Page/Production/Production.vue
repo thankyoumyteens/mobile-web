@@ -4,10 +4,23 @@
       <div class="close" @click="hide"><i class="icon-cross"></i></div>
       <section class="production-detail scroll-wrapper" ref="scrollWrapperProduction">
         <div>
-          <div class="production" @click="showDetail(production)" v-if="productionDetail != null">
-            加载成功
+          <div class="production-info" v-if="productionDetail != null">
+            <div class="production-nav">
+              <div class="production-nav-item" @click="changeTab(0)" :class="[currentProductionNavIndex==0?'active':'']">商品</div>
+              <div class="production-nav-item" @click="changeTab(1)" :class="[currentProductionNavIndex==1?'active':'']">详情</div>
+              <div class="production-nav-item" @click="changeTab(2)" :class="[currentProductionNavIndex==2?'active':'']">评价</div>
+            </div>
+            <section class="production-home" v-show="currentProductionNavIndex==0">
+              商品
+            </section>
+            <section class="production-more" v-show="currentProductionNavIndex==1">
+              详情
+            </section>
+            <section class="production-review" v-show="currentProductionNavIndex==2">
+              评价
+            </section>
           </div>
-          <div class="production" v-if="productionDetail == null">
+          <div class="production-info" v-if="productionDetail == null">
               加载失败
           </div>
         </div>
@@ -37,12 +50,16 @@
     },
     data () {
       return {
+        currentProductionNavIndex: 0,
         scrollProduction: null,
         productionDetail: null,
         productionShow: false
       }
     },
     methods: {
+      changeTab (index) {
+        this.currentProductionNavIndex = index
+      },
       initScroll () {
         this.$nextTick(() => {
           if (!this.scrollProduction) {
@@ -67,6 +84,7 @@
           let status = response.body['status']
           let message = response.body['message']
           let data = response.body['data']
+          console.log(data)
           this.productionDetail = null
           if (status === 200) {
             this.productionDetail = data
@@ -117,4 +135,18 @@
       left 0
       bottom 0
       right 0
+      .production-info
+        .production-nav
+          width 100%
+          height 3em
+          display flex
+          .production-nav-item
+            box-sizing border-box
+            border-1px(#ccc)
+            flex 1
+            float left
+            line-height 3em
+            text-align center
+            &.active
+              color #e31d1a
 </style>
