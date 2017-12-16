@@ -310,6 +310,76 @@ const devWebpackConfig = merge(baseWebpackConfig, {
             break
         }
       })
+      app.get('/production/detail', (req, res) => {
+        let params = req.query
+        switch (params['id']) {
+          case '0':
+            res.json({
+              'status': 200,
+              'message': 'OK',
+              'data': {
+                'production': {
+                  'id': 0,
+                  'name': '360手机 N6 Pro 全网通 6GB+64GB 极夜黑 移动联通电信4G手机 双卡双待',
+                  'remark': '4050mAh大电池/1600万后置双摄/5.99英寸全面屏/骁龙660',
+                  'price': '1899.00',
+                  'type': {
+                    'color': {
+                      '极夜黑': '0',
+                      '深海蓝': '0'
+                    },
+                    'style': {
+                      '裸机': '0',
+                      '音乐套装': '100'
+                    },
+                    'storage': {
+                      '4GB+64GB': '0',
+                      '6GB+64GB': '200',
+                      '6GB+128GB': '700'
+                    }
+                  },
+                  'images': [
+                    '/static/360n6pro1_1.jpg',
+                    '/static/360n6pro1_2.jpg',
+                    '/static/360n6pro1_3.jpg',
+                    '/static/360n6pro1_4.jpg',
+                    '/static/360n6pro1_5.jpg',
+                    '/static/360n6pro1_6.jpg'
+                  ],
+                  'shop': {
+                    'name': '360手机官方旗舰店',
+                    'logo': '/static/360.jpg',
+                    'follower': '41.8万',
+                    'all': '29',
+                    'new': '10',
+                    'link': '/shop/360'
+                  }
+                },
+                'detail': {
+
+                },
+                'review': {
+
+                }
+              }
+            })
+            break
+          case '8':
+            res.json({
+              'status': 200,
+              'message': 'OK',
+              'data': {}
+            })
+            break
+          default:
+            res.json({
+              'status': 404,
+              'message': '暂无商品',
+              'data': {}
+            })
+            break
+        }
+      })
     }
   },
   plugins: [

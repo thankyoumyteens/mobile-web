@@ -10,7 +10,7 @@
       </header>
       <section class="production-list scroll-wrapper" ref="scrollWrapperProductionList">
         <div>
-          <div class="production" @click="showDetail(production)" v-for="production in productionList">
+          <div class="production-item" @click="showDetail(production)" v-for="production in productionList">
             <div class="production-img"><img :src="production['img']" alt=""></div>
             <div class="production-detail">
               <p class="production-title">{{production['name']}}</p>
@@ -18,7 +18,7 @@
               <p class="production-review">{{production['review']}}</p>
             </div>
           </div>
-          <div class="production" v-if="productionList.length <= 0">
+          <div class="production-item" v-if="productionList.length <= 0">
             <div class="production-img"></div>
             <div class="production-detail">
               <p class="production-title">暂无商品</p>
@@ -185,7 +185,7 @@
       left 0
       bottom 0
       right 0
-      .production
+      .production-item
         width 100%
         height 12em
         border-1px(#ccc)
