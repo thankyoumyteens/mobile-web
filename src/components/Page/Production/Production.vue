@@ -100,6 +100,26 @@
       },
       touchMoveImage (e) {
         e = e || event
+        if (e.touches.length === 1) {
+          let moveX = e.touches[0].clientX
+          let el = document.getElementsByClassName('ph-image-wrapper')[0]
+          let offsetX = moveX * 0.01
+          if (moveX > this.touchImage['startX']) {
+            console.log('r ->' + el.offsetLeft)
+            if (el.offsetLeft >= 0) return
+            // 右滑
+            let left = el.offsetLeft + offsetX
+            el.style.left = left + 'px'
+          }
+          if (moveX < this.touchImage['startX']) {
+            console.log('l ->' + el.offsetLeft)
+            console.log(-((this.productionDetail['production']['images'].length - 1) * this.touchImage['width']))
+            if (el.offsetLeft <= -((this.productionDetail['production']['images'].length - 1) * this.touchImage['width'])) return
+            // 左滑
+            let left = el.offsetLeft - offsetX
+            el.style.left = left + 'px'
+          }
+        }
       },
       touchEndImage (e) {
         e = e || event
@@ -107,20 +127,28 @@
           let endX = e.changedTouches[0].clientX
           let disX = this.touchImage['startX'] - endX
           console.log('滑动距离 ->' + disX)
+          let el = document.getElementsByClassName('ph-image-wrapper')[0]
           if (disX > 100) {
             // 右滑
-            let el = document.getElementsByClassName('ph-image-wrapper')[0]
             if (this.currentImageIndex >= this.productionDetail['production']['images'].length - 1) {
               this.currentImageIndex = 0
               el.style.left = 0 + 'px'
               return
             }
-            let left = el.offsetLeft - this.touchImage['width']
-            el.style.left = left + 'px'
             this.currentImageIndex++
+            let left = -this.currentImageIndex * this.touchImage['width']
+            el.style.left = left + 'px'
           }
           if (disX < -100) {
-            // todo 左滑
+            // 左滑
+            if (this.currentImageIndex <= 0) {
+              this.currentImageIndex = this.productionDetail['production']['images'].length - 1
+              el.style.left = -(this.currentImageIndex * this.touchImage['width']) + 'px'
+              return
+            }
+            this.currentImageIndex--
+            let left = -this.currentImageIndex * this.touchImage['width']
+            el.style.left = left + 'px'
           }
         }
       },
