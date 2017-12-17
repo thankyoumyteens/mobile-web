@@ -1,6 +1,6 @@
 <template>
   <div class="category">
-    <div class="category-item" @click="detail(item)" v-for="item in categoryList">
+    <div class="category-item border-1px" @click="detail(item)" v-for="item in categoryList">
       <div class="company-logo"><img :src="item['logo']" alt=""></div>
     </div>
   </div>

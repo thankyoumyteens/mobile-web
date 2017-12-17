@@ -1,7 +1,7 @@
 <template>
   <transition name="search-move">
     <div class="productions" v-show="productionsShow">
-      <header>
+      <header class="border-1px">
         <div class="close" @click="hide"><i class="icon-cross"></i></div>
         <div @click="openSearchPage" class="productions-search-bar">
           <i class="search-bar-icon icon-search"></i>
@@ -10,7 +10,7 @@
       </header>
       <section class="production-list scroll-wrapper" ref="scrollWrapperProductionList">
         <div>
-          <div class="production-item" @click="showDetail(production)" v-for="production in productionList">
+          <div class="production-item border-1px" @click="showDetail(production)" v-for="production in productionList">
             <div class="production-img"><img :src="production['img']" alt=""></div>
             <div class="production-detail">
               <p class="production-title">{{production['name']}}</p>
@@ -18,7 +18,7 @@
               <p class="production-review">{{production['review']}}</p>
             </div>
           </div>
-          <div class="production-item" v-if="productionList.length <= 0">
+          <div class="production-item border-1px" v-if="productionList.length <= 0">
             <div class="production-img"></div>
             <div class="production-detail">
               <p class="production-title">暂无商品</p>

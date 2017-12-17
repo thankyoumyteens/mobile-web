@@ -6,18 +6,32 @@
         <div>
           <div class="production-info" v-if="productionDetail != null">
             <div class="production-nav">
-              <div class="production-nav-item" @click="changeTab(0)" :class="[currentProductionNavIndex==0?'active':'']">商品</div>
-              <div class="production-nav-item" @click="changeTab(1)" :class="[currentProductionNavIndex==1?'active':'']">详情</div>
-              <div class="production-nav-item" @click="changeTab(2)" :class="[currentProductionNavIndex==2?'active':'']">评价</div>
+              <div class="production-nav-item border-1px" @click="changeTab(0)" :class="[currentProductionNavIndex==0?'active':'']">商品</div>
+              <div class="production-nav-item border-1px" @click="changeTab(1)" :class="[currentProductionNavIndex==1?'active':'']">详情</div>
+              <div class="production-nav-item border-1px" @click="changeTab(2)" :class="[currentProductionNavIndex==2?'active':'']">评价</div>
             </div>
             <section class="production-home" v-show="currentProductionNavIndex==0">
               <div class="ph-image-show">
-                <div class="ph-image-wrapper"
+                <div class="ph-image-wrapper border-1px"
                      @touchstart='touchStartImage' @touchmove='touchMoveImage' @touchend='touchEndImage'>
                   <img class="ph-img" :src="item" alt="" v-for="item,index in productionDetail['production']['images']">
                 </div>
                 <div class="ph-image-index">{{currentImageIndex+1}}/{{productionDetail['production']['images'].length}}</div>
               </div>
+              <div class="ph-name">
+                {{productionDetail['production']['name']}}
+              </div>
+              <div class="ph-remark">
+                {{productionDetail['production']['remark']}}
+              </div>
+              <div class="ph-price">
+                ￥{{productionDetail['production']['price']}}
+              </div>
+              <split></split>
+              <div class="ph-select" @click="showSelect">
+                {{selection}}
+              </div>
+              <split></split>
             </section>
             <section class="production-more" v-show="currentProductionNavIndex==1">
               详情
@@ -31,18 +45,24 @@
           </div>
         </div>
       </section>
+      <selecttype ref="selecttype" @selected="selectType" @cart="addToCart"></selecttype>
     </div>
   </transition>
 </template>
 
 <script type="text/ecmascript-6">
-//  import Vue from 'vue'
+  import split from '@/components/Util/Split/Split'
+  import selecttype from '@/components/Util/SelectType/SelectType'
   import BetterScroll from 'better-scroll'
   import {
     path
   } from '@/commons/address.js'
 
   export default {
+    components: {
+      split,
+      selecttype
+    },
     props: {
       productionSimple: {
         type: Object
@@ -80,6 +100,7 @@
     },
     data () {
       return {
+        selection: '请选择版本',
         touchImage: {},
         currentImageIndex: 0,
         currentProductionNavIndex: 0,
@@ -89,6 +110,15 @@
       }
     },
     methods: {
+      addToCart (type) {
+        console.log(type)
+      },
+      selectType (type) {
+        console.log(type)
+      },
+      showSelect () {
+        this.$refs.selecttype.show(this.productionDetail['production'])
+      },
       touchStartImage (e) {
         e = e || event
         // tounches类数组，等于1时表示此时有只有一只手指在触摸屏幕
@@ -264,4 +294,23 @@
               position absolute
               right 1em
               bottom 1em
+          .ph-name
+            width 95%
+            margin 0.5em auto
+          .ph-remark
+            width 95%
+            color #e31d1a
+            margin 0.5em auto
+            font-size 0.9em
+          .ph-price
+            width 95%
+            color #e31d1a
+            margin 0.5em auto
+            font-size 1.7em
+            font-weight bold
+          .ph-select
+            width 97%
+            height 2.5em
+            line-height 2.5em
+            padding-left 3%
 </style>

@@ -1,7 +1,7 @@
 <template>
   <transition name="search-move">
     <div class="search" v-show="searchShow">
-      <header>
+      <header class="border-1px">
         <div class="close" @click="hide"><i class="icon-cross"></i></div>
         <div class="search-bar-page">
           <i class="search-bar-icon icon-search"></i>
@@ -11,9 +11,9 @@
       </header>
       <!--<split></split>-->
       <section class="history-wrapper">
-        <h3 class="history-title">历史搜索</h3>
-        <div class="history-item" @click="addToBar(item)" v-for="item in historyList">{{item}}</div>
-        <div class="history-item" v-if="historyList.length <= 0">暂无记录</div>
+        <h3 class="history-title border-1px">历史搜索</h3>
+        <div class="history-item border-1px" @click="addToBar(item)" v-for="item in historyList">{{item}}</div>
+        <div class="history-item border-1px" v-if="historyList.length <= 0">暂无记录</div>
       </section>
     </div>
   </transition>
