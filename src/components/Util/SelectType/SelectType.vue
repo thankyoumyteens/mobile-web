@@ -3,15 +3,8 @@
     <div class="select-type border-1px" v-if="production!=null" v-show="selectShow">
       <div class="close" @click="hide"><i class="icon-cross"></i></div>
       <div class="st-main">
-        <header>
+        <header class="border-1px">
           <div class="st-price">
-            ￥{{production['price']}}
-            ￥{{production['price']}}
-            ￥{{production['price']}}
-            ￥{{production['price']}}
-            ￥{{production['price']}}
-            ￥{{production['price']}}
-            ￥{{production['price']}}
             ￥{{production['price']}}
           </div>
         </header>
