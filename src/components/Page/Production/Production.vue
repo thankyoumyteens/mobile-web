@@ -103,7 +103,7 @@
         if (e.touches.length === 1) {
           let moveX = e.touches[0].clientX
           let el = document.getElementsByClassName('ph-image-wrapper')[0]
-          let offsetX = moveX * 0.01
+          let offsetX = moveX * 0.02
           if (moveX > this.touchImage['startX']) {
             console.log('r ->' + el.offsetLeft)
             if (el.offsetLeft >= 0) return
