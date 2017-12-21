@@ -1,6 +1,6 @@
 <template>
   <transition name="production-move">
-    <div class="production" v-show="productionShow">
+    <div class="production" v-if="productionShow">
       <div class="close" @click="hide"><i class="icon-cross"></i></div>
       <section class="production-detail scroll-wrapper" ref="scrollWrapperProduction">
         <div>
@@ -45,6 +45,9 @@
           </div>
         </div>
       </section>
+      <div class="ph-buttons">
+        <button class="ph-button ph-add-cart" @click="showSelect">加入购物车</button>
+      </div>
       <selecttype ref="selecttype" @selected="selectType" @cart="addToCart"></selecttype>
     </div>
   </transition>
@@ -78,6 +81,7 @@
       }
     },
     updated () {
+      // todo bug第二次打开图片纵向排列
       if (this.touchImage['width']) return
       let el = document.getElementsByClassName('ph-image-wrapper')[0]
       if (el) {
@@ -112,9 +116,11 @@
     methods: {
       addToCart (type) {
         console.log(type)
+        // todo 暂时不用
       },
       selectType (type) {
         console.log(type)
+        // todo 购买
       },
       showSelect () {
         this.$refs.selecttype.show(this.productionDetail['production'])
@@ -129,6 +135,7 @@
         }
       },
       touchMoveImage (e) {
+        // todo 改善滑动效果
         e = e || event
         if (e.touches.length === 1) {
           let moveX = e.touches[0].clientX
@@ -257,9 +264,11 @@
       z-index -1
       top 0
       left 0
-      bottom 0
+      bottom 4em
       right 0
+      overflow hidden
       .production-info
+        height 100%
         .production-nav
           width 100%
           height 3em
@@ -274,6 +283,7 @@
             &.active
               color #e31d1a
         .production-home
+          height 100%
           .ph-image-show
             position relative
             width 100%
@@ -313,4 +323,18 @@
             height 2.5em
             line-height 2.5em
             padding-left 3%
+    .ph-buttons
+      position fixed
+      bottom 0
+      left 0
+      width 100%
+      height 4em
+      .ph-button
+        height 100%
+        color #fff
+        background #e31d1a
+        outline none
+        border 0
+      .ph-add-cart
+        width 100%
 </style>

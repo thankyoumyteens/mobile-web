@@ -326,6 +326,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
                   'type': [
                     {
                       'name': 'color',
+                      'display': '颜色',
                       'selection': [
                         { 'name': '极夜黑', 'add': '0'},
                         { 'name': '深海蓝', 'add': '0'}
@@ -333,6 +334,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
                     },
                     {
                       'name': 'style',
+                      'display': '机型',
                       'selection': [
                         { 'name': '裸机', 'add': '0'},
                         { 'name': '音乐套装', 'add': '100'}
@@ -340,6 +342,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
                     },
                     {
                       'name': 'storage',
+                      'display': '版本',
                       'selection': [
                         { 'name': '4GB+64GB', 'add': '0'},
                         { 'name': '6GB+64GB', 'add': '200'},

@@ -4,29 +4,80 @@
       <div class="close" @click="hide"><i class="icon-cross"></i></div>
       <div class="st-main">
         <header class="border-1px">
+          <div class="st-img">
+            <img :src="production['images'][0]" alt="">
+          </div>
           <div class="st-price">
-            ￥{{production['price']}}
+            ￥{{totalMoney}}
           </div>
         </header>
+        <div class="st-select">
+          <div class="st-select-box border-1px" v-for="type,index in production['type']">
+            <div class="st-select-title">{{type['display']}}</div>
+            <div class="st-select-item"
+                 :class="[selectedData[index]['item']==item?'selected':'']"
+                 @click="doSelect(type, index, item)"
+                 v-for="item in type['selection']">
+              {{item['name']}}
+            </div>
+            <div class="clear-float"></div>
+          </div>
+        </div>
       </div>
       <div class="st-buttons">
-        <button class="st-button st-add-cart">加入购物车</button>
+        <button class="st-button st-add-cart" @click="addToCart">加入购物车</button>
       </div>
     </div>
   </transition>
 </template>
 
 <script type="text/ecmascript-6">
+  import Vue from 'vue'
+
   export default {
     data () {
       return {
+        selectedData: [],
         selectShow: false,
         production: null
       }
     },
+    computed: {
+      totalMoney () {
+        let total = 0
+        if (this.production) {
+          let old = parseFloat(this.production['price'])
+          total = old
+          for (let i = 0; i < this.selectedData.length; i++) {
+            let item = this.selectedData[i]
+            let add = parseFloat(item['item']['add'])
+            total += add
+          }
+        }
+        return total
+      }
+    },
     methods: {
+      addToCart () {
+        this.$emit('cart', this.selectedData)
+      },
+      doSelect (type, index, item) {
+        let o = {
+          'type': type,
+          'item': item
+        }
+        Vue.set(this.selectedData, index, o)
+      },
       show (production) {
         this.production = production
+        for (let i = 0; i < production['type'].length; i++) {
+          let type = production['type'][i]
+          let o = {
+            'type': type,
+            'item': type['selection'][0]
+          }
+          this.selectedData.push(o)
+        }
         this.selectShow = true
       },
       hide () {
@@ -60,6 +111,7 @@
     bottom 0
     left 0
     right 0
+    background #fff
     .close
       position absolute
       z-index 100001
@@ -71,6 +123,35 @@
       margin-bottom 4em
       header
         border-1px(#ccc)
+        height 3.5em
+        line-height 3.5em
+        .st-img
+          height 2.5em
+          width 2.5em
+          margin 0.5em
+          float left
+          img
+            width 100%
+            height 100%
+        .st-price
+          color #e31d1a
+      .st-select
+        width 100%
+        .st-select-box
+          width 100%
+          border-1px(#ccc)
+          clear both
+          .st-select-title
+            margin 0.5em
+          .st-select-item
+            float left
+            padding 0.3em
+            background #eee
+            color #000
+            margin 0.5em
+            &.selected
+              background #e31d1a
+              color #fff
     .st-buttons
       position fixed
       bottom 0
