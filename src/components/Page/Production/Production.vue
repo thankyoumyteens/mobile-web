@@ -73,6 +73,7 @@
                       <div class="pr-item-top-date">
                         {{item['date']}}
                       </div>
+                      <star class="star-comp" :size="36" :score="item['star']"></star>
                     </div>
                     <div class="pr-item-text clear-float">
                       {{item['content']['text']}}
@@ -107,6 +108,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import star from '@/components/Util/Star/Star'
   import split from '@/components/Util/Split/Split'
   import selecttype from '@/components/Util/SelectType/SelectType'
   import BetterScroll from 'better-scroll'
@@ -117,6 +119,7 @@
   export default {
     components: {
       split,
+      star,
       selecttype
     },
     props: {
@@ -131,7 +134,8 @@
       }
     },
     updated () {
-      // todo bug第二次打开图片纵向排列
+      // todo bug第二次打开图片纵向排列 尝试 移动到watch
+      // 商品展示图定位
       if (this.touchImage['width']) return
       let el = document.getElementsByClassName('ph-image-wrapper')[0]
       if (el) {
@@ -165,13 +169,16 @@
       }
     },
     computed: {
+      /**
+       * 筛选评论
+       */
       'reviewList' () {
         let list = []
         switch (this.currentStar) {
-          case 1:
+          case 1: // 全部
             list = this.productionDetail['review']['list']
             break
-          case 2:
+          case 2: // 好评
             for (let i = 0; i < this.productionDetail['review']['list'].length; i++) {
               let item = this.productionDetail['review']['list'][i]
               if (item['star'] >= 4) {
@@ -179,7 +186,7 @@
               }
             }
             break
-          case 3:
+          case 3: // 中评
             for (let i = 0; i < this.productionDetail['review']['list'].length; i++) {
               let item = this.productionDetail['review']['list'][i]
               if (item['star'] === 3) {
@@ -187,7 +194,7 @@
               }
             }
             break
-          case 4:
+          case 4: // 差评
             for (let i = 0; i < this.productionDetail['review']['list'].length; i++) {
               let item = this.productionDetail['review']['list'][i]
               if (item['star'] <= 2) {
@@ -195,7 +202,7 @@
               }
             }
             break
-          case 5:
+          case 5: // 有图
             for (let i = 0; i < this.productionDetail['review']['list'].length; i++) {
               let item = this.productionDetail['review']['list'][i]
               if (item['content']['hasImage'] === '1') {
@@ -210,16 +217,20 @@
       }
     },
     methods: {
+      /**
+       * 筛选评论
+       */
       changeStar (id) {
         this.currentStar = id
       },
+      /**
+       * 添加商品到购物车
+       */
       addToCart (type) {
         console.log(type)
-        // todo 暂时不用
       },
       selectType (type) {
-        console.log(type)
-        // todo 购买
+        // todo 废弃
       },
       /**
        * 选择商品参数
@@ -227,6 +238,10 @@
       showSelect () {
         this.$refs.selecttype.show(this.productionDetail['production'])
       },
+      /**
+       * 滑动图片切换到下一张
+       * @param e
+       */
       touchStartImage (e) {
         e = e || event
         // tounches类数组，等于1时表示此时有只有一只手指在触摸屏幕
@@ -236,6 +251,10 @@
           console.log(this.touchImage)
         }
       },
+      /**
+       * 滑动图片切换到下一张
+       * @param e
+       */
       touchMoveImage (e) {
         // todo 改善滑动效果
         e = e || event
@@ -260,6 +279,10 @@
           }
         }
       },
+      /**
+       * 滑动图片切换到下一张
+       * @param e
+       */
       touchEndImage (e) {
         e = e || event
         if (e.changedTouches.length === 1) {
@@ -455,10 +478,13 @@
             .pr-item
               width 100%
               .pr-item-top
-                width 100%
+                width 95%
+                padding-left 5%
                 .pr-item-top-author
                   float left
                   margin 0.3em
+                .star-comp
+                  clear left
                 .pr-item-top-date
                   color #ccc
                   float right
