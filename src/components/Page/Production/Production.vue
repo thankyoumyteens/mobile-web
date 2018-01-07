@@ -1,6 +1,6 @@
 <template>
   <transition name="production-move">
-    <div class="production" v-if="productionShow">
+    <div class="production" v-show="productionShow">
       <div class="close" @click="hide"><i class="icon-cross"></i></div>
       <section class="production-detail scroll-wrapper" ref="scrollWrapperProduction">
         <div>
