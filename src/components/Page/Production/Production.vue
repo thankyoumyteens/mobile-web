@@ -10,6 +10,7 @@
               <div class="production-nav-item border-1px" @click="changeTab(1)" :class="[currentProductionNavIndex==1?'active':'']">详情</div>
               <div class="production-nav-item border-1px" @click="changeTab(2)" :class="[currentProductionNavIndex==2?'active':'']">评价</div>
             </div>
+            <!--商品-->
             <section class="production-home" v-show="currentProductionNavIndex==0">
               <div class="ph-image-show">
                 <div class="ph-image-wrapper border-1px"
@@ -33,11 +34,63 @@
               </div>
               <split></split>
             </section>
+            <!--详情-->
             <section class="production-more" v-show="currentProductionNavIndex==1">
               详情
             </section>
+            <!--评价-->
             <section class="production-review" v-show="currentProductionNavIndex==2">
-              评价
+              <div class="pr-top">
+                <div class="pr-top-percent border-1px">
+                  好评率: {{productionDetail['review']['percent']}}
+                </div>
+                <div class="pr-top-star">
+                  <div class="pr-top-star-item" @click="changeStar(1)" :class="[currentStar==1?'active-item':'']">
+                    全部 {{productionDetail['review']['count']}}
+                  </div>
+                  <div class="pr-top-star-item" @click="changeStar(2)" :class="[currentStar==2?'active-item':'']">
+                    好评 {{productionDetail['review']['star5']}}
+                  </div>
+                  <div class="pr-top-star-item" @click="changeStar(3)" :class="[currentStar==3?'active-item':'']">
+                    中评 {{productionDetail['review']['star3']}}
+                  </div>
+                  <div class="pr-top-star-item" @click="changeStar(4)" :class="[currentStar==4?'active-item':'']">
+                    差评 {{productionDetail['review']['star1']}}
+                  </div>
+                  <div class="pr-top-star-item" @click="changeStar(5)" :class="[currentStar==5?'active-item':'']">
+                    有图 {{productionDetail['review']['img']}}
+                  </div>
+                </div>
+              </div>
+              <split></split>
+              <div class="pr-list">
+                <div>
+                  <div class="pr-item" v-for="item in reviewList">
+                    <div class="pr-item-top">
+                      <div class="pr-item-top-author">
+                        {{item['author']['name']}}
+                      </div>
+                      <div class="pr-item-top-date">
+                        {{item['date']}}
+                      </div>
+                    </div>
+                    <div class="pr-item-text clear-float">
+                      {{item['content']['text']}}
+                    </div>
+                    <div class="pr-item-img" v-if="item['content']['hasImage']=='1'">
+                      <div class="pr-item-img-item" v-for="link in item['content']['imgList']">
+                        <img :src="link" alt="">
+                      </div>
+                    </div>
+                    <div class="pr-item-type">
+                      {{item['productionType']}}
+                    </div>
+                    <div class="pr-item-order">
+                      购买日期: {{item['orderDate']}}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </section>
           </div>
           <div class="production-info" v-if="productionDetail == null">
@@ -75,9 +128,6 @@
       'productionSimple' () {
         this.getProduction()
         this.initScroll()
-      },
-      'productionDetail' () {
-//        console.log(this.productionDetail)
       }
     },
     updated () {
@@ -104,6 +154,7 @@
     },
     data () {
       return {
+        currentStar: 1,
         selection: '请选择版本',
         touchImage: {},
         currentImageIndex: 0,
@@ -113,7 +164,55 @@
         productionShow: false
       }
     },
+    computed: {
+      'reviewList' () {
+        let list = []
+        switch (this.currentStar) {
+          case 1:
+            list = this.productionDetail['review']['list']
+            break
+          case 2:
+            for (let i = 0; i < this.productionDetail['review']['list'].length; i++) {
+              let item = this.productionDetail['review']['list'][i]
+              if (item['star'] >= 4) {
+                list.push(item)
+              }
+            }
+            break
+          case 3:
+            for (let i = 0; i < this.productionDetail['review']['list'].length; i++) {
+              let item = this.productionDetail['review']['list'][i]
+              if (item['star'] === 3) {
+                list.push(item)
+              }
+            }
+            break
+          case 4:
+            for (let i = 0; i < this.productionDetail['review']['list'].length; i++) {
+              let item = this.productionDetail['review']['list'][i]
+              if (item['star'] <= 2) {
+                list.push(item)
+              }
+            }
+            break
+          case 5:
+            for (let i = 0; i < this.productionDetail['review']['list'].length; i++) {
+              let item = this.productionDetail['review']['list'][i]
+              if (item['content']['hasImage'] === '1') {
+                list.push(item)
+              }
+            }
+            break
+          default:
+            break
+        }
+        return list
+      }
+    },
     methods: {
+      changeStar (id) {
+        this.currentStar = id
+      },
       addToCart (type) {
         console.log(type)
         // todo 暂时不用
@@ -122,6 +221,9 @@
         console.log(type)
         // todo 购买
       },
+      /**
+       * 选择商品参数
+       */
       showSelect () {
         this.$refs.selecttype.show(this.productionDetail['production'])
       },
@@ -323,6 +425,64 @@
             height 2.5em
             line-height 2.5em
             padding-left 3%
+        .production-more
+          width 100%
+        .production-review
+          width 100%
+          .pr-top
+            width 100%
+            .pr-top-percent
+              color #e31d1a
+              text-align right
+              width 80%
+              padding 0 10%
+              border-1px(#ccc)
+            .pr-top-star
+              width 100%
+              .pr-top-star-item
+                display inline-block
+                margin 0.3em
+                height 1.5em
+                padding 0 0.3em
+                line-height 1.5em
+                border-radius 0.5em
+                background #c35d7a
+                &.active-item
+                  background #e31d1a
+                  color #fff
+          .pr-list
+            width 100%
+            .pr-item
+              width 100%
+              .pr-item-top
+                width 100%
+                .pr-item-top-author
+                  float left
+                  margin 0.3em
+                .pr-item-top-date
+                  color #ccc
+                  float right
+                  margin 0.3em
+              .pr-item-text
+                width 80%
+                padding-left 20%
+              .pr-item-img
+                width 80%
+                padding-left 20%
+                .pr-item-img-item
+                  height 5em
+                  margin 0.3em
+                  display inline-block
+                  img
+                    height 100%
+              .pr-item-type
+                width 80%
+                padding-left 20%
+                color #ccc
+              .pr-item-order
+                width 80%
+                padding-left 20%
+                color #ccc
     .ph-buttons
       position fixed
       bottom 0
