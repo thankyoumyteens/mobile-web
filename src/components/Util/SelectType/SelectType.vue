@@ -60,6 +60,7 @@
     methods: {
       addToCart () {
         this.$emit('cart', this.selectedData)
+        this.selectShow = false
       },
       /**
        * 选择商品参数
@@ -88,13 +89,14 @@
       },
       show (production) {
         this.production = production
+        // todo 记住同一件商品的选择
         for (let i = 0; i < production['type'].length; i++) {
           let type = production['type'][i]
           let o = {
             'type': type,
             'item': type['selection'][0]
           }
-          this.selectedData.push(o)
+          Vue.set(this.selectedData, i, o)
         }
         this.selectShow = true
       },

@@ -234,9 +234,21 @@
        */
       addToCart (type) {
         console.log(type)
+        console.log(type[0]['item']['name'])
+        console.log(type[1]['item']['name'])
+        console.log(type[2]['item']['name'])
       },
       selectType (type) {
-        // todo 废弃
+        console.log(type)
+        console.log(type[0]['item']['name'])
+        console.log(type[1]['item']['name'])
+        console.log(type[2]['item']['name'])
+        let text = ''
+        for (let i = 0; i < type.length; i++) {
+          let value = type[i]['item']['name']
+          text += '[' + value + ']'
+        }
+        this.selection = text
       },
       /**
        * 选择商品参数
