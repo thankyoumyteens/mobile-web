@@ -12,13 +12,13 @@
           </div>
         </header>
         <div class="st-select">
-          <div class="st-select-box border-1px" v-for="type,index in production['type']">
-            <div class="st-select-title">{{type['display']}}</div>
+          <div class="st-select-box border-1px" v-for="typeItem,index in production['type']">
+            <div class="st-select-title">{{typeItem['display']}}</div>
             <div class="st-select-item"
-                 :class="[selectedData[index]['item']==item?'selected':'']"
-                 @click="doSelect(type, index, item)"
-                 v-for="item in type['selection']">
-              {{item['name']}}
+                 :class="[selectedData[index]['item']==value?'selected':'']"
+                 @click="doSelect(typeItem, index, value)"
+                 v-for="value in typeItem['selection']">
+              {{value['name']}}
             </div>
             <div class="clear-float"></div>
           </div>
@@ -61,10 +61,28 @@
       addToCart () {
         this.$emit('cart', this.selectedData)
       },
-      doSelect (type, index, item) {
+      /**
+       * 选择商品参数
+       * @param typeItem 当前商品的某个参数
+       * 例子:
+       *  {
+       *   'name': 'color',
+       *   'display': '颜色',
+       *   'selection': [
+       *     { 'name': '极夜黑', 'add': '0'},
+       *     { 'name': '深海蓝', 'add': '0'}
+       *   ]
+       *  }
+       * @param index 这个参数在type中的索引
+       * 例子: 0 (表示type[0])
+       * @param value 选中的值
+       * 例子:
+       * { 'name': '极夜黑', 'add': '0'}
+       */
+      doSelect (typeItem, index, value) {
         let o = {
-          'type': type,
-          'item': item
+          'type': typeItem,
+          'item': value
         }
         Vue.set(this.selectedData, index, o)
       },
@@ -81,6 +99,7 @@
         this.selectShow = true
       },
       hide () {
+        this.$emit('selected', this.selectedData)
         this.selectShow = false
       }
     }

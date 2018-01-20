@@ -330,7 +330,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
                       'selection': [
                         { 'name': '极夜黑', 'add': '0'},
                         { 'name': '深海蓝', 'add': '0'}
-                      ],
+                      ]
                     },
                     {
                       'name': 'style',
