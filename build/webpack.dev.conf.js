@@ -368,7 +368,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
                   }
                 },
                 'detail': {
-
+                  'html': 'ok'
                 },
                 'review': {
                   'percent': '98%',

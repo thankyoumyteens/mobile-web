@@ -36,7 +36,7 @@
             </section>
             <!--详情-->
             <section class="production-more" v-show="currentProductionNavIndex==1">
-              详情
+              <div class="pm-content" v-html="productionDetail['detail']['html']"></div>
             </section>
             <!--评价-->
             <section class="production-review" v-show="currentProductionNavIndex==2">
@@ -131,10 +131,16 @@
       'productionSimple' () {
         this.getProduction()
         this.initScroll()
+        // 更换商品时重置初始参数
+        this.touchImage = {}
+        this.currentImageIndex = 0
+        this.currentProductionNavIndex = 0
+        this.currentStar = 1
+        this.selection = '请选择版本'
       }
     },
     updated () {
-      // todo bug第二次打开图片纵向排列 尝试 移动到watch
+      // todo bug第二次打开图片纵向排列 解决: v-show + 重置初始参数
       // 商品展示图定位
       if (this.touchImage['width']) return
       let el = document.getElementsByClassName('ph-image-wrapper')[0]
