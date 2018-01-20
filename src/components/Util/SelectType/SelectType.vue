@@ -87,16 +87,20 @@
         }
         Vue.set(this.selectedData, index, o)
       },
-      show (production) {
-        this.production = production
-        // todo 记住同一件商品的选择
-        for (let i = 0; i < production['type'].length; i++) {
-          let type = production['type'][i]
-          let o = {
-            'type': type,
-            'item': type['selection'][0]
+      show (production, selectedType) {
+        if (selectedType != null) {
+          // 记住同一件商品的选择
+          this.selectedData = selectedType
+        } else {
+          this.production = production
+          for (let i = 0; i < production['type'].length; i++) {
+            let type = production['type'][i]
+            let o = {
+              'type': type,
+              'item': type['selection'][0]
+            }
+            Vue.set(this.selectedData, i, o)
           }
-          Vue.set(this.selectedData, i, o)
         }
         this.selectShow = true
       },

@@ -137,6 +137,7 @@
         this.currentProductionNavIndex = 0
         this.currentStar = 1
         this.selection = '请选择版本'
+        this.selectedType = null
       }
     },
     updated () {
@@ -164,14 +165,15 @@
     },
     data () {
       return {
-        currentStar: 1,
+        currentStar: 1, // 查看评论类型(有图/好评/中评/差评)
         selection: '请选择版本',
         touchImage: {},
         currentImageIndex: 0,
         currentProductionNavIndex: 0,
         scrollProduction: null,
         productionDetail: null,
-        productionShow: false
+        productionShow: false,
+        selectedType: null // 存储选择的商品参数
       }
     },
     computed: {
@@ -239,10 +241,7 @@
         console.log(type[2]['item']['name'])
       },
       selectType (type) {
-        console.log(type)
-        console.log(type[0]['item']['name'])
-        console.log(type[1]['item']['name'])
-        console.log(type[2]['item']['name'])
+        this.selectedType = type
         let text = ''
         for (let i = 0; i < type.length; i++) {
           let value = type[i]['item']['name']
@@ -254,7 +253,7 @@
        * 选择商品参数
        */
       showSelect () {
-        this.$refs.selecttype.show(this.productionDetail['production'])
+        this.$refs.selecttype.show(this.productionDetail['production'], this.selectedType)
       },
       /**
        * 滑动图片切换到下一张
