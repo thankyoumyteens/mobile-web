@@ -13,7 +13,7 @@
     </section>
     <search @find="find" ref="search"></search>
     <productions @search="openSearch" @detail="detail" ref="productions" :productionInfo="productionInfo"></productions>
-    <production ref="production" :productionSimple="productionSimple"></production>
+    <production ref="production" :productionSimple="productionSimple" @tocart="toCart"></production>
   </div>
 </template>
 
@@ -48,6 +48,11 @@
       }
     },
     methods: {
+      toCart (cartItem) {
+        // 将商品添加到购物车
+        console.log(cartItem)
+        alert('添加到购物车成功')
+      },
       detail (item) {
         this.productionSimple = item
         this.$refs.production.show()

@@ -269,10 +269,9 @@
        * 添加商品到购物车
        */
       addToCart (type) {
-        console.log(type)
-        console.log(type[0]['item']['name'])
-        console.log(type[1]['item']['name'])
-        console.log(type[2]['item']['name'])
+        let cartItem = this.productionDetail['production']
+        cartItem['type'] = type
+        this.$emit('tocart', cartItem)
       },
       selectType (type) {
         this.selectedType = type
