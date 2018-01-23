@@ -13,11 +13,16 @@
             <!--商品-->
             <section class="production-home" v-show="currentProductionNavIndex==0">
               <div class="ph-image-show">
-                <div class="ph-image-wrapper border-1px"
-                     @touchstart='touchStartImage' @touchmove='touchMoveImage' @touchend='touchEndImage'>
-                  <img class="ph-img" :src="item" alt="" v-for="item,index in productionDetail['production']['images']">
-                </div>
-                <div class="ph-image-index">{{currentImageIndex+1}}/{{productionDetail['production']['images'].length}}</div>
+                <!--<div class="ph-image-wrapper border-1px"-->
+                     <!--@touchstart='touchStartImage' @touchmove='touchMoveImage' @touchend='touchEndImage'>-->
+                  <!--<img class="ph-img" :src="item" alt="" v-for="item,index in productionDetail['production']['images']">-->
+                <!--</div>-->
+                <!--<div class="ph-image-index">{{currentImageIndex+1}}/{{productionDetail['production']['images'].length}}</div>-->
+                <!-- 配置slider组件 -->
+                <slider :pages="pages" :sliderinit="sliderinit" @slide='slide' @tap='onTap' @init='onInit'>
+                  <!-- 设置loading,可自定义 -->
+                  <div slot="loading">loading...</div>
+                </slider>
               </div>
               <div class="ph-name">
                 {{productionDetail['production']['name']}}
@@ -108,16 +113,19 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import Vue from 'vue'
   import star from '@/components/Util/Star/Star'
   import split from '@/components/Util/Split/Split'
   import selecttype from '@/components/Util/SelectType/SelectType'
   import BetterScroll from 'better-scroll'
+  import slider from 'vue-concise-slider'
   import {
     path
   } from '@/commons/address.js'
 
   export default {
     components: {
+      slider,
       split,
       star,
       selecttype
@@ -141,27 +149,28 @@
       }
     },
     updated () {
-      // todo bug第二次打开图片纵向排列 解决: v-show + 重置初始参数
-      // 商品展示图定位
-      if (this.touchImage['width']) return
-      let el = document.getElementsByClassName('ph-image-wrapper')[0]
-      if (el) {
-        if (this.productionDetail) {
-          let width = el.offsetWidth
-          let height = el.offsetHeight
-          el.style.width = (width * this.productionDetail['production']['images'].length) + 'px'
-          let imgs = document.getElementsByClassName('ph-img')
-          let imgWidth = height
-          let remain = width - imgWidth
-          let margin = remain / 2
-          for (let i = 0; i < imgs.length; i++) {
-            imgs[i].style.width = imgWidth + 'px'
-            imgs[i].style.marginLeft = margin + 'px'
-            imgs[i].style.marginRight = margin + 'px'
-          }
-          this.touchImage['width'] = width
-        }
-      }
+      // 废弃
+      // // todo bug第二次打开图片纵向排列 解决: v-show + 重置初始参数
+      // // 商品展示图定位
+      // if (this.touchImage['width']) return
+      // let el = document.getElementsByClassName('ph-image-wrapper')[0]
+      // if (el) {
+      //   if (this.productionDetail) {
+      //     let width = el.offsetWidth
+      //     let height = el.offsetHeight
+      //     el.style.width = (width * this.productionDetail['production']['images'].length) + 'px'
+      //     let imgs = document.getElementsByClassName('ph-img')
+      //     let imgWidth = height
+      //     let remain = width - imgWidth
+      //     let margin = remain / 2
+      //     for (let i = 0; i < imgs.length; i++) {
+      //       imgs[i].style.width = imgWidth + 'px'
+      //       imgs[i].style.marginLeft = margin + 'px'
+      //       imgs[i].style.marginRight = margin + 'px'
+      //     }
+      //     this.touchImage['width'] = width
+      //   }
+      // }
     },
     data () {
       return {
@@ -173,7 +182,19 @@
         scrollProduction: null,
         productionDetail: null,
         productionShow: false,
-        selectedType: null // 存储选择的商品参数
+        selectedType: null, // 存储选择的商品参数
+        // slider组件数据
+        pages: [],
+        // slider组件参数
+        sliderinit: {
+          currentPage: 0,
+          thresholdDistance: 100,
+          thresholdTime: 1000,
+          loop: true,
+          direction: 'horizontal',
+          infinite: 1,
+          slidesToScroll: 1
+        }
       }
     },
     computed: {
@@ -225,6 +246,16 @@
       }
     },
     methods: {
+      // slider组件事件
+      slide (data) {
+        console.log(data)
+      },
+      onTap (data) {
+        console.log(data)
+      },
+      onInit (data) {
+        console.log(data)
+      },
       /**
        * 筛选评论
        */
@@ -256,7 +287,7 @@
         this.$refs.selecttype.show(this.productionDetail['production'], this.selectedType)
       },
       /**
-       * 滑动图片切换到下一张
+       * 滑动图片切换到下一张 废弃
        * @param e
        */
       touchStartImage (e) {
@@ -269,7 +300,7 @@
         }
       },
       /**
-       * 滑动图片切换到下一张
+       * 滑动图片切换到下一张 废弃
        * @param e
        */
       touchMoveImage (e) {
@@ -297,7 +328,7 @@
         }
       },
       /**
-       * 滑动图片切换到下一张
+       * 滑动图片切换到下一张 废弃
        * @param e
        */
       touchEndImage (e) {
@@ -362,6 +393,18 @@
           if (status === 200) {
             this.productionDetail = data
             this.initScroll()
+            // slider组件数据
+            for (let i = 0; i < this.productionDetail['production']['images'].length; i++) {
+              let img = this.productionDetail['production']['images'][i]
+              let item = {
+                html: '<div class="ph-img-wp"><img class="ph-img" src="' + img + '"></div>',
+                style: {
+                  'background': '#fff',
+                  'width': '100%'
+                }
+              }
+              Vue.set(this.pages, i, item)
+            }
           } else {
             console.log(message)
           }
@@ -397,6 +440,12 @@
     width 100%
     background #fff
     box-sizing border-box
+    .ph-img-wp
+      width 100%
+      font-size 14px
+      height 15em
+    .ph-img
+      height 100%
     .close
       margin-top 0.9em
       margin-left 0.5em
@@ -427,7 +476,7 @@
         .production-home
           height 100%
           .ph-image-show
-            position relative
+            /*position relative*/
             width 100%
             overflow hidden
             height 15em
