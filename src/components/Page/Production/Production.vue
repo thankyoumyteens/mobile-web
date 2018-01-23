@@ -13,6 +13,7 @@
             <!--商品-->
             <section class="production-home" v-show="currentProductionNavIndex==0">
               <div class="ph-image-show">
+                <!--废弃-->
                 <!--<div class="ph-image-wrapper border-1px"-->
                      <!--@touchstart='touchStartImage' @touchmove='touchMoveImage' @touchend='touchEndImage'>-->
                   <!--<img class="ph-img" :src="item" alt="" v-for="item,index in productionDetail['production']['images']">-->
@@ -21,7 +22,7 @@
                 <!-- 配置slider组件 -->
                 <slider :pages="pages" :sliderinit="sliderinit" @slide='slide' @tap='onTap' @init='onInit'>
                   <!-- 设置loading,可自定义 -->
-                  <div slot="loading">loading...</div>
+                  <div slot="loading">加载中...</div>
                 </slider>
               </div>
               <div class="ph-name">
@@ -199,7 +200,7 @@
     },
     computed: {
       /**
-       * 筛选评论
+       * 根据评星筛选评论
        */
       'reviewList' () {
         let list = []
@@ -246,7 +247,9 @@
       }
     },
     methods: {
-      // slider组件事件
+      /**
+       * slider组件事件
+       */
       slide (data) {
         console.log(data)
       },
@@ -362,6 +365,10 @@
           }
         }
       },
+      /**
+       * 切换商品/详情/评论
+       * @param index
+       */
       changeTab (index) {
         this.currentProductionNavIndex = index
       },
@@ -382,6 +389,9 @@
       hide () {
         this.productionShow = false
       },
+      /**
+       * 获取商品信息
+       */
       getProduction () {
         let productionId = this.productionSimple['id']
         let url = path()['productionDetail'] + '?id=' + productionId
