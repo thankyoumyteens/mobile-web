@@ -264,6 +264,7 @@
        */
       changeStar (id) {
         this.currentStar = id
+        this.initScroll()
       },
       /**
        * 添加商品到购物车
@@ -370,6 +371,7 @@
        */
       changeTab (index) {
         this.currentProductionNavIndex = index
+        this.initScroll()
       },
       initScroll () {
         this.$nextTick(() => {
