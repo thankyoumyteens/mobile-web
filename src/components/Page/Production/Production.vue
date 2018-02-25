@@ -402,6 +402,7 @@
           if (status === 200) {
             this.productionDetail = data
             this.initScroll()
+            console.log(this.productionDetail)
             // slider组件数据
             for (let i = 0; i < this.productionDetail['production']['images'].length; i++) {
               let img = this.productionDetail['production']['images'][i]
