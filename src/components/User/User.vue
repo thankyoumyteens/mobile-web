@@ -7,7 +7,10 @@
         <div class="ui-text">登陆/注册</div>
       </div>
       <!--已登陆-->
-      <div class="ui-user" v-if="isUser"></div>
+      <div class="ui-user" v-if="isUser&&user!=null">
+        <div class="ui-avatar"><img :src="user['avatar']" alt=""></div>
+        <div class="ui-username">{{user['username']}}</div>
+      </div>
     </div>
     <div class="order-info">
       <div class="order-info-item"><img src="./bg.jpg" class="order-info-item-img"><span
@@ -20,7 +23,7 @@
         class="order-info-title">待评价</span></div>
     </div>
     <split></split>
-    <login ref="login" @done="login"></login>
+    <login ref="login" @success="loginSuccess"></login>
   </div>
 </template>
 
@@ -35,15 +38,20 @@
     },
     data () {
       return {
-        isUser: false
+        isUser: false,
+        user: null
       }
     },
     methods: {
+      loginSuccess (user) {
+        if (user !== null && user !== undefined) {
+          this.isUser = true
+          this.user = user
+        }
+        console.log(user)
+      },
       showLogin () {
         this.$refs.login.show()
-      },
-      login () {
-        // 登陆
       }
     }
   }
@@ -82,6 +90,26 @@
           color #fff
           &:active
             text-decoration underline
+      .ui-user
+        padding 2.5em 0
+        width 100%
+        text-align center
+        .ui-avatar
+          display inline-block
+          width 3em
+          height 3em
+          overflow hidden
+          border-radius 50%
+          img
+            width 100%
+            height 100%
+        .ui-username
+          display inline-block
+          height 3em
+          line-height 3em
+          vertical-align top
+          margin-left 1em
+          color #fff
     .order-info
       margin 1em 0
       width 100%

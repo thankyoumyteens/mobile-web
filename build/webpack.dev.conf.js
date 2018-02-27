@@ -446,7 +446,129 @@ const devWebpackConfig = merge(baseWebpackConfig, {
             res.json({
               'status': 200,
               'message': 'OK',
-              'data': {}
+              'data': {
+                'production': {
+                  'id': 0,
+                  'name': '360手机 N6 Pro 全网通 6GB+64GB 极夜黑 移动联通电信4G手机 双卡双待',
+                  'remark': '4050mAh大电池/1600万后置双摄/5.99英寸全面屏/骁龙660',
+                  'price': '1899.00',
+                  'type': [
+                    {
+                      'name': 'color',
+                      'display': '颜色',
+                      'selection': [
+                        { 'name': '极夜黑', 'add': '0'},
+                        { 'name': '深海蓝', 'add': '0'}
+                      ]
+                    },
+                    {
+                      'name': 'style',
+                      'display': '机型',
+                      'selection': [
+                        { 'name': '裸机', 'add': '0'},
+                        { 'name': '音乐套装', 'add': '100'}
+                      ]
+                    },
+                    {
+                      'name': 'storage',
+                      'display': '版本',
+                      'selection': [
+                        { 'name': '4GB+64GB', 'add': '0'},
+                        { 'name': '6GB+64GB', 'add': '200'},
+                        { 'name': '6GB+128GB', 'add': '700'}
+                      ]
+                    }
+                  ],
+                  'images': [
+                    '/static/360n6pro1_1.jpg',
+                    '/static/360n6pro1_2.jpg',
+                    '/static/360n6pro1_3.jpg',
+                    '/static/360n6pro1_4.jpg',
+                    '/static/360n6pro1_5.jpg',
+                    '/static/360n6pro1_6.jpg'
+                  ],
+                  'shop': {
+                    'name': '360手机官方旗舰店',
+                    'logo': '/static/360.jpg',
+                    'follower': '41.8万',
+                    'all': '29',
+                    'new': '10',
+                    'link': '/shop/360'
+                  }
+                },
+                'detail': {
+                  'html': 'ok'
+                },
+                'review': {
+                  'percent': '98%',
+                  'count': '2854', // 全部
+                  'star5': '2804', // 好评
+                  'star3': '29', // 中评
+                  'star1': '21', // 差评
+                  'img': '235', // 有图
+                  'list': [
+                    {
+                      'id': '1',
+                      'author': {
+                        'id': '100',
+                        'name': '观***空',
+                        'flag': '0'
+                      },
+                      'content': {
+                        'hasImage': '1',
+                        'text': '晒单必须支持, 性价比太好了, 最喜欢他的大电池,运行非常流畅,就是有点沉',
+                        'imgList': [
+                          '/static/360n6pro1_1.jpg',
+                          '/static/360n6pro1_1.jpg',
+                          '/static/360n6pro1_1.jpg',
+                          '/static/360n6pro1_1.jpg',
+                          '/static/360n6pro1_1.jpg'
+                        ]
+                      },
+                      'star': 5, // 好评
+                      'date': '2017-12-06',
+                      'orderDate': '2017-12-05',
+                      'productionType': '极夜黑,裸机'
+                    },
+                    {
+                      'id': '2',
+                      'author': {
+                        'id': '103',
+                        'name': 'j***r',
+                        'flag': '0'
+                      },
+                      'content': {
+                        'hasImage': '0',
+                        'text': '蓝牙耳塞呢? 就一个手机一个充电器! 普通耳塞都没有了,广告送这送那你大爷',
+                        'imgList': []
+                      },
+                      'star': 3, // 中评
+                      'date': '2017-12-30',
+                      'orderDate': '2017-12-28',
+                      'productionType': '极夜黑,裸机'
+                    },
+                    {
+                      'id': '3',
+                      'author': {
+                        'id': '109',
+                        'name': 'a***J',
+                        'flag': '0'
+                      },
+                      'content': {
+                        'hasImage': '1',
+                        'text': '背面是玻璃来的, 刚拿到半个小时就碎了',
+                        'imgList': [
+                          '/static/360n6pro1_1.jpg'
+                        ]
+                      },
+                      'star': 1, // 差评
+                      'date': '2017-12-14',
+                      'orderDate': '2017-12-14',
+                      'productionType': '极夜黑,裸机'
+                    }
+                  ]
+                }
+              }
             })
             break
           default:
@@ -456,6 +578,59 @@ const devWebpackConfig = merge(baseWebpackConfig, {
               'data': {}
             })
             break
+        }
+      })
+      app.get('/user/login', (req, res) => {
+        let params = req.query
+        let username = params['username']
+        let password = params['password']
+        if (username === 'test' && password === 'test') {
+          res.json({
+            'status': 200,
+            'message': 'OK',
+            'data': {
+              'userId': '000001',
+              'username': 'test',
+              'avatar': '/static/360n6pro1.jpg',
+              'registerTime': '3131131232',
+              'gender': 'm',
+              'phone': '123456789',
+              'email': 'test@123.com'
+            }
+          })
+        } else {
+          res.json({
+            'status': 201,
+            'message': '用户名或密码错误',
+            'data': {}
+          })
+        }
+      })
+      app.get('/user/register', (req, res) => {
+        let params = req.query
+        let username = params['username']
+        let password = params['password']
+        let repeatPassword = params['repeatPassword']
+        if (password !== repeatPassword) {
+          res.json({
+            'status': 201,
+            'message': '两次输入的密码不一致',
+            'data': {}
+          })
+        } else {
+          res.json({
+            'status': 200,
+            'message': 'OK',
+            'data': {
+              'userId': '000001',
+              'username': username,
+              'avatar': '/static/360n6pro1.jpg',
+              'registerTime': '3131131232',
+              'gender': 'm',
+              'phone': '',
+              'email': ''
+            }
+          })
         }
       })
     }
