@@ -2,7 +2,7 @@
   <div id="app">
     <header></header>
     <section id="viewer">
-      <router-view @search="openSearch" @category="openProductions"></router-view>
+      <router-view :user="user" @search="openSearch" @category="openProductions"></router-view>
     </section>
     <section id="navBar">
       <div @click="goto('home')" :class="[currentComponent=='home'?'nav-active':'']" class="nav-item"><i class="nav-item-icon icon-home"></i><span class="nav-item-text">首页</span></div>
@@ -22,6 +22,9 @@
   import search from '@/components/Page/Search/Search'
   import productions from '@/components/Page/Productions/Productions'
   import production from '@/components/Page/Production/Production'
+  import {
+    path
+  } from '@/commons/address.js'
 
   export default {
     name: 'app',
@@ -31,6 +34,7 @@
       production
     },
     created () {
+      this.getUserInfo()
       // 刷新页面后保持底部导航栏选中样式
       let address = this.$route.path
       if (address === '/') {
@@ -44,12 +48,27 @@
       return {
         productionSimple: null,
         productionInfo: null,
-        currentComponent: 'home'
+        currentComponent: 'home',
+        user: null
       }
     },
     methods: {
+      getUserInfo () {
+        // todo 改成post
+        this.$http.get(path()['userInfo']).then(response => {
+          let res = response.body
+          if (res['status'] === 200) {
+            let data = res['data']
+            this.isUser = true
+            this.user = data
+            console.log(this.isLogin)
+          } else {
+            console.log(res['message'])
+          }
+        })
+      },
       toCart (cartItem) {
-        // 将商品添加到购物车 保存到本地
+        // 将商品添加到购物车 如果没登陆(this.user===null)就保存到本地或者转到登陆
         console.log(cartItem)
         alert('添加到购物车成功')
       },

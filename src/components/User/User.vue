@@ -39,14 +39,28 @@
       split,
       login
     },
+    props: {
+      user: {
+        type: Object
+      }
+    },
     data () {
       return {
-        isUser: false,
-        user: null
+        isUser: false
+      }
+    },
+    watch: {
+      'user' () {
+        if (this.user !== null && this.user !== undefined) {
+          this.isUser = true
+        }
       }
     },
     created () {
-      this.getUserInfo()
+      if (this.user !== null && this.user !== undefined) {
+        this.isUser = true
+      }
+      // this.getUserInfo()
     },
     methods: {
       getUserInfo () {
