@@ -47,6 +47,7 @@
           alert('两次输入的密码不相同')
           return
         }
+        // todo 改成post
         this.$http.get(path()['register'], {
           params: {
             'username': username,
@@ -70,6 +71,7 @@
         if (username === '' || password === '') {
           return
         }
+        // todo 改成post
         this.$http.get(path()['login'], {
           params: {
             'username': username,

@@ -4,6 +4,7 @@
 export function path () {
   let server = '/'
   return {
+    'userInfo': server + 'user/info',
     'register': server + 'user/register',
     'login': server + 'user/login',
     'productionDetail': server + 'production/detail',

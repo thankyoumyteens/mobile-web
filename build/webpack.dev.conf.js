@@ -633,6 +633,22 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           })
         }
       })
+      app.get('/user/info', (req, res) => {
+        // 从session中取数据, 保持登陆状态
+        res.json({
+          'status': 200,
+          'message': 'OK',
+          'data': {
+            'userId': '000001',
+            'username': 'test',
+            'avatar': '/static/360n6pro1.jpg',
+            'registerTime': '3131131232',
+            'gender': 'm',
+            'phone': '123456789',
+            'email': 'test@123.com'
+          }
+        })
+      })
     }
   },
   plugins: [

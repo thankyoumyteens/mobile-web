@@ -49,7 +49,7 @@
     },
     methods: {
       toCart (cartItem) {
-        // 将商品添加到购物车
+        // 将商品添加到购物车 保存到本地
         console.log(cartItem)
         alert('添加到购物车成功')
       },

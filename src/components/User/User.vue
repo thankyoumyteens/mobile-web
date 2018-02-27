@@ -30,6 +30,9 @@
 <script type="text/ecmascript-6">
   import split from '@/components/Util/Split/Split'
   import login from '@/components/Page/Login/Login'
+  import {
+    path
+  } from '@/commons/address.js'
 
   export default {
     components: {
@@ -42,11 +45,29 @@
         user: null
       }
     },
+    created () {
+      this.getUserInfo()
+    },
     methods: {
+      getUserInfo () {
+        // todo 改成post
+        this.$http.get(path()['userInfo']).then(response => {
+          let res = response.body
+          if (res['status'] === 200) {
+            let data = res['data']
+            this.isUser = true
+            this.user = data
+            console.log(this.isLogin)
+          } else {
+            console.log(res['message'])
+          }
+        })
+      },
       loginSuccess (user) {
         if (user !== null && user !== undefined) {
           this.isUser = true
           this.user = user
+          // 将本地购物车商品保存到用户购物车中
         }
         console.log(user)
       },
