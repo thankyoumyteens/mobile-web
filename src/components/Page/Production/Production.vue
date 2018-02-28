@@ -269,9 +269,20 @@
       /**
        * 添加商品到购物车
        */
-      addToCart (type) {
-        let cartItem = this.productionDetail['production']
-        cartItem['type'] = type
+      addToCart (types) {
+        let cartItem = {}
+        let production = this.productionDetail['production']
+        cartItem['id'] = production['id']
+        cartItem['type'] = []
+        for (let i = 0; i < types.length; i++) {
+          let item = types[i]
+          let o = {
+            'key': item['type']['display'],
+            'value': item['item']['name'],
+            'price': item['item']['add']
+          }
+          cartItem['type'].push(o)
+        }
         this.$emit('tocart', cartItem)
       },
       selectType (type) {
@@ -299,7 +310,6 @@
         if (e.touches.length === 1) {
           // 记录开始位置
           this.touchImage['startX'] = e.touches[0].clientX
-          console.log(this.touchImage)
         }
       },
       /**
@@ -314,15 +324,12 @@
           let el = document.getElementsByClassName('ph-image-wrapper')[0]
           let offsetX = moveX * 0.02
           if (moveX > this.touchImage['startX']) {
-            console.log('r ->' + el.offsetLeft)
             if (el.offsetLeft >= 0) return
             // 右滑
             let left = el.offsetLeft + offsetX
             el.style.left = left + 'px'
           }
           if (moveX < this.touchImage['startX']) {
-            console.log('l ->' + el.offsetLeft)
-            console.log(-((this.productionDetail['production']['images'].length - 1) * this.touchImage['width']))
             if (el.offsetLeft <= -((this.productionDetail['production']['images'].length - 1) * this.touchImage['width'])) return
             // 左滑
             let left = el.offsetLeft - offsetX
@@ -339,7 +346,6 @@
         if (e.changedTouches.length === 1) {
           let endX = e.changedTouches[0].clientX
           let disX = this.touchImage['startX'] - endX
-          console.log('滑动距离 ->' + disX)
           let el = document.getElementsByClassName('ph-image-wrapper')[0]
           if (disX > 100) {
             // 右滑

@@ -69,6 +69,26 @@
       },
       toCart (cartItem) {
         // 将商品添加到购物车 如果没登陆(this.user===null)就保存到本地或者转到登陆
+        // todo 防止重复添加商品, 根据productId
+        if (this.user === null) {
+          // todo localStorage
+        } else {
+          // todo 改成post
+          this.$http.get(path()['addToCart'], {
+            params: {
+              'userId': this.user['userId'],
+              'item': cartItem
+            }
+          }).then(response => {
+            let res = response.body
+            if (res['status'] === 200) {
+              let data = res['data']
+              console.log(data)
+            } else {
+              console.log(res['message'])
+            }
+          })
+        }
         console.log(cartItem)
         alert('添加到购物车成功')
       },
@@ -121,6 +141,7 @@
     padding 0
     #viewer
       margin-bottom 4em
+      overflow-x hidden
     #navBar
       background #fff
       display flex

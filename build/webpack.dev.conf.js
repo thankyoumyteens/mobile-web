@@ -649,6 +649,69 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           }
         })
       })
+      app.get('/user/add_to_cart', (req, res) => {
+        res.json({
+          'status': 200,
+          'message': 'OK',
+          'data': {}
+        })
+      })
+      app.get('/user/cart', (req, res) => {
+        res.json({
+          'status': 200,
+          'message': 'OK',
+          'data': [
+            {
+              'id': 0,
+              'name': '360手机 N6 Pro 全网通 6GB+64GB 极夜黑 移动联通电信4G手机 双卡双待',
+              'price': '1899.00',
+              'count': '1',
+              'img': '/static/360n6pro1.jpg',
+              'type': [
+                {
+                  'key': '颜色',
+                  'value': '极夜黑',
+                  'price': '0'
+                },
+                {
+                  'key': '机型',
+                  'value': '裸机',
+                  'price': '0'
+                },
+                {
+                  'key': '版本',
+                  'value': '6GB+64GB',
+                  'price': '200'
+                }
+              ]
+            },
+            {
+              'id': 1,
+              'name': '360手机 N6 Pro 全网通 6GB+64GB 极夜黑 移动联通电信4G手机 双卡双待',
+              'price': '1899.00',
+              'count': '2',
+              'img': '/static/360n6pro1.jpg',
+              'type': [
+                {
+                  'key': '颜色',
+                  'value': '极夜黑',
+                  'price': '0'
+                },
+                {
+                  'key': '机型',
+                  'value': '裸机',
+                  'price': '0'
+                },
+                {
+                  'key': '版本',
+                  'value': '6GB+64GB',
+                  'price': '200'
+                }
+              ]
+            }
+          ]
+        })
+      })
     }
   },
   plugins: [
