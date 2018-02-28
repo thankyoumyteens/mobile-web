@@ -59,7 +59,7 @@
       return {
         imgTimer: null, // 图片轮播计时器
         currentImgIndex: 0, // 当前显示的图片在imgList中的索引
-        placeholder: '查找商品', // 搜索框提示文字
+        placeholder: '', // 搜索框提示文字
         imgList: [] // 顶部滚动图片列表
       }
     },
