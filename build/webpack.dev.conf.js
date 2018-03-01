@@ -666,6 +666,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
               'name': '360手机 N6 Pro 全网通 6GB+64GB 极夜黑 移动联通电信4G手机 双卡双待',
               'price': '1899.00',
               'count': '1',
+              'check': '' + parseInt(Math.random() * (1 - 0 + 1) + 0),
               'img': '/static/360n6pro1.jpg',
               'type': [
                 {
@@ -690,6 +691,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
               'name': '360手机 N6 Pro 全网通 6GB+64GB 极夜黑 移动联通电信4G手机 双卡双待',
               'price': '1899.00',
               'count': '2',
+              'check': '' + parseInt(Math.random() * (1 - 0 + 1) + 0),
               'img': '/static/360n6pro1.jpg',
               'type': [
                 {

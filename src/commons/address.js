@@ -4,6 +4,7 @@
 export function path () {
   let server = '/'
   return {
+    'check': server + 'user/check',
     'getCart': server + 'user/cart',
     'addToCart': server + 'user/add_to_cart',
     'userInfo': server + 'user/info',
