@@ -649,14 +649,14 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           }
         })
       })
-      app.get('/user/add_to_cart', (req, res) => {
+      app.get('/cart/add_to_cart', (req, res) => {
         res.json({
           'status': 200,
           'message': 'OK',
           'data': {}
         })
       })
-      app.get('/user/cart', (req, res) => {
+      app.get('/cart/list', (req, res) => {
         res.json({
           'status': 200,
           'message': 'OK',
