@@ -50,10 +50,10 @@
       &.checkbox-back
         width 100%
         height 100%
-        z-index 999
+        z-index -2
         background #ccc
       &.checkbox-front
-        z-index 9999
+        z-index -1
         width 50%
         height 50%
         left 25%

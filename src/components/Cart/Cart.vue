@@ -1,7 +1,7 @@
 <template>
   <div class="cart">
     <div class="cart-list" v-if="cartList!=null">
-      <div class="cart-item" v-for="item in cartList">
+      <div class="cart-item" v-for="(item,index) in cartList">
         <div class="cart-item-checkbox" @click="checkItem(item)">
           <checkbox :checked="item['check']=='1'"></checkbox>
           <div class="pay-bar-checkbox-text"></div>
@@ -9,19 +9,19 @@
         <div class="cart-item-img"><img :src="item['img']" alt=""></div>
         <div class="cart-item-detail">
           <p class="cart-item-title">{{item['name']}}</p>
-          <p class="cart-item-type">￥{{item['typeStr']}}</p>
+          <p class="cart-item-type">{{item['typeStr']}}</p>
           <p class="cart-item-price">￥{{item['priceStr']}}</p>
         </div>
         <div class="cart-item-count">
-          <div class="cart-item-count-item cart-item-count-op cart-item-count-minus">-</div>
+          <div @click="cartItemSub(index)" class="cart-item-count-item cart-item-count-op cart-item-count-sub">-</div>
           <div class="cart-item-count-item cart-item-count-text">{{item['count']}}</div>
-          <div class="cart-item-count-item cart-item-count-op cart-item-count-add">+</div>
+          <div @click="cartItemAdd(index)" class="cart-item-count-item cart-item-count-op cart-item-count-add">+</div>
         </div>
       </div>
     </div>
     <div class="pay-bar">
       <div class="pay-bar-checkbox" @click="checkAll">
-        <checkbox ref="checkAll"></checkbox>
+        <checkbox ref="checkAll" :checked="isAllChecked"></checkbox>
         <div class="pay-bar-checkbox-text">全选</div>
       </div>
       <div class="pay-total">合计:￥{{totalPrice}}</div>
@@ -52,6 +52,19 @@
         totalPrice: 0.0
       }
     },
+    computed: {
+      isAllChecked () {
+        if (this.cartList !== null) {
+          for (let i = 0; i < this.cartList.length; i++) {
+            let item = this.cartList[i]
+            if (item['check'] === '0') {
+              return false
+            }
+          }
+        }
+        return true
+      }
+    },
     watch: {
       'user' () {
         this.getCartList()
@@ -61,12 +74,24 @@
       this.getCartList()
     },
     methods: {
+      cartItemSub (index) {
+        let item = this.cartList[index]
+        console.log(item)
+        // todo 发送请求
+        this.getCartList()
+      },
+      cartItemAdd (index) {
+        let item = this.cartList[index]
+        console.log(item)
+        // todo 发送请求
+        this.getCartList()
+      },
       checkItem (item) {
-        // todo 根据item['check']切换checkbox状态
+        // todo 发送请求
         this.getCartList()
       },
       checkAll () {
-        // todo
+        // todo 发送请求
         console.log(this.$refs.checkAll.checkStatus())
         if (this.$refs.checkAll.checkStatus()) {
           // 全选
@@ -87,7 +112,6 @@
                 let totalPrice = parseFloat(item['price'])
                 for (let j = 0; j < item['type'].length; j++) {
                   let type = item['type'][j]
-                  console.log(type)
                   totalPrice += parseFloat(type['price'])
                   if (this.cartList[i]['typeStr'] === undefined) {
                     this.cartList[i]['typeStr'] = ''
@@ -96,7 +120,6 @@
                 }
                 this.cartList[i]['priceStr'] = totalPrice
               }
-              console.log(this.cartList)
             } else {
               console.log(res['message'])
             }
@@ -114,6 +137,7 @@
     width 100%
     .cart-list
       width 100%
+      margin-bottom 3.5em
       .cart-item
         width 100%
         margin 0.5em 0
@@ -170,6 +194,7 @@
       left 0
       width 100%
       height 3em
+      background #fff
       box-shadow 0 0 1em #ccc
       .pay-bar-checkbox
         height 1.5em

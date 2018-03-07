@@ -61,7 +61,6 @@
             let data = res['data']
             this.isUser = true
             this.user = data
-            console.log(this.isLogin)
           } else {
             console.log(res['message'])
           }
