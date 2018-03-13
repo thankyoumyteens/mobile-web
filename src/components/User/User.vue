@@ -1,13 +1,13 @@
 <template>
   <div class="user">
-    <div class="user-info">
+    <div class="user-detail">
       <!--未登录-->
       <div class="ui-login" @click="showLogin" v-show="!isUser">
         <div class="ui-avatar"><img src="/static/default/avatar.jpg" ></div>
         <div class="ui-text">登陆/注册</div>
       </div>
       <!--已登陆-->
-      <div class="ui-user" v-if="isUser&&user!=null">
+      <div class="ui-user" @click="showUserInfo" v-if="isUser&&user!=null">
         <div class="ui-avatar"><img :src="user['avatar']" alt=""></div>
         <div class="ui-username">{{user['nickname']}}</div>
       </div>
@@ -24,17 +24,20 @@
     </div>
     <split></split>
     <login ref="login" @success="loginSuccess"></login>
+    <info ref="userInfo" :user="user" @logout="logoutSuccess"></info>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import split from '@/components/Util/Split/Split'
   import login from '@/components/Page/Login/Login'
+  import info from '@/components/Page/UserInfo/UserInfo'
 
   export default {
     components: {
       split,
-      login
+      login,
+      info
     },
     props: {
       user: {
@@ -48,9 +51,7 @@
     },
     watch: {
       'user' () {
-        if (this.user !== null && this.user !== undefined) {
-          this.isUser = true
-        }
+        this.isUser = this.user !== null && this.user !== undefined
       }
     },
     created () {
@@ -59,8 +60,14 @@
       }
     },
     methods: {
+      showUserInfo () {
+        this.$refs.userInfo.show()
+      },
       loginSuccess (user) {
         this.$emit('success', user)
+      },
+      logoutSuccess () {
+        this.$emit('logout')
       },
       showLogin () {
         this.$refs.login.show()
@@ -73,7 +80,7 @@
   .user
     width 100%
     background #fff
-    .user-info
+    .user-detail
       width 100%
       background url("./bg.jpg") top left no-repeat
       background-size 100%
