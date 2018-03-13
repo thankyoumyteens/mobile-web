@@ -51,8 +51,7 @@
         this.$http.get(path()['register'], {
           params: {
             'username': username,
-            'password': password,
-            'repeatPassword': repeatPassword
+            'password': password
           }
         }).then(response => {
           let res = response.body
@@ -72,14 +71,12 @@
           return
         }
         // todo 改成post
-        this.$http.get(path()['login'], {
-          params: {
-            'username': username,
-            'password': password
-          }
+        this.$http.post(path()['login'], {
+          'username': username,
+          'password': password
         }).then(response => {
           let res = response.body
-          if (res['status'] === 200) {
+          if (res['status'] === 0) {
             let data = res['data']
             this.$emit('success', data)
             this.hide()

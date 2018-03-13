@@ -15,13 +15,20 @@ Vue.http.options.emulateJSON = true
 Vue.http.options.headers = {
   'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
 }
+Vue.http.options.emulateJSON = true
+
+Vue.http.interceptors.push(function (request, next) { // 拦截器
+// 跨域携带cookie
+  request.credentials = true
+  next()
+})
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   template: '<App/>',
-  components: { App }
+  components: {App}
 })
 
 // router.push('/home')

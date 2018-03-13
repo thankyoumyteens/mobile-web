@@ -2,7 +2,7 @@
   <div id="app">
     <header></header>
     <section id="viewer">
-      <router-view :user="user" @search="openSearch" @category="openProductions"></router-view>
+      <router-view :user="user" @success="loginSuccess" @search="openSearch" @category="openProductions"></router-view>
     </section>
     <section id="navBar">
       <div @click="goto('home')" :class="[currentComponent=='home'?'nav-active':'']" class="nav-item"><i class="nav-item-icon icon-home"></i><span class="nav-item-text">首页</span></div>
@@ -53,14 +53,21 @@
       }
     },
     methods: {
+      loginSuccess (user) {
+        if (user !== null && user !== undefined) {
+          this.user = user
+          // 将本地购物车商品保存到用户购物车中
+        }
+        console.log(user)
+      },
       getUserInfo () {
         // todo 改成post
-        this.$http.get(path()['userInfo']).then(response => {
+        this.$http.post(path()['userInfo']).then(response => {
           let res = response.body
-          if (res['status'] === 200) {
+          if (res['status'] === 0) {
             let data = res['data']
             this.isUser = true
-            this.user = data
+            // this.user = data
           } else {
             console.log(res['message'])
           }

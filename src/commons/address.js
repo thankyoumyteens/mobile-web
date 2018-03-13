@@ -2,16 +2,16 @@
  * Created by Admin on 2017/11/24.
  */
 export function path () {
-  let server = '/'
+  let server = 'http://localhost:8088/mobile/'
   return {
     'sub': server + 'cart/sub', // 购物车中商品减一
     'add': server + 'cart/add', // 购物车中商品加一
     'check': server + 'cart/check', // 选中购物车中的商品
     'getCart': server + 'cart/list', // 获取购物车列表
     'addToCart': server + 'cart/add_to_cart', // 添加商品到购物车
-    'userInfo': server + 'user/info', // 获取用户信息
-    'register': server + 'user/register', // 注册
-    'login': server + 'user/login', // 登陆
+    'userInfo': server + 'user/get_user_info.do', // 获取用户信息
+    'register': server + 'user/register.do', // 注册
+    'login': server + 'user/login.do', // 登陆
     'productionDetail': server + 'production/detail', // 获取商品详情
     'productionListByKeywords': server + 'productions/keywords', // 搜索商品
     'productionList': server + 'productions/simple', // 获取商品列表

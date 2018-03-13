@@ -18,6 +18,7 @@
               <p class="production-review">{{production['review']}}</p>
             </div>
           </div>
+
           <div class="production-item border-1px" v-if="productionList.length <= 0">
             <div class="production-img"></div>
             <div class="production-detail">
