@@ -8,7 +8,7 @@
       </div>
       <!--已登陆-->
       <div class="ui-user" v-if="isUser&&user!=null">
-        <div class="ui-avatar"><img :src="'/static/' + user['avatar']" alt=""></div>
+        <div class="ui-avatar"><img :src="user['avatar']" alt=""></div>
         <div class="ui-username">{{user['nickname']}}</div>
       </div>
     </div>
