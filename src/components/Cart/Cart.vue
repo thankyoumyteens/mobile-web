@@ -121,7 +121,7 @@
                 this.cartList[i]['priceStr'] = totalPrice
               }
             } else {
-              console.log(res['message'])
+              console.log(res['msg'])
             }
           })
         } else {

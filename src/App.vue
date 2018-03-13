@@ -61,13 +61,11 @@
         console.log(user)
       },
       getUserInfo () {
-        // todo 改成post
         this.$http.post(path()['userInfo']).then(response => {
           let res = response.body
           if (res['status'] === 0) {
             let data = res['data']
-            this.isUser = true
-            // this.user = data
+            this.user = data
           } else {
             console.log(res['message'])
           }

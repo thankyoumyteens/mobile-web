@@ -16,7 +16,7 @@
     created () {
       this.$http.get(path()['categoryList']).then((response) => {
         let status = response.body['status']
-        let message = response.body['message']
+        let msg = response.body['msg']
         let data = response.body['data']
         if (status === 200) {
           for (let i = 0; i < data.length; i++) {
@@ -24,7 +24,7 @@
             Vue.set(this.categoryList, i, item)
           }
         } else {
-          console.log(message)
+          console.log(msg)
         }
       })
     },

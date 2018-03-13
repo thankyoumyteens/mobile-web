@@ -30,7 +30,7 @@
       // 获取图片
       this.$http.get(path()['homeImgList']).then((response) => {
         let status = response.body['status']
-        let message = response.body['message']
+        let msg = response.body['msg']
         let data = response.body['data']
         if (status === 200) {
           for (let i = 0; i < data.length; i++) {
@@ -40,18 +40,18 @@
           // 开启图片轮播
           this.autoChange()
         } else {
-          console.log(message)
+          console.log(msg)
         }
       })
       // 获取搜索框提示文字
       this.$http.get(path()['homePlaceholder']).then((response) => {
         let status = response.body['status']
-        let message = response.body['message']
+        let msg = response.body['msg']
         let data = response.body['data']
         if (status === 200) {
           this.placeholder = data
         } else {
-          console.log(message)
+          console.log(msg)
         }
       })
     },

@@ -17,6 +17,7 @@ Vue.http.options.headers = {
 }
 Vue.http.options.emulateJSON = true
 
+// todo 删除跨域设置
 Vue.http.interceptors.push(function (request, next) { // 拦截器
 // 跨域携带cookie
   request.credentials = true

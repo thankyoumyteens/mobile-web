@@ -404,7 +404,7 @@
         let url = path()['productionDetail'] + '?id=' + productionId
         this.$http.get(url).then((response) => {
           let status = response.body['status']
-          let message = response.body['message']
+          let msg = response.body['msg']
           let data = response.body['data']
           this.productionDetail = null
           if (status === 200) {
@@ -424,7 +424,7 @@
               Vue.set(this.pages, i, item)
             }
           } else {
-            console.log(message)
+            console.log(msg)
           }
         })
       }

@@ -15,8 +15,11 @@
       </div>
       <div class="si-content" v-show="!isLogin">
         <input type="text" ref="usernameRegister" placeholder="账号">
+        <input type="text" ref="nicknameRegister" placeholder="昵称">
         <input type="password" ref="passwordRegister" placeholder="密码">
         <input type="password" ref="repeatPassword" placeholder="确认密码">
+        <input type="text" ref="emailRegister" placeholder="邮箱">
+        <input type="number" ref="phoneRegister" placeholder="手机号码">
         <a class="change-link" @click="changeContent">已有账号登陆</a>
       </div>
     </div>
@@ -40,6 +43,9 @@
         let username = this.$refs.usernameRegister.value
         let password = this.$refs.passwordRegister.value
         let repeatPassword = this.$refs.repeatPassword.value
+        let nickname = this.$refs.nicknameRegister.value
+        let email = this.$refs.emailRegister.value
+        let phone = this.$refs.phoneRegister.value
         if (username === '' || password === '' || repeatPassword === '') {
           return
         }
@@ -47,20 +53,31 @@
           alert('两次输入的密码不相同')
           return
         }
-        // todo 改成post
-        this.$http.get(path()['register'], {
-          params: {
-            'username': username,
-            'password': password
-          }
+        if (!(/^[a-zA-z]\w{3,15}$/.test(username))) {
+          alert('用户名有误，请重填')
+          return false
+        }
+        if (!(/^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/.test(email))) {
+          alert('邮箱有误，请重填')
+          return false
+        }
+        if (!(/^1[34578]\d{9}$/.test(phone))) {
+          alert('手机号码有误，请重填')
+          return false
+        }
+        this.$http.post(path()['register'], {
+          'username': username,
+          'password': password,
+          'nickname': nickname,
+          'email': email,
+          'phone': phone
         }).then(response => {
           let res = response.body
-          if (res['status'] === 200) {
-            let data = res['data']
-            this.$emit('success', data)
-            this.hide()
+          if (res['status'] === 0) {
+            alert(res['msg'])
+            this.changeContent()
           } else {
-            console.log(res['message'])
+            console.log(res['msg'])
           }
         })
       },
@@ -70,7 +87,6 @@
         if (username === '' || password === '') {
           return
         }
-        // todo 改成post
         this.$http.post(path()['login'], {
           'username': username,
           'password': password
@@ -81,7 +97,7 @@
             this.$emit('success', data)
             this.hide()
           } else {
-            console.log(res['message'])
+            console.log(res['msg'])
           }
         })
       },

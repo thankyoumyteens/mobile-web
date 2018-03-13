@@ -96,7 +96,7 @@
         }
         this.$http.get(url).then((response) => {
           let status = response.body['status']
-          let message = response.body['message']
+          let msg = response.body['msg']
           let data = response.body['data']
           this.productionList = []
           if (status === 200) {
@@ -106,7 +106,7 @@
             }
             this.initScroll()
           } else {
-            console.log(message)
+            console.log(msg)
           }
         })
       }
