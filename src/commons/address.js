@@ -12,6 +12,7 @@ export function path () {
     'register': server + 'user/register.do', // 注册
     'login': server + 'user/login.do', // 登陆
     'logout': server + 'user/logout.do', // 退出登陆
+    'updateUserInfo': server + 'user/update_user_info.do', // 修改个人信息
     /**
      * 其他
      */

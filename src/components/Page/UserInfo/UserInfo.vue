@@ -7,29 +7,44 @@
       </header>
       <split></split>
       <div class="ui-user">
-        <div class="ui-avatar"><img :src="user['avatar']" alt=""></div>
+        <div class="ui-avatar" @click="changeAvatar"><img :src="user['avatar']" alt=""></div>
         <div class="ui-info">
           <div class="ui-info-item">{{user['nickname']}}</div>
           <div class="ui-info-item ui-info-username">用户名: {{user['username']}}</div>
         </div>
       </div>
       <split></split>
+      <div class="ui-show ui-underline" @click="showDetail">
+        <div class="uis-title">个人信息</div>
+        <div class="uis-icon"> > </div>
+      </div>
+      <div class="ui-show" @click="showShipping">
+        <div class="uis-title">收货地址</div>
+        <div class="uis-icon"> > </div>
+      </div>
+      <split></split>
       <div @click="logout" class="u-logout">
         退出登录
       </div>
+      <uiw ref="uiw" :user="user" @success="updateSuccess"></uiw>
+      <sw ref="sw" :user="user"></sw>
     </div>
   </transition>
 </template>
 
 <script type="text/ecmascript-6">
   import split from '@/components/Util/Split/Split'
+  import uiw from '@/components/Util/UtilPage/UserInfoWrapper'
+  import sw from '@/components/Util/UtilPage/ShippingWrapper'
   import {
     path
   } from '@/commons/address.js'
 
   export default {
     components: {
-      split
+      split,
+      uiw,
+      sw
     },
     props: {
       user: {
@@ -42,6 +57,18 @@
       }
     },
     methods: {
+      updateSuccess (user) {
+        this.$emit('update', user)
+      },
+      changeAvatar () {
+        // 换头像
+      },
+      showShipping () {
+        this.$refs.sw.show()
+      },
+      showDetail () {
+        this.$refs.uiw.show()
+      },
       logout () {
         this.$http.post(path()['logout']).then(response => {
           let res = response.body
@@ -134,6 +161,19 @@
           vertical-align top
           &.ui-info-username
             color #aaa
+    .ui-show
+      width 100%
+      height 3em
+      &.ui-underline
+        border-bottom 0.1em solid #ccc
+      .uis-title
+        float left
+        margin-left 1em
+        line-height 3em
+      .uis-icon
+        float right
+        margin-right 1em
+        line-height 3em
     .u-logout
       width 100%
       height 3em

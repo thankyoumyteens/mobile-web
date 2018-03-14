@@ -24,7 +24,7 @@
     </div>
     <split></split>
     <login ref="login" @success="loginSuccess"></login>
-    <info ref="userInfo" :user="user" @logout="logoutSuccess"></info>
+    <info ref="userInfo" :user="user" @logout="logoutSuccess" @update="updateSuccess"></info>
   </div>
 </template>
 
@@ -60,6 +60,9 @@
       }
     },
     methods: {
+      updateSuccess (user) {
+        this.$emit('update', user)
+      },
       showUserInfo () {
         this.$refs.userInfo.show()
       },

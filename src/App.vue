@@ -2,7 +2,7 @@
   <div id="app">
     <header></header>
     <section id="viewer">
-      <router-view :user="user" @success="loginSuccess" @logout="logoutSuccess" @search="openSearch" @category="openProductions"></router-view>
+      <router-view :user="user" @success="loginSuccess" @logout="logoutSuccess" @update="updateSuccess" @search="openSearch" @category="openProductions"></router-view>
     </section>
     <section id="navBar">
       <div @click="goto('home')" :class="[currentComponent=='home'?'nav-active':'']" class="nav-item"><i class="nav-item-icon icon-home"></i><span class="nav-item-text">首页</span></div>
@@ -53,6 +53,10 @@
       }
     },
     methods: {
+      updateSuccess (user) {
+        this.user = user
+        console.log(this.user)
+      },
       loginSuccess (user) {
         if (user !== null && user !== undefined) {
           this.user = user
