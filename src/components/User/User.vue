@@ -24,7 +24,7 @@
     </div>
     <split></split>
     <login ref="login" @success="loginSuccess"></login>
-    <info ref="userInfo" :user="user" @logout="logoutSuccess" @update="updateSuccess"></info>
+    <info ref="userInfo" :user="user" @logout="logoutSuccess" @avatar="changeAvatarSuccess" @update="updateSuccess"></info>
   </div>
 </template>
 
@@ -60,6 +60,9 @@
       }
     },
     methods: {
+      changeAvatarSuccess (uri) {
+        this.$emit('avatar', uri)
+      },
       updateSuccess (user) {
         this.$emit('update', user)
       },

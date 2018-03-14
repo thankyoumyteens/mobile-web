@@ -28,6 +28,7 @@
       </div>
       <uiw ref="uiw" :user="user" @success="updateSuccess"></uiw>
       <sw ref="sw" :user="user"></sw>
+      <aw ref="aw" :user="user" @avatar="changeAvatarSuccess"></aw>
     </div>
   </transition>
 </template>
@@ -36,6 +37,7 @@
   import split from '@/components/Util/Split/Split'
   import uiw from '@/components/Util/UtilPage/UserInfoWrapper'
   import sw from '@/components/Util/UtilPage/ShippingWrapper'
+  import aw from '@/components/Util/UtilPage/AvatarWrapper'
   import {
     path
   } from '@/commons/address.js'
@@ -44,7 +46,8 @@
     components: {
       split,
       uiw,
-      sw
+      sw,
+      aw
     },
     props: {
       user: {
@@ -57,11 +60,14 @@
       }
     },
     methods: {
+      changeAvatarSuccess (uri) {
+        this.$emit('avatar', uri)
+      },
       updateSuccess (user) {
         this.$emit('update', user)
       },
       changeAvatar () {
-        // 换头像
+        this.$refs.aw.show()
       },
       showShipping () {
         this.$refs.sw.show()
