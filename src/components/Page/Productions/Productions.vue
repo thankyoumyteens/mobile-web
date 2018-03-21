@@ -89,7 +89,7 @@
         let url = ''
         switch (type) {
           case 'c':
-            url = path()['productionList'] + '?category=' + data['name']
+            url = path()['productionList'] + '?category=' + data['name'] // todo name改成id
             break
           case 's':
             url = path()['productionListByKeywords'] + '?key=' + data

@@ -17,6 +17,10 @@ export function path () {
     'updateUserInfo': server + 'user/update_user_info.do', // 修改个人信息
     'resetPassword': server + 'user/reset_password.do', // 修改密码
     /**
+     * 分类
+     */
+    'categoryList': server + 'category/list.do', // 获取商品类别列表
+    /**
      * 其他
      */
     'sub': local + 'cart/sub', // 购物车中商品减一
@@ -27,7 +31,6 @@ export function path () {
     'productionDetail': local + 'production/detail', // 获取商品详情
     'productionListByKeywords': local + 'productions/keywords', // 搜索商品
     'productionList': local + 'productions/simple', // 获取商品列表
-    'categoryList': local + 'category/all', // 获取商品类别列表
     'homeImgList': local + 'home/images', // 获取首页轮播图片列表
     'homePlaceholder': local + 'home/placeholder' // 获取首页搜索框提示文字
   }

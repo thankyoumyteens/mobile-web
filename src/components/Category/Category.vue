@@ -1,7 +1,7 @@
 <template>
   <div class="category">
     <div class="category-item border-1px" @click="detail(item)" v-for="item in categoryList">
-      <div class="company-logo"><img :src="item['logo']" alt=""></div>
+      <div class="company-logo"><img :src="item['img']" alt=""></div>
     </div>
   </div>
 </template>
@@ -16,15 +16,9 @@
     created () {
       this.$http.get(path()['categoryList']).then((response) => {
         let status = response.body['status']
-        let msg = response.body['msg']
-        let data = response.body['data']
-        if (status === 200) {
-          for (let i = 0; i < data.length; i++) {
-            let item = data[i]
-            Vue.set(this.categoryList, i, item)
-          }
+        if (status === 0) {
+          this.categoryList = response.body['data']
         } else {
-          console.log(msg)
         }
       })
     },
