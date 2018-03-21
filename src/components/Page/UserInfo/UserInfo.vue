@@ -18,8 +18,12 @@
         <div class="uis-title">个人信息</div>
         <div class="uis-icon"> > </div>
       </div>
-      <div class="ui-show" @click="showShipping">
+      <div class="ui-show ui-underline" @click="showShipping">
         <div class="uis-title">收货地址</div>
+        <div class="uis-icon"> > </div>
+      </div>
+      <div class="ui-show" @click="resetPassword">
+        <div class="uis-title">修改密码</div>
         <div class="uis-icon"> > </div>
       </div>
       <split></split>
@@ -29,6 +33,7 @@
       <uiw ref="uiw" :user="user" @success="updateSuccess"></uiw>
       <sw ref="sw" :user="user"></sw>
       <aw ref="aw" :user="user" @avatar="changeAvatarSuccess"></aw>
+      <rpw ref="rpw"></rpw>
     </div>
   </transition>
 </template>
@@ -38,6 +43,7 @@
   import uiw from '@/components/Util/UtilPage/UserInfoWrapper'
   import sw from '@/components/Util/UtilPage/ShippingWrapper'
   import aw from '@/components/Util/UtilPage/AvatarWrapper'
+  import rpw from '@/components/Util/UtilPage/ResetPasswordWrapper'
   import {
     path
   } from '@/commons/address.js'
@@ -47,7 +53,8 @@
       split,
       uiw,
       sw,
-      aw
+      aw,
+      rpw
     },
     props: {
       user: {
@@ -65,6 +72,9 @@
       },
       updateSuccess (user) {
         this.$emit('update', user)
+      },
+      resetPassword () {
+        this.$refs.rpw.show()
       },
       changeAvatar () {
         this.$refs.aw.show()

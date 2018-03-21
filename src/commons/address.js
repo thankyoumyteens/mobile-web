@@ -15,6 +15,7 @@ export function path () {
     'uploadAvatar': server + 'user/upload.do', // 上传头像
     'updateAvatar': server + 'user/update_avatar.do', // 上传头像
     'updateUserInfo': server + 'user/update_user_info.do', // 修改个人信息
+    'resetPassword': server + 'user/reset_password.do', // 修改密码
     /**
      * 其他
      */

@@ -6,10 +6,13 @@
         <span class="title">更换头像</span>
       </header>
       <split></split>
-      <input type="file" name="upload_file" ref="upload_file">
-      <button @click="uploadAvatar">上传</button>
+      <div class="login-button upl-wrapper">
+        <div class="upl-text">{{msgSelect}}</div>
+        <input class="hide" @change="selectFile" type="file" name="upload_file" ref="upload_file">
+      </div>
+      <button class="login-button" :class="[isEnable?'':'disable']" @click="uploadAvatar">{{msg}}</button>
       <img class="avatar-placeholder" :src="avatarUrl===''?user['avatar']:avatarUrl" alt="">
-      <button @click="upldateAvatar">确定</button>
+      <button class="login-button" :class="[isEnableUpdate?'':'disable']" @click="updateAvatar">确定</button>
     </div>
   </transition>
 </template>
@@ -33,11 +36,27 @@
       return {
         isShow: false,
         avatarUrl: '',
-        avatarUri: ''
+        avatarUri: '',
+        isEnable: false, // 上传按钮是否可用
+        msgSelect: '选择图片', // input控件提示文字
+        msg: '请选择文件', // 上传按钮提示文字
+        isEnableUpdate: false // 确定按钮是否可用
       }
     },
     methods: {
-      upldateAvatar () {
+      selectFile () {
+        if (!this.$refs.upload_file.files[0]) {
+          return
+        }
+        this.isEnable = true
+        this.msg = '上传'
+        this.msgSelect = this.$refs.upload_file.files[0].name
+      },
+      updateAvatar () {
+        if (!this.isEnableUpdate) {
+          return
+        }
+        this.isEnableUpdate = false
         this.$http.post(path()['updateAvatar'], {
           'avatar': this.avatarUri
         }).then(response => {
@@ -49,6 +68,14 @@
         })
       },
       uploadAvatar () {
+        if (!this.$refs.upload_file.files[0]) {
+          return
+        }
+        if (!this.isEnable) {
+          return
+        }
+        this.isEnable = false
+        this.msg = '上传中, 请稍等...'
         let formData = new FormData()
         formData.append('upload_file', this.$refs.upload_file.files[0])
         let config = {
@@ -57,15 +84,26 @@
         this.$http.post(path()['uploadAvatar'], formData, config).then(response => {
           let res = response.body
           if (res['status'] === 0) {
+            this.isEnable = false
+            this.isEnableUpdate = true
+            this.msg = '上传完成'
             let uri = res['data']['uri']
             let url = res['data']['url']
             this.avatarUrl = url
             this.avatarUri = uri
+          } else {
+            alert(res['msg'])
+            this.isEnable = false
+            this.msg = '请选择文件'
           }
         })
       },
       show () {
         this.isShow = true
+        this.isEnable = false
+        this.msgSelect = '选择图片'
+        this.msg = '请选择文件'
+        this.isEnableUpdate = false
       },
       hide () {
         this.isShow = false
@@ -98,6 +136,37 @@
     width 100%
     background #fff
     box-sizing border-box
+    .login-button
+      display block
+      width 95%
+      height 3em
+      line-height 3em
+      border 0.1em solid #ccc
+      margin 1em auto
+      border-radius 5px
+      padding-left 1em
+      box-sizing border-box
+      background rgba(240, 20, 20, 0.9)
+      color #fff
+      &.disable
+        background #ccc
+        color #000
+      .hide
+        opacity 0
+        position absolute
+        top 0
+        left 0
+        width 100%
+        height 100%
+        z-index 1
+    .upl-wrapper
+      position relative
+      z-index -2
+      .upl-text
+        position relative
+        z-index -1
+        float left
+        margin auto
     header
       width 100%
       height 3em
@@ -119,6 +188,7 @@
         line-height 3em
     .avatar-placeholder
       display block
-      width 50%
+      max-width 50%
+      max-height 15em
       margin auto
 </style>
