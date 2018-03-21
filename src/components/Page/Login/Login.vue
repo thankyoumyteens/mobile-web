@@ -11,6 +11,7 @@
         <input type="text" ref="username" placeholder="账号">
         <input type="password" ref="password" placeholder="密码">
         <a class="change-link" @click="changeContent">新用户注册</a>
+        <a class="change-link" @click="forgetPassword">忘记密码?</a>
         <!--<button class="login-button">登陆</button>-->
       </div>
       <div class="si-content" v-show="!isLogin">
@@ -22,16 +23,21 @@
         <input type="number" ref="phoneRegister" placeholder="手机号码">
         <a class="change-link" @click="changeContent">已有账号登陆</a>
       </div>
+      <qrpw ref="qrpw"></qrpw>
     </div>
   </transition>
 </template>
 
 <script type="text/ecmascript-6">
+  import qrpw from '@/components/Util/UtilPage/QuestionResetPasswordWrapper'
   import {
     path
   } from '@/commons/address.js'
 
   export default {
+    components: {
+      qrpw
+    },
     data () {
       return {
         isShow: false,
@@ -103,6 +109,9 @@
       },
       changeContent () {
         this.isLogin = !this.isLogin
+      },
+      forgetPassword () {
+        this.$refs.qrpw.show()
       },
       show () {
         this.isShow = true

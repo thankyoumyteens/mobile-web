@@ -16,6 +16,9 @@ export function path () {
     'updateAvatar': server + 'user/update_avatar.do', // 上传头像
     'updateUserInfo': server + 'user/update_user_info.do', // 修改个人信息
     'resetPassword': server + 'user/reset_password.do', // 修改密码
+    'getQuestion': server + 'user/get_question.do', // 获取找回密码问题
+    'checkAnswer': server + 'user/check_answer.do', // 验证答案
+    'questionResetPassword': server + 'user/question_reset_password.do', // 通过问题修改密码
     /**
      * 分类
      */
