@@ -49,4 +49,6 @@
         border-none()
       .company-logo
         padding 0.5em
+        img
+          width 70%
 </style>
