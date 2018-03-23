@@ -11,12 +11,16 @@
       <section class="production-list scroll-wrapper" ref="scrollWrapperProductionList">
         <div>
           <div class="production-item border-1px" @click="showDetail(production)" v-for="production in productionList">
-            <div class="production-img"><img :src="production['img']" alt=""></div>
+            <div class="production-img"><img :src="production['mainImage']" alt=""></div>
             <div class="production-detail">
               <p class="production-title">{{production['name']}}</p>
               <p class="production-price">{{production['price']}}</p>
-              <p class="production-review">{{production['review']}}</p>
+              <p class="production-review">{{production['subtitle']}}</p>
             </div>
+          </div>
+
+          <div class="next-page" @click="getMore" v-show="hasNextPage">
+            点击加载更多
           </div>
 
           <div class="production-item border-1px" v-if="productionList.length <= 0">
@@ -56,10 +60,18 @@
       return {
         scrollProductionList: null,
         productionsShow: false,
-        productionList: []
+        productionList: [],
+        pageNum: 1,
+        pageSize: 10,
+        pages: 1,
+        hasNextPage: false
       }
     },
     methods: {
+      getMore () {
+        this.pageNum++
+        this.getProductionList()
+      },
       showDetail (item) {
         this.$emit('detail', item)
       },
@@ -88,24 +100,29 @@
         let data = this.productionInfo['data']
         let url = ''
         switch (type) {
-          case 'c':
-            url = path()['productionList'] + '?category=' + data['name'] // todo name改成id
+          case 'c': // 根据分类查找商品
+            url = path()['productionList'] + '?categoryId=' + data['id'] + '&pageNum=' + this.pageNum
             break
-          case 's':
+          case 's': // todo
             url = path()['productionListByKeywords'] + '?key=' + data
         }
         this.$http.get(url).then((response) => {
           let status = response.body['status']
-          let msg = response.body['msg']
-          let data = response.body['data']
-          this.productionList = []
-          if (status === 200) {
+          // this.productionList = []
+          if (status === 0) {
+            let data = response.body['data']['list']
+            this.pages = response.body['data']['pages']
+            this.hasNextPage = response.body['data']['hasNextPage']
             for (let i = 0; i < data.length; i++) {
               let item = data[i]
-              Vue.set(this.productionList, i, item)
+              // 下一页数据追加到数组末尾
+              let index = this.productionList.length
+              Vue.set(this.productionList, index, item)
             }
+            console.log(this.hasNextPage)
             this.initScroll()
           } else {
+            let msg = response.body['msg']
             console.log(msg)
           }
         })
@@ -186,6 +203,11 @@
       left 0
       bottom 0
       right 0
+      .next-page
+        height 5em
+        line-height 5em
+        width 100%
+        text-align center
       .production-item
         width 100%
         height 12em
