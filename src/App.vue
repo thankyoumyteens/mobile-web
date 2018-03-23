@@ -81,7 +81,13 @@
           }
         })
       },
-      toCart (cartItem) {
+      toCart (product) {
+        let cartItem = {
+          productId: product['id'],
+          detail: product['detail'],
+          quantity: 1,
+          checked: 1
+        }
         // 将商品添加到购物车 如果没登陆(this.user===null)就保存到本地或者转到登陆
         // todo 防止重复添加商品, 根据productId
         if (this.user === null) {
@@ -91,7 +97,7 @@
           this.$http.get(path()['addToCart'], {
             params: {
               'userId': this.user['userId'],
-              'item': cartItem
+              'item': JSON.stringify(cartItem)
             }
           }).then(response => {
             let res = response.body

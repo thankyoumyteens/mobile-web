@@ -246,21 +246,7 @@
        * 添加商品到购物车
        */
       addToCart (product) {
-        // todo
-        let cartItem = {}
-        let production = this.productionDetail['production']
-        cartItem['id'] = production['id']
-        cartItem['type'] = []
-        for (let i = 0; i < types.length; i++) {
-          let item = types[i]
-          let o = {
-            'key': item['type']['display'],
-            'value': item['item']['name'],
-            'price': item['item']['add']
-          }
-          cartItem['type'].push(o)
-        }
-        this.$emit('tocart', cartItem)
+        this.$emit('tocart', product)
       },
       selectType (product) {
         this.productionDetail = product
