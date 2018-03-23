@@ -5,20 +5,20 @@
       <div class="st-main">
         <header class="border-1px">
           <div class="st-img">
-            <img :src="production['images'][0]" alt="">
+            <img :src="production['mainImage']" alt="">
           </div>
           <div class="st-price">
             ￥{{totalMoney}}
           </div>
         </header>
         <div class="st-select">
-          <div class="st-select-box border-1px" v-for="typeItem,index in production['type']">
-            <div class="st-select-title">{{typeItem['display']}}</div>
+          <div class="st-select-box border-1px" v-for="typeItem,index in production['detail']">
+            <div class="st-select-title">{{typeItem['key']}}</div>
             <div class="st-select-item"
-                 :class="[selectedData[index]['item']==value?'selected':'']"
-                 @click="doSelect(typeItem, index, value)"
-                 v-for="value in typeItem['selection']">
-              {{value['name']}}
+                 :class="[i==typeItem['selected']?'selected':'']"
+                 @click="doSelect(index, i, value)"
+                 v-for="value,i in typeItem['value']">
+              {{value['val']}}
             </div>
             <div class="clear-float"></div>
           </div>
@@ -37,7 +37,6 @@
   export default {
     data () {
       return {
-        selectedData: [],
         selectShow: false,
         production: null
       }
@@ -48,9 +47,9 @@
         if (this.production) {
           let old = parseFloat(this.production['price'])
           total = old
-          for (let i = 0; i < this.selectedData.length; i++) {
-            let item = this.selectedData[i]
-            let add = parseFloat(item['item']['add'])
+          for (let i = 0; i < this.production['detail'].length; i++) {
+            let item = this.production['detail'][i]
+            let add = parseFloat(item['value'][item['selected']]['money'])
             total += add
           }
         }
@@ -59,53 +58,22 @@
     },
     methods: {
       addToCart () {
-        this.$emit('cart', this.selectedData)
+        this.$emit('cart', this.production)
         this.selectShow = false
       },
       /**
        * 选择商品参数
-       * @param typeItem 当前商品的某个参数
-       * 例子:
-       *  {
-       *   'name': 'color',
-       *   'display': '颜色',
-       *   'selection': [
-       *     { 'name': '极夜黑', 'add': '0'},
-       *     { 'name': '深海蓝', 'add': '0'}
-       *   ]
-       *  }
-       * @param index 这个参数在type中的索引
-       * 例子: 0 (表示type[0])
-       * @param value 选中的值
-       * 例子:
-       * { 'name': '极夜黑', 'add': '0'}
        */
-      doSelect (typeItem, index, value) {
-        let o = {
-          'type': typeItem,
-          'item': value
-        }
-        Vue.set(this.selectedData, index, o)
+      doSelect (index, i, value) {
+        this.production['detail'][index]['selected'] = i
       },
-      show (production, selectedType) {
-        if (selectedType != null) {
-          // 记住同一件商品的选择
-          this.selectedData = selectedType
-        } else {
-          this.production = production
-          for (let i = 0; i < production['type'].length; i++) {
-            let type = production['type'][i]
-            let o = {
-              'type': type,
-              'item': type['selection'][0]
-            }
-            Vue.set(this.selectedData, i, o)
-          }
-        }
+      show (production) {
+        console.log(production)
+        this.production = production
         this.selectShow = true
       },
       hide () {
-        this.$emit('selected', this.selectedData)
+        this.$emit('selected', this.production)
         this.selectShow = false
       }
     }

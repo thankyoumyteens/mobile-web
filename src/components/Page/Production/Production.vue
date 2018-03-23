@@ -26,13 +26,13 @@
                 </slider>
               </div>
               <div class="ph-name">
-                {{productionDetail['production']['name']}}
+                {{productionDetail['name']}}
               </div>
               <div class="ph-remark">
-                {{productionDetail['production']['remark']}}
+                {{productionDetail['subtitle']}}
               </div>
               <div class="ph-price">
-                ￥{{productionDetail['production']['price']}}
+                ￥{{productionDetail['price']}}
               </div>
               <split></split>
               <div class="ph-select" @click="showSelect">
@@ -41,11 +41,11 @@
               <split></split>
             </section>
             <!--详情-->
-            <section class="production-more" v-show="currentProductionNavIndex==1">
+            <section class="production-more" v-if="false" v-show="currentProductionNavIndex==1">
               <div class="pm-content" v-html="productionDetail['detail']['html']"></div>
             </section>
             <!--评价-->
-            <section class="production-review" v-show="currentProductionNavIndex==2">
+            <section class="production-review" v-if="false" v-show="currentProductionNavIndex==2">
               <div class="pr-top">
                 <div class="pr-top-percent border-1px">
                   好评率: {{productionDetail['review']['percent']}}
@@ -149,30 +149,6 @@
         this.selectedType = null
       }
     },
-    updated () {
-      // 废弃
-      // // todo bug第二次打开图片纵向排列 解决: v-show + 重置初始参数
-      // // 商品展示图定位
-      // if (this.touchImage['width']) return
-      // let el = document.getElementsByClassName('ph-image-wrapper')[0]
-      // if (el) {
-      //   if (this.productionDetail) {
-      //     let width = el.offsetWidth
-      //     let height = el.offsetHeight
-      //     el.style.width = (width * this.productionDetail['production']['images'].length) + 'px'
-      //     let imgs = document.getElementsByClassName('ph-img')
-      //     let imgWidth = height
-      //     let remain = width - imgWidth
-      //     let margin = remain / 2
-      //     for (let i = 0; i < imgs.length; i++) {
-      //       imgs[i].style.width = imgWidth + 'px'
-      //       imgs[i].style.marginLeft = margin + 'px'
-      //       imgs[i].style.marginRight = margin + 'px'
-      //     }
-      //     this.touchImage['width'] = width
-      //   }
-      // }
-    },
     data () {
       return {
         currentStar: 1, // 查看评论类型(有图/好评/中评/差评)
@@ -269,7 +245,8 @@
       /**
        * 添加商品到购物车
        */
-      addToCart (types) {
+      addToCart (product) {
+        // todo
         let cartItem = {}
         let production = this.productionDetail['production']
         cartItem['id'] = production['id']
@@ -285,20 +262,20 @@
         }
         this.$emit('tocart', cartItem)
       },
-      selectType (type) {
-        this.selectedType = type
+      selectType (product) {
+        this.productionDetail = product
         let text = ''
-        for (let i = 0; i < type.length; i++) {
-          let value = type[i]['item']['name']
-          text += '[' + value + ']'
+        for (let i = 0; i < this.productionDetail['detail'].length; i++) {
+          let detail = this.productionDetail['detail'][i]
+          text += '[' + detail['key'] + ':' + detail['value'][detail['selected']]['val'] + ']'
         }
-        this.selection = text
+        this.selection = (text === '' ? '请选择版本' : text)
       },
       /**
        * 选择商品参数
        */
       showSelect () {
-        this.$refs.selecttype.show(this.productionDetail['production'], this.selectedType)
+        this.$refs.selecttype.show(this.productionDetail)
       },
       /**
        * 滑动图片切换到下一张 废弃
@@ -400,20 +377,22 @@
        * 获取商品信息
        */
       getProduction () {
-        let productionId = this.productionSimple['id']
-        let url = path()['productionDetail'] + '?id=' + productionId
+        let productId = this.productionSimple['id']
+        let url = path()['productionDetail'] + '?productId=' + productId
         this.$http.get(url).then((response) => {
           let status = response.body['status']
-          let msg = response.body['msg']
-          let data = response.body['data']
           this.productionDetail = null
-          if (status === 200) {
+          if (status === 0) {
+            let data = response.body['data']
+            let detail = JSON.parse(data['detail'])
             this.productionDetail = data
+            this.productionDetail['detail'] = detail
             this.initScroll()
             console.log(this.productionDetail)
             // slider组件数据
-            for (let i = 0; i < this.productionDetail['production']['images'].length; i++) {
-              let img = this.productionDetail['production']['images'][i]
+            let imgList = this.productionDetail['subImages'].split(',')
+            for (let i = 0; i < imgList.length; i++) {
+              let img = imgList[i]
               let item = {
                 html: '<div class="ph-img-wp"><img class="ph-img" src="' + img + '"></div>',
                 style: {
@@ -424,6 +403,7 @@
               Vue.set(this.pages, i, item)
             }
           } else {
+            let msg = response.body['msg']
             console.log(msg)
           }
         })
