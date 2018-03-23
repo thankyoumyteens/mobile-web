@@ -91,6 +91,8 @@
       },
       show () {
         this.productionsShow = true
+        this.productionList = []
+        this.pageNum = 1
       },
       hide () {
         this.productionsShow = false
