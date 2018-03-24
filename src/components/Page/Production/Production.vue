@@ -4,14 +4,14 @@
       <div class="close" @click="hide"><i class="icon-cross"></i></div>
       <section class="production-detail scroll-wrapper" ref="scrollWrapperProduction">
         <div>
-          <div class="production-info" v-if="productionDetail != null">
+          <div class="production-info">
             <div class="production-nav">
               <div class="production-nav-item border-1px" @click="changeTab(0)" :class="[currentProductionNavIndex==0?'active':'']">商品</div>
               <div class="production-nav-item border-1px" @click="changeTab(1)" :class="[currentProductionNavIndex==1?'active':'']">详情</div>
               <div class="production-nav-item border-1px" @click="changeTab(2)" :class="[currentProductionNavIndex==2?'active':'']">评价</div>
             </div>
             <!--商品-->
-            <section class="production-home" v-show="currentProductionNavIndex==0">
+            <section class="production-home" v-if="productionDetail != null" v-show="currentProductionNavIndex==0">
               <div class="ph-image-show">
                 <!--废弃-->
                 <!--<div class="ph-image-wrapper border-1px"-->
@@ -45,7 +45,7 @@
               <div class="pm-content" v-html="productionDetail['detail']['html']"></div>
             </section>
             <!--评价-->
-            <section class="production-review" v-if="false" v-show="currentProductionNavIndex==2">
+            <section class="production-review" v-if="review.length > 0" v-show="currentProductionNavIndex==2">
               <div class="pr-top">
                 <div class="pr-top-percent border-1px">
                   好评率: {{productionDetail['review']['percent']}}
@@ -158,6 +158,11 @@
         currentProductionNavIndex: 0,
         scrollProduction: null,
         productionDetail: null,
+        review: [], // todo 评价
+        pageNum: 1, // todo 评论分页
+        pageSize: 10,
+        pageCount: 1,
+        hasNextPage: false,
         productionShow: false,
         selectedType: null, // 存储选择的商品参数
         // slider组件数据
@@ -178,7 +183,7 @@
       /**
        * 根据评星筛选评论
        */
-      'reviewList' () {
+      reviewList () {
         let list = []
         switch (this.currentStar) {
           case 1: // 全部
@@ -258,7 +263,7 @@
         this.selection = (text === '' ? '请选择版本' : text)
       },
       /**
-       * 选择商品参数
+       * 显示商品参数选择对话框
        */
       showSelect () {
         this.$refs.selecttype.show(this.productionDetail)

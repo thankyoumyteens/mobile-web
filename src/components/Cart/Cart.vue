@@ -83,6 +83,7 @@
       this.productionList = []
       this.pageNum = 1
       this.getCartList()
+      // todo 删除购物车中的商品
     },
     methods: {
       /**
