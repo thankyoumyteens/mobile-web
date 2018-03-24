@@ -105,7 +105,7 @@
           case 'c': // 根据分类查找商品
             url = path()['productionList'] + '?categoryId=' + data['id'] + '&pageNum=' + this.pageNum
             break
-          case 's': // todo 搜索
+          case 's': // 根据关键字查找商品
             url = path()['productionListByKeywords'] + '?keyword=' + data + '&pageNum=' + this.pageNum
         }
         this.$http.get(url).then((response) => {

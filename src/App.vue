@@ -2,7 +2,7 @@
   <div id="app">
     <header></header>
     <section id="viewer">
-      <router-view :user="user" @success="loginSuccess" @logout="logoutSuccess" @avatar="changeAvatarSuccess" @update="updateSuccess" @search="openSearch" @category="openProductions"></router-view>
+      <router-view :user="user" @success="loginSuccess" @detail="detail" @logout="logoutSuccess" @avatar="changeAvatarSuccess" @update="updateSuccess" @search="openSearch" @category="openProductions"></router-view>
     </section>
     <section id="navBar">
       <div @click="goTo('home')" :class="[currentComponent=='home'?'nav-active':'']" class="nav-item"><i class="nav-item-icon icon-home"></i><span class="nav-item-text">首页</span></div>
@@ -82,35 +82,24 @@
         })
       },
       toCart (product) {
-        let cartItem = {
-          productId: product['id'],
-          detail: product['detail'],
-          quantity: 1,
-          checked: 1
-        }
         // 将商品添加到购物车 如果没登陆(this.user===null)就保存到本地或者转到登陆
         // todo 防止重复添加商品, 根据productId
         if (this.user === null) {
           // todo localStorage
         } else {
-          // todo 改成post
-          this.$http.get(path()['addToCart'], {
-            params: {
-              'userId': this.user['userId'],
-              'item': JSON.stringify(cartItem)
-            }
+          this.$http.post(path()['addToCart'], {
+            'productId': product['id'],
+            'quantity': 1,
+            'detail': JSON.stringify(product['detail'])
           }).then(response => {
             let res = response.body
-            if (res['status'] === 200) {
-              let data = res['data']
-              console.log(data)
+            if (res['status'] === 0) {
+              alert('添加到购物车成功')
             } else {
-              console.log(res['message'])
+              alert(res['message'])
             }
           })
         }
-        console.log(cartItem)
-        alert('添加到购物车成功')
       },
       detail (item) {
         this.productionSimple = item

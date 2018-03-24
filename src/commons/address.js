@@ -30,13 +30,14 @@ export function path () {
     'productionDetail': server + 'product/detail.do', // 获取商品详情
     'productionListByKeywords': server + 'product/search.do', // 搜索商品
     /**
-     * 其他
+     * 购物车
      */
-    'sub': local + 'cart/sub', // 购物车中商品减一
-    'add': local + 'cart/add', // 购物车中商品加一
-    'check': local + 'cart/check', // 选中购物车中的商品
-    'getCart': local + 'cart/list', // 获取购物车列表
-    'addToCart': local + 'cart/add_to_cart', // 添加商品到购物车
+    'sub': server + 'cart/sub.do', // 购物车中商品减一
+    'add': server + 'cart/add.do', // 购物车中商品加一
+    'check': server + 'cart/check.do', // 选中购物车中的商品
+    'checkAll': server + 'cart/check_all.do', // 全选购物车中的商品
+    'getCart': server + 'cart/list.do', // 获取购物车列表
+    'addToCart': server + 'cart/create.do', // 添加商品到购物车
     'homeImgList': local + 'home/images', // 获取首页轮播图片列表
     'homePlaceholder': local + 'home/placeholder' // 获取首页搜索框提示文字
   }

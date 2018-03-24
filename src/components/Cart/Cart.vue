@@ -2,21 +2,24 @@
   <div class="cart">
     <div class="cart-list" v-if="cartList!=null">
       <div class="cart-item" v-for="(item,index) in cartList">
-        <div class="cart-item-checkbox" @click="checkItem(item)">
-          <checkbox :checked="item['check']=='1'"></checkbox>
+        <div class="cart-item-checkbox" @click="checkItem(item, index)">
+          <checkbox :checked="item['checked']==1"></checkbox>
           <div class="pay-bar-checkbox-text"></div>
         </div>
-        <div class="cart-item-img"><img :src="item['img']" alt=""></div>
+        <div class="cart-item-img" @click="showDetailFromCart(item)"><img :src="item['mainImage']" alt=""></div>
         <div class="cart-item-detail">
-          <p class="cart-item-title">{{item['name']}}</p>
+          <p class="cart-item-title">{{item['productName']}}</p>
           <p class="cart-item-type">{{item['typeStr']}}</p>
-          <p class="cart-item-price">￥{{item['priceStr']}}</p>
+          <p class="cart-item-price">￥{{item['unitPrice']}}</p>
         </div>
         <div class="cart-item-count">
           <div @click="cartItemSub(index)" class="cart-item-count-item cart-item-count-op cart-item-count-sub">-</div>
-          <div class="cart-item-count-item cart-item-count-text">{{item['count']}}</div>
+          <div class="cart-item-count-item cart-item-count-text">{{item['quantity']}}</div>
           <div @click="cartItemAdd(index)" class="cart-item-count-item cart-item-count-op cart-item-count-add">+</div>
         </div>
+      </div>
+      <div class="next-page" @click="getMore" v-show="hasNextPage">
+        点击加载更多
       </div>
     </div>
     <div class="pay-bar">
@@ -49,7 +52,11 @@
       return {
         checkedList: [],
         cartList: null,
-        totalPrice: 0.0
+        totalPrice: 0.0,
+        pageNum: 1,
+        pageSize: 10,
+        pages: 1,
+        hasNextPage: false
       }
     },
     computed: {
@@ -57,7 +64,7 @@
         if (this.cartList !== null) {
           for (let i = 0; i < this.cartList.length; i++) {
             let item = this.cartList[i]
-            if (item['check'] === '0') {
+            if (item['checked'] !== 1) {
               return false
             }
           }
@@ -67,59 +74,125 @@
     },
     watch: {
       'user' () {
+        this.productionList = []
+        this.pageNum = 1
         this.getCartList()
       }
     },
     created () {
+      this.productionList = []
+      this.pageNum = 1
       this.getCartList()
     },
     methods: {
+      /**
+       * 点击商品图片进入商品详情页面
+       * @param cart
+       */
+      showDetailFromCart (cart) {
+        let productId = cart['productId']
+        let o = {
+          'id': productId
+        }
+        this.$emit('detail', o)
+      },
+      getMore () {
+        this.pageNum++
+        this.getCartList()
+      },
       cartItemSub (index) {
         let item = this.cartList[index]
-        console.log(item)
-        // todo 发送请求
-        this.getCartList()
+        this.$http.get(path()['sub'] + '?cartId=' + item['id']).then(response => {
+          let res = response.body
+          console.log(res)
+          if (res['status'] === 0) {
+            let quantity = this.cartList[index]['quantity']
+            this.cartList[index]['quantity'] = (quantity - 1)
+            this.computeTotalPrice()
+          } else {
+            console.log(res['msg'])
+          }
+        })
       },
       cartItemAdd (index) {
         let item = this.cartList[index]
-        console.log(item)
-        // todo 发送请求
-        this.getCartList()
+        this.$http.get(path()['add'] + '?cartId=' + item['id']).then(response => {
+          let res = response.body
+          console.log(res)
+          if (res['status'] === 0) {
+            let quantity = this.cartList[index]['quantity']
+            this.cartList[index]['quantity'] = (quantity + 1)
+            this.computeTotalPrice()
+          } else {
+            console.log(res['msg'])
+          }
+        })
       },
-      checkItem (item) {
-        // todo 发送请求
-        this.getCartList()
+      /**
+       * 选中或取消选中商品
+       */
+      checkItem (item, index) {
+        this.$http.get(path()['check'] + '?cartId=' + item['id']).then(response => {
+          let res = response.body
+          console.log(res)
+          if (res['status'] === 0) {
+            let checked = this.cartList[index]['checked']
+            this.cartList[index]['checked'] = (checked === 1 ? 0 : 1)
+            this.computeTotalPrice()
+          } else {
+            console.log(res['msg'])
+          }
+        })
       },
+      /**
+       * 选中全部商品
+       */
       checkAll () {
-        // todo 发送请求
-        console.log(this.$refs.checkAll.checkStatus())
-        if (this.$refs.checkAll.checkStatus()) {
-          // 全选
-        } else {
-          // 全部选
+        this.$http.get(path()['checkAll']).then(response => {
+          let res = response.body
+          console.log(res)
+          if (res['status'] === 0) {
+            for (let i = 0; i < this.cartList.length; i++) {
+              this.cartList[i]['checked'] = 1
+            }
+            this.computeTotalPrice()
+          } else {
+            console.log(res['msg'])
+          }
+        })
+      },
+      /**
+       * 计算总价
+       */
+      computeTotalPrice () {
+        let totalPrice = 0.0
+        for (let i = 0; i < this.cartList.length; i++) {
+          let item = this.cartList[i]
+          if (item['checked'] === 1) {
+            totalPrice += (parseFloat(item['unitPrice']) * item['quantity'])
+          }
         }
+        this.totalPrice = totalPrice
       },
       getCartList () {
         if (this.user !== null && this.user !== undefined) {
-          // todo 改成post
-          this.$http.get(path()['getCart']).then(response => {
+          this.$http.get(path()['getCart'] + '?pageNum=' + this.pageNum).then(response => {
             let res = response.body
-            if (res['status'] === 200) {
+            console.log(res)
+            if (res['status'] === 0) {
               let data = res['data']
-              this.cartList = data
+              this.cartList = data['list']
               for (let i = 0; i < this.cartList.length; i++) {
+                this.cartList[i]['detail'] = JSON.parse(this.cartList[i]['detail'])
                 let item = this.cartList[i]
-                let totalPrice = parseFloat(item['price'])
-                for (let j = 0; j < item['type'].length; j++) {
-                  let type = item['type'][j]
-                  totalPrice += parseFloat(type['price'])
-                  if (this.cartList[i]['typeStr'] === undefined) {
-                    this.cartList[i]['typeStr'] = ''
-                  }
-                  this.cartList[i]['typeStr'] += type['key'] + ':' + type['value'] + ' '
+                let text = ''
+                for (let j = 0; j < item['detail'].length; j++) {
+                  let detail = item['detail'][j]
+                  text += '[' + detail['value'][detail['selected']]['val'] + ']'
                 }
-                this.cartList[i]['priceStr'] = totalPrice
+                this.cartList[i]['typeStr'] = text
               }
+              this.computeTotalPrice()
             } else {
               console.log(res['msg'])
             }
@@ -138,6 +211,11 @@
     .cart-list
       width 100%
       margin-bottom 3.5em
+      .next-page
+        height 5em
+        line-height 5em
+        width 100%
+        text-align center
       .cart-item
         width 100%
         margin 0.5em 0
@@ -171,6 +249,7 @@
             text-overflow ellipsis
             white-space nowrap
             color #ccc
+            font-size 0.8em
             line-height 3em
           .cart-item-price
             color crimson
