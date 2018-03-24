@@ -280,7 +280,6 @@
        * @param e
        */
       touchMoveImage (e) {
-        // todo 改善滑动效果
         e = e || event
         if (e.touches.length === 1) {
           let moveX = e.touches[0].clientX

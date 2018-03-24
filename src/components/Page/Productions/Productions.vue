@@ -105,8 +105,8 @@
           case 'c': // 根据分类查找商品
             url = path()['productionList'] + '?categoryId=' + data['id'] + '&pageNum=' + this.pageNum
             break
-          case 's': // todo
-            url = path()['productionListByKeywords'] + '?key=' + data
+          case 's': // todo 搜索
+            url = path()['productionListByKeywords'] + '?keyword=' + data + '&pageNum=' + this.pageNum
         }
         this.$http.get(url).then((response) => {
           let status = response.body['status']

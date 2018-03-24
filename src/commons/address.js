@@ -28,6 +28,7 @@ export function path () {
      */
     'productionList': server + 'product/list.do', // 获取商品列表
     'productionDetail': server + 'product/detail.do', // 获取商品详情
+    'productionListByKeywords': server + 'product/search.do', // 搜索商品
     /**
      * 其他
      */
@@ -36,7 +37,6 @@ export function path () {
     'check': local + 'cart/check', // 选中购物车中的商品
     'getCart': local + 'cart/list', // 获取购物车列表
     'addToCart': local + 'cart/add_to_cart', // 添加商品到购物车
-    'productionListByKeywords': local + 'productions/keywords', // 搜索商品
     'homeImgList': local + 'home/images', // 获取首页轮播图片列表
     'homePlaceholder': local + 'home/placeholder' // 获取首页搜索框提示文字
   }

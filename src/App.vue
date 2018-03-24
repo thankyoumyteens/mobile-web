@@ -5,11 +5,11 @@
       <router-view :user="user" @success="loginSuccess" @logout="logoutSuccess" @avatar="changeAvatarSuccess" @update="updateSuccess" @search="openSearch" @category="openProductions"></router-view>
     </section>
     <section id="navBar">
-      <div @click="goto('home')" :class="[currentComponent=='home'?'nav-active':'']" class="nav-item"><i class="nav-item-icon icon-home"></i><span class="nav-item-text">首页</span></div>
-      <div @click="goto('category')" :class="[currentComponent=='category'?'nav-active':'']" class="nav-item"><i class="nav-item-icon icon-list"></i><span class="nav-item-text">品牌</span></div>
-      <div @click="goto('recommend')" :class="[currentComponent=='recommend'?'nav-active':'']" class="nav-item"><i class="nav-item-icon icon-eye"></i><span class="nav-item-text">发现</span></div>
-      <div @click="goto('cart')" :class="[currentComponent=='cart'?'nav-active':'']" class="nav-item"><i class="nav-item-icon icon-cart"></i><span class="nav-item-text">购物车</span></div>
-      <div @click="goto('user')" :class="[currentComponent=='user'?'nav-active':'']" class="nav-item"><i class="nav-item-icon icon-user"></i><span class="nav-item-text">我的</span></div>
+      <div @click="goTo('home')" :class="[currentComponent=='home'?'nav-active':'']" class="nav-item"><i class="nav-item-icon icon-home"></i><span class="nav-item-text">首页</span></div>
+      <div @click="goTo('category')" :class="[currentComponent=='category'?'nav-active':'']" class="nav-item"><i class="nav-item-icon icon-list"></i><span class="nav-item-text">品牌</span></div>
+      <div @click="goTo('recommend')" :class="[currentComponent=='recommend'?'nav-active':'']" class="nav-item"><i class="nav-item-icon icon-eye"></i><span class="nav-item-text">发现</span></div>
+      <div @click="goTo('cart')" :class="[currentComponent=='cart'?'nav-active':'']" class="nav-item"><i class="nav-item-icon icon-cart"></i><span class="nav-item-text">购物车</span></div>
+      <div @click="goTo('user')" :class="[currentComponent=='user'?'nav-active':'']" class="nav-item"><i class="nav-item-icon icon-user"></i><span class="nav-item-text">我的</span></div>
     </section>
     <search @find="find" ref="search"></search>
     <productions @search="openSearch" @detail="detail" ref="productions" :productionInfo="productionInfo"></productions>
@@ -142,7 +142,7 @@
         this.$refs.productions.show()
       },
       // 切换component
-      goto (address) {
+      goTo (address) {
         this.currentComponent = address
         if (address === 'home') {
           router.push('/')
