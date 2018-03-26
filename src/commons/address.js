@@ -42,6 +42,7 @@ export function path () {
      * 收货地址
      */
     'shippingList': server + 'shipping/list.do', // 获取用户的收货地址
+    'deleteShipping': server + 'shipping/delete.do', // 删除收货地址
     'homeImgList': local + 'home/images', // 获取首页轮播图片列表
     'homePlaceholder': local + 'home/placeholder' // 获取首页搜索框提示文字
   }

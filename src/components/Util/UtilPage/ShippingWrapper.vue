@@ -26,7 +26,7 @@
             <div class="sli-line flex-line">
               <!--<div class="sli-item flex-item">默认地址</div>-->
               <div class="sli-item flex-item">编辑</div>
-              <div class="sli-item flex-item">删除</div>
+              <div @click="deleteShipping(item['id'])" class="sli-item flex-item">删除</div>
             </div>
             <split></split>
           </div>
@@ -66,6 +66,18 @@
       }
     },
     methods: {
+      deleteShipping (shippingId) {
+        this.$http.get(path()['deleteShipping'] + '?shippingId=' + shippingId).then(response => {
+          let res = response.body
+          console.log(res)
+          if (res['status'] === 0) {
+            console.log(res['msg'])
+            this.getShippingList()
+          } else {
+            console.log(res['msg'])
+          }
+        })
+      },
       initScroll () {
         this.$nextTick(() => {
           if (!this.scrollShippingList) {
