@@ -38,6 +38,10 @@ export function path () {
     'checkAll': server + 'cart/check_all.do', // 全选购物车中的商品
     'getCart': server + 'cart/list.do', // 获取购物车列表
     'addToCart': server + 'cart/create.do', // 添加商品到购物车
+    /**
+     * 收货地址
+     */
+    'shippingList': server + 'shipping/list.do', // 获取用户的收货地址
     'homeImgList': local + 'home/images', // 获取首页轮播图片列表
     'homePlaceholder': local + 'home/placeholder' // 获取首页搜索框提示文字
   }

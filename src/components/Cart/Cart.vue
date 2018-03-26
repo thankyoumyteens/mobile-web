@@ -34,6 +34,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import Vue from 'vue'
   import checkbox from '@/components/Util/Checkbox/Checkbox'
   import {
     path
@@ -51,7 +52,7 @@
     data () {
       return {
         checkedList: [],
-        cartList: null,
+        cartList: [],
         totalPrice: 0.0,
         pageNum: 1,
         pageSize: 10,
@@ -80,7 +81,7 @@
       }
     },
     created () {
-      this.productionList = []
+      this.cartList = []
       this.pageNum = 1
       this.getCartList()
       // todo 删除购物车中的商品
@@ -182,7 +183,12 @@
             console.log(res)
             if (res['status'] === 0) {
               let data = res['data']
-              this.cartList = data['list']
+              for (let i = 0; i < data['list'].length; i++) {
+                let item = data['list'][i]
+                // 下一页数据追加到数组末尾
+                let index = this.cartList.length
+                Vue.set(this.cartList, index, item)
+              }
               for (let i = 0; i < this.cartList.length; i++) {
                 this.cartList[i]['detail'] = JSON.parse(this.cartList[i]['detail'])
                 let item = this.cartList[i]
