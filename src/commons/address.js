@@ -43,6 +43,9 @@ export function path () {
      */
     'shippingList': server + 'shipping/list.do', // 获取用户的收货地址
     'deleteShipping': server + 'shipping/delete.do', // 删除收货地址
+    'addShipping': server + 'shipping/add.do', // 删除收货地址
+    'updateShipping': server + 'shipping/update.do', // 删除收货地址
+    'region': server + 'shipping/region.do', // a
     'homeImgList': local + 'home/images', // 获取首页轮播图片列表
     'homePlaceholder': local + 'home/placeholder' // 获取首页搜索框提示文字
   }

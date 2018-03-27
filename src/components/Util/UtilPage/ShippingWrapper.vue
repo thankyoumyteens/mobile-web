@@ -4,7 +4,7 @@
       <header>
         <div class="close" @click="hide"><</div>
         <span class="title">收货地址</span>
-        <a class="login-link" @click="">新增</a>
+        <a class="login-link" @click="showEditor(null)">新增</a>
       </header>
       <split></split>
       <div class="shipping-list-wrapper" ref="shippingListWrapper">
@@ -25,19 +25,21 @@
             </div>
             <div class="sli-line flex-line">
               <!--<div class="sli-item flex-item">默认地址</div>-->
-              <div class="sli-item flex-item">编辑</div>
+              <div class="sli-item flex-item" @click="showEditor(item)">编辑</div>
               <div @click="deleteShipping(item['id'])" class="sli-item flex-item">删除</div>
             </div>
             <split></split>
           </div>
         </div>
       </div>
+      <edit ref="shippingEditor" @success="getShippingList"></edit>
     </div>
   </transition>
 </template>
 
 <script type="text/ecmascript-6">
   import split from '@/components/Util/Split/Split'
+  import edit from '@/components/Util/UtilPage/EditShippingWrapper'
   import BetterScroll from 'better-scroll'
   import {
     path
@@ -45,7 +47,8 @@
 
   export default {
     components: {
-      split
+      split,
+      edit
     },
     props: {
       user: {
@@ -66,6 +69,9 @@
       }
     },
     methods: {
+      showEditor (shipping) {
+        this.$refs.shippingEditor.show(shipping)
+      },
       deleteShipping (shippingId) {
         this.$http.get(path()['deleteShipping'] + '?shippingId=' + shippingId).then(response => {
           let res = response.body
