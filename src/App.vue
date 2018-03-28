@@ -96,7 +96,7 @@
             if (res['status'] === 0) {
               alert('添加到购物车成功')
             } else {
-              alert(res['message'])
+              alert(res['msg'])
             }
           })
         }

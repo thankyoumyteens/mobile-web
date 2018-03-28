@@ -46,6 +46,10 @@ export function path () {
     'addShipping': server + 'shipping/add.do', // 删除收货地址
     'updateShipping': server + 'shipping/update.do', // 删除收货地址
     'region': server + 'shipping/region.do', // a
+    /**
+     * 订单
+     */
+    'createOrder': server + 'order/create.do', // a
     'homeImgList': local + 'home/images', // 获取首页轮播图片列表
     'homePlaceholder': local + 'home/placeholder' // 获取首页搜索框提示文字
   }

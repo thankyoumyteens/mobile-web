@@ -28,13 +28,15 @@
         <div class="pay-bar-checkbox-text">全选</div>
       </div>
       <div class="pay-total">合计:￥{{totalPrice}}</div>
-      <div class="pay-button">结算</div>
+      <div class="pay-button" @click="createOrderBefore">结算</div>
     </div>
+    <co ref="coComp" @success="createOrderSuccess"></co>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import Vue from 'vue'
+  import co from '@/components/Page/Order/CreateOrder'
   import checkbox from '@/components/Util/Checkbox/Checkbox'
   import {
     path
@@ -42,7 +44,8 @@
 
   export default {
     components: {
-      checkbox
+      checkbox,
+      co
     },
     props: {
       user: {
@@ -87,6 +90,19 @@
       // todo 删除购物车中的商品
     },
     methods: {
+      createOrderSuccess (order) {
+        this.getCartListReset()
+        console.log(order)
+        // todo (可选)打开订单详情页
+      },
+      createOrderBefore () {
+        if (!this.checkCart()) {
+          alert('请选择商品')
+          return false
+        }
+        // todo 下一页中的选中商品不包含
+        this.$refs.coComp.show(this.cartList)
+      },
       /**
        * 点击商品图片进入商品详情页面
        * @param cart
@@ -101,6 +117,18 @@
       getMore () {
         this.pageNum++
         this.getCartList()
+      },
+      /**
+       * 检查购物车中是否有选中的商品
+       */
+      checkCart () {
+        for (let i = 0; i < this.cartList.length; i++) {
+          let item = this.cartList[i]
+          if (item['checked'] === 1) {
+            return true
+          }
+        }
+        return false
       },
       cartItemSub (index) {
         let item = this.cartList[index]
@@ -175,6 +203,31 @@
           }
         }
         this.totalPrice = totalPrice
+      },
+      getCartListReset () {
+        if (this.user !== null && this.user !== undefined) {
+          this.$http.get(path()['getCart'] + '?pageNum=' + this.pageNum).then(response => {
+            let res = response.body
+            console.log(res)
+            if (res['status'] === 0) {
+              let data = res['data']
+              this.cartList = data['list']
+              for (let i = 0; i < this.cartList.length; i++) {
+                this.cartList[i]['detail'] = JSON.parse(this.cartList[i]['detail'])
+                let item = this.cartList[i]
+                let text = ''
+                for (let j = 0; j < item['detail'].length; j++) {
+                  let detail = item['detail'][j]
+                  text += '[' + detail['value'][detail['selected']]['val'] + ']'
+                }
+                this.cartList[i]['typeStr'] = text
+              }
+              this.computeTotalPrice()
+            } else {
+              console.log(res['msg'])
+            }
+          })
+        }
       },
       getCartList () {
         if (this.user !== null && this.user !== undefined) {
