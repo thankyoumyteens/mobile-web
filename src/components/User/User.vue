@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="order-info">
-      <div class="order-info-item"><img src="./bg.jpg" class="order-info-item-img"><span
+      <div @click="openOrderAll" class="order-info-item"><img src="./bg.jpg" class="order-info-item-img"><span
         class="order-info-title">全部订单</span></div>
       <div class="order-info-item"><img src="./bg.jpg" class="order-info-item-img"><span
         class="order-info-title">待付款</span></div>
@@ -25,6 +25,7 @@
     <split></split>
     <login ref="login" @success="loginSuccess"></login>
     <info ref="userInfo" :user="user" @logout="logoutSuccess" @avatar="changeAvatarSuccess" @update="updateSuccess"></info>
+    <olist ref="orlist"></olist>
   </div>
 </template>
 
@@ -32,12 +33,14 @@
   import split from '@/components/Util/Split/Split'
   import login from '@/components/Page/Login/Login'
   import info from '@/components/Page/UserInfo/UserInfo'
+  import olist from '@/components/Page/Order/OrderList'
 
   export default {
     components: {
       split,
       login,
-      info
+      info,
+      olist
     },
     props: {
       user: {
@@ -60,6 +63,11 @@
       }
     },
     methods: {
+      openOrderAll () {
+        if (this.user !== null && this.user !== undefined) {
+          this.$refs.orlist.show('all')
+        }
+      },
       changeAvatarSuccess (uri) {
         this.$emit('avatar', uri)
       },

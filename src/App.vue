@@ -86,6 +86,7 @@
         // todo 防止重复添加商品, 根据productId
         if (this.user === null) {
           // todo localStorage
+          alert('请登陆')
         } else {
           this.$http.post(path()['addToCart'], {
             'productId': product['id'],

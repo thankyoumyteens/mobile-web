@@ -49,7 +49,8 @@ export function path () {
     /**
      * 订单
      */
-    'createOrder': server + 'order/create.do', // a
+    'createOrder': server + 'order/create.do', // 创建订单
+    'orderList': server + 'order/list.do', // 订单列表
     'homeImgList': local + 'home/images', // 获取首页轮播图片列表
     'homePlaceholder': local + 'home/placeholder' // 获取首页搜索框提示文字
   }

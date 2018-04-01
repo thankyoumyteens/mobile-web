@@ -59,7 +59,7 @@
     methods: {
       addToCart () {
         this.$emit('cart', this.production)
-        this.selectShow = false
+        // this.selectShow = false
       },
       /**
        * 选择商品参数
