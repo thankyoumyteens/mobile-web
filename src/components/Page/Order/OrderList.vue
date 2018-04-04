@@ -34,6 +34,7 @@
           </div>
         </div>
       </div>
+      <od ref="comp_od"></od>
     </div>
   </transition>
 </template>
@@ -42,6 +43,7 @@
   import Vue from 'vue'
   import split from '@/components/Util/Split/Split'
   import splits from '@/components/Util/Split/SplitSmall'
+  import od from '@/components/Page/Order/OrderDetail'
   import BetterScroll from 'better-scroll'
   import {
     path
@@ -50,7 +52,8 @@
   export default {
     components: {
       split,
-      splits
+      splits,
+      od
     },
     data () {
       return {
@@ -84,7 +87,7 @@
       },
       showOrderDetail (orderId) {
         console.log(orderId)
-        // todo 订单详情
+        this.$refs.comp_od.show(orderId)
       },
       initScroll () {
         this.$nextTick(() => {
