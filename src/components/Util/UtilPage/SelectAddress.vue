@@ -52,7 +52,7 @@
         regionListD: [],
         regionType: 'province'
       }
-    },
+    }, // todo 重做
     methods: {
       doReset () {
         let province = this.regionListP[this.$refs.shippingRegionP.value]

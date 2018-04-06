@@ -7,3 +7,16 @@ export function contains (list, item) {
   }
   return -1
 }
+
+export function formatTimestamp (string) {
+  let date = new Date(string)
+  let r = ''
+  r += date.getFullYear() + '-'
+  r += (date.getMonth() + 1) + '-'
+  r += date.getDate() + '- '
+  r += date.getHours() + ':'
+  r += date.getMinutes() + ':'
+  r += date.getSeconds()
+
+  return r
+}

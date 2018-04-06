@@ -9,10 +9,11 @@
       <div class="sc-wrapper" ref="olistWrapper">
         <div>
           <div class="order-list-wrapper">
-            <div class="order-list-item" @click="showOrderDetail(item['orderId'])" v-for="(item,index) in orderList">
+            <div class="order-list-item" v-for="(item,index) in orderList">
               <div class="order-list-item-order-no">订单号: {{item['orderNo']}}</div>
+              <div class="order-list-item-order-status">{{item['statusMsg']}}</div>
               <splits></splits>
-              <div class="order-item-list-wrapper">
+              <div class="order-item-list-wrapper" @click="showOrderDetail(item['orderId'])">
                 <div class="oil-item" v-for="orderItem in item['orderItemList']">
                   <div class="order-item-list-item-img"><img :src="orderItem['mainImage']" alt=""></div>
                   <div class="order-item-item-list-item-name">{{orderItem['productName']}}</div>
@@ -23,7 +24,9 @@
               </div>
               <splits></splits>
               <div class="order-list-item-detail">
-                <p class="order-list-item-title">{{item['status']}}</p>
+                <p class="order-list-item-title" v-if="item['status']===10">去支付</p>
+                <p class="order-list-item-title" v-if="item['status']===20">提醒发货</p>
+                <p class="order-list-item-title" v-if="item['status']===40">确认收货</p>
                 <p class="order-list-item-price">￥{{item['totalPrice']}}</p>
               </div>
               <split></split>
@@ -205,10 +208,15 @@
         margin 0
         position relative
         .order-list-item-order-no
-          font-size 1.1em
-          margin-left 1em
-          margin-top 0.3em
-          margin-bottom 0.3em
+          font-size 1em
+          margin-left 0.5em
+          height 2em
+          line-height 2em
+        .order-list-item-order-status
+          position absolute
+          right 0.5em
+          top 0.3em
+          color crimson
         .order-item-list-wrapper
           width 100%
           .oil-item
@@ -259,8 +267,13 @@
           margin-top 0.5em
           margin-bottom 0.5em
           .order-list-item-title
-            flex 1
+            float left
+            box-sizing border-box
+            padding 0 0.3em
+            border-radius 0.5em
             margin-left 1em
+            box-shadow 0.05em 0.05em #ccc
+            border 0.1em solid #ccc
           .order-list-item-type
             flex 1
           .order-list-item-price

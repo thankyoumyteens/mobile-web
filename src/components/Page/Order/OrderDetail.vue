@@ -9,6 +9,23 @@
       <div class="sc-wrapper" ref="scWrapper">
         <div>
           <div class="order-detail-wrapper" v-if="orderDetail">
+            <div class="shipping-list-item">
+              <div class="sli-line sli-top">
+                <div class="sli-item">{{orderDetail['shipping']['receiverName']}}</div>
+                <div class="sli-item">{{orderDetail['shipping']['receiverMobile']}}</div>
+              </div>
+              <div class="sli-line">
+                <div class="sli-item">
+                  {{orderDetail['shipping']['receiverProvince']}}
+                  {{orderDetail['shipping']['receiverCity']}}
+                  {{orderDetail['shipping']['receiverDistrict']}}
+                  {{orderDetail['shipping']['receiverAddress']}}
+                  {{orderDetail['shipping']['receiverZip']}}
+                </div>
+              </div>
+            </div>
+            <split></split>
+            <div class="order-list-item-order-status">{{orderDetail['statusMsg']}}</div>
             <div class="order-list-item-order-no">订单号: {{orderDetail['orderNo']}}</div>
             <splits></splits>
             <div class="order-item-list-wrapper">
@@ -22,10 +39,32 @@
             </div>
             <splits></splits>
             <div class="order-list-item-detail">
-              <p class="order-list-item-title">{{orderDetail['statusMsg']}}</p>
+              <p class="order-list-item-title" v-if="orderDetail['status']===10">去支付</p>
+              <p class="order-list-item-title" v-if="orderDetail['status']===20">提醒发货</p>
+              <p class="order-list-item-title" v-if="orderDetail['status']===40">确认收货</p>
               <p class="order-list-item-price">￥{{orderDetail['payment']}}</p>
             </div>
             <split></split>
+            <div class="order-list-item-time" v-if="orderDetail['createTime']">
+              <p class="order-list-item-time-title">创建时间:</p>
+              <p class="order-list-item-time-text">{{formatDate(orderDetail['createTime'])}}</p>
+            </div>
+            <div class="order-list-item-time" v-if="orderDetail['paymentTime']">
+              <p class="order-list-item-time-title">支付时间:</p>
+              <p class="order-list-item-time-text">{{formatDate(orderDetail['paymentTime'])}}</p>
+            </div>
+            <div class="order-list-item-time" v-if="orderDetail['sendTime']">
+              <p class="order-list-item-time-title">发货时间:</p>
+              <p class="order-list-item-time-text">{{formatDate(orderDetail['sendTime'])}}</p>
+            </div>
+            <div class="order-list-item-time" v-if="orderDetail['endTime']">
+              <p class="order-list-item-time-title">完成时间:</p>
+              <p class="order-list-item-time-text">{{formatDate(orderDetail['endTime'])}}</p>
+            </div>
+            <div class="order-list-item-time" v-if="orderDetail['closeTime']">
+              <p class="order-list-item-time-title">关闭时间:</p>
+              <p class="order-list-item-time-text">{{formatDate(orderDetail['closeTime'])}}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -41,6 +80,9 @@
   import {
     path
   } from '@/commons/address.js'
+  import {
+    formatTimestamp
+  } from '@/commons/util.js'
 
   export default {
     components: {
@@ -75,6 +117,9 @@
             this.scWrapperScroll.refresh()
           }
         })
+      },
+      formatDate (string) {
+        return formatTimestamp(string)
       },
       getOrderDetail () {
         this.$http.post(path()['orderDetail'], {
@@ -163,11 +208,39 @@
         width 100%
         margin 0
         position relative
+        .shipping-list-item
+          .sli-line
+            /* 加margin会影响滚动条 */
+            width 95%
+            margin-left 2.5%
+            margin-right 2.5%
+            height 3em
+            line-height 3em
+            &.sli-top
+              font-weight bold
+            &.flex-line
+              display flex
+              margin 0
+              height 2em
+              line-height 2em
+            .sli-item
+              display inline
+              &.flex-item
+                border-top 0.1em solid #ccc
+                flex 1
+                height 2em
+                line-height 2em
+                text-align center
         .order-list-item-order-no
-          font-size 1.1em
+          font-size 1em
           margin-left 1em
+          height 2em
+          line-height 2em
+        .order-list-item-order-status
+          float right
           margin-top 0.3em
-          margin-bottom 0.3em
+          margin-right 0.3em
+          color crimson
         .order-item-list-wrapper
           width 100%
           .oil-item
@@ -218,8 +291,13 @@
           margin-top 0.5em
           margin-bottom 0.5em
           .order-list-item-title
-            flex 1
+            float left
+            box-sizing border-box
+            padding 0 0.3em
+            border-radius 0.5em
             margin-left 1em
+            box-shadow 0.05em 0.05em #ccc
+            border 0.1em solid #ccc
           .order-list-item-type
             flex 1
           .order-list-item-price
@@ -227,109 +305,16 @@
             margin-right 1em
             text-align right
             color crimson
-    .shipping-list-item
-      .sli-line
-        width 100%
-        margin-top 1em
-        height 2em
-        line-height 2em
-        margin-bottom 1em
-        &.sli-top
-          font-weight bold
-        &.flex-line
-          display flex
-          margin 0
-          height 2em
-          line-height 2em
-        .sli-item
-          display inline
-          &.flex-item
-            border-top 0.1em solid #ccc
-            flex 1
-            height 2em
-            line-height 2em
-            text-align center
-    .cart-list
-      width 100%
-      margin-bottom 0
-      .cart-item
-        width 100%
-        margin 0
-        height 7em
-        position relative
-        .cart-item-img
-          float left
-          max-width 40%
-          height 7em
-          img
-            max-width 100%
-            height 100%
-        .cart-item-detail
-          float left
-          width 45%
-          margin-left 5%
-          height 7em
-          .cart-item-title
-            width 100%
-            overflow hidden
-            text-overflow ellipsis
-            white-space nowrap
-          .cart-item-type
-            width 100%
-            overflow hidden
-            text-overflow ellipsis
-            white-space nowrap
-            color #ccc
-            font-size 0.8em
-            line-height 3em
-          .cart-item-price
-            color crimson
-        .cart-item-count
-          position absolute
-          right 1em
-          bottom 1em
-          display flex
-          .cart-item-count-item
-            flex 1
-            width 1em
-            line-height 1em
-            text-align center
-            &.cart-item-count-op
-              border 0.1em solid #ccc
-            &.cart-item-count-text
-              margin 0 0.5em
-    .si-content
-      .si-label
-        display block
-        width 95%
-        height 3em
-        line-height 3em
-        margin 1em auto
-        padding-left 0.9em
-        box-sizing border-box
-        .sil-title
-          float left
-          width 20%
-          line-height 3em
-        .sil-text
-          float left
-          margin-left 1em
-          line-height 3em
-        .si-input
-          margin-left 1em
-          width 50%
-          height 3em
-          line-height 3em
-          border 0.1em solid #ccc
-          border-radius 5px
-          padding-left 1em
-          box-sizing border-box
-      .login-button
-        color #fff
-        background rgba(240, 20, 20, 0.9)
-        &:active
-          background rgba(240, 20, 20, 0.8)
-        &.disable
-          color #ccc
-          background rgba(240, 20, 20, 0.7)
+        .order-list-item-time
+          width 100%
+          margin-top 0.5em
+          margin-bottom 0.5em
+          .order-list-item-time-title
+            display inline-block
+            margin-left 0.5em
+          .order-list-item-time-text
+            display inline-block
+            margin-left 1em
+            color #777
+            margin-right 0.5em
 </style>
