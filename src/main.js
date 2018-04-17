@@ -4,10 +4,13 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import VueResource from 'vue-resource'
+import WeVue from 'we-vue'
+import 'we-vue/lib/style.css'
 // 加载样式
 import '@/commons/index.styl'
-// 使用vue-resource
+
 Vue.use(VueResource)
+Vue.use(WeVue)
 
 Vue.config.productionTip = false
 

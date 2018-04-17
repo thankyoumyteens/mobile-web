@@ -14,7 +14,7 @@
             <div class="production-img"><img :src="production['mainImage']" alt=""></div>
             <div class="production-detail">
               <p class="production-title">{{production['name']}}</p>
-              <p class="production-price">{{production['price']}}</p>
+              <p class="production-price">￥{{production['price']}}</p>
               <p class="production-review">{{production['subtitle']}}</p>
             </div>
           </div>
@@ -214,7 +214,7 @@
         width 100%
         height 12em
         border-1px(#ccc)
-        margin 0.5em
+        margin 0.5em 0
         box-sizing border-box
         .production-img
           float left

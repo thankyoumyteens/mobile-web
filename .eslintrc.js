@@ -23,6 +23,13 @@ module.exports = {
     'generator-star-spacing': 0,
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
-    'no-unused-vars': 0
+    // 变量定义但未使用
+    'no-unused-vars': 0,
+    // 不检测文件末尾是否有空行
+    'eol-last': 0,
+    // 函数做空个是否有空格
+    'space-before-function-paren': 0,
+    // 关闭缩进限制
+    'indent': 'off'
   }
 }
