@@ -13,13 +13,13 @@
       </div>
     </div>
     <div class="order-info">
-      <div @click="openOrderAll" class="order-info-item"><img src="./bg.jpg" class="order-info-item-img"><span
+      <div @click="openOrderAll" class="order-info-item"><i class="icon-menu"></i><span
         class="order-info-title">全部订单</span></div>
-      <div class="order-info-item"><img src="./bg.jpg" class="order-info-item-img"><span
+      <div class="order-info-item"><i class="icon-menu2"></i><span
         class="order-info-title">待付款</span></div>
-      <div class="order-info-item"><img src="./bg.jpg" class="order-info-item-img"><span
+      <div class="order-info-item"><i class="icon-list2"></i><span
         class="order-info-title">待收货</span></div>
-      <div class="order-info-item"><img src="./bg.jpg" class="order-info-item-img"><span
+      <div class="order-info-item"><i class="icon-list"></i><span
         class="order-info-title">待评价</span></div>
     </div>
     <split></split>
@@ -150,6 +150,8 @@
       .order-info-item
         flex 1
         text-align center
+        i
+          font-size 1.5em
         .order-info-item-img
           width 50%
           display inline-block
