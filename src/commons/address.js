@@ -29,6 +29,9 @@ export function path() {
     'productionList': server + 'goods/list.do', // 获取商品列表
     'productionDetail': server + 'goods/detail.do', // 获取商品详情
     'productionListByKeywords': server + 'goods/search.do', // 搜索商品
+    'commentList': server + 'comment/list.do', // 评论列表
+    'commentListLevel': server + 'comment/list_level.do', // 筛选评论
+    'commentListImg': server + 'comment/list_img.do', // 筛选有图评论
     /**
      * 购物车
      */

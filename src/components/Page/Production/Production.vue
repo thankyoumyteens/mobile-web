@@ -51,56 +51,57 @@
               <div class="pm-content" v-html="productionDetail['detail']['html']"></div>
             </section>
             <!--评价-->
-            <section class="production-review" v-if="review.length > 0" v-show="currentProductionNavIndex==2">
+            <section class="production-review" v-if="commentList.length > 0" v-show="currentProductionNavIndex==2">
               <div class="pr-top">
-                <div class="pr-top-percent border-1px">
-                  好评率: {{productionDetail['review']['percent']}}
-                </div>
+                <!--<div class="pr-top-percent border-1px">-->
+                <!--好评率:-->
+                <!--</div>-->
                 <div class="pr-top-star">
                   <div class="pr-top-star-item" @click="changeStar(1)" :class="[currentStar==1?'active-item':'']">
-                    全部 {{productionDetail['review']['count']}}
+                    全部
                   </div>
                   <div class="pr-top-star-item" @click="changeStar(2)" :class="[currentStar==2?'active-item':'']">
-                    好评 {{productionDetail['review']['star5']}}
+                    好评
                   </div>
                   <div class="pr-top-star-item" @click="changeStar(3)" :class="[currentStar==3?'active-item':'']">
-                    中评 {{productionDetail['review']['star3']}}
+                    中评
                   </div>
                   <div class="pr-top-star-item" @click="changeStar(4)" :class="[currentStar==4?'active-item':'']">
-                    差评 {{productionDetail['review']['star1']}}
+                    差评
                   </div>
                   <div class="pr-top-star-item" @click="changeStar(5)" :class="[currentStar==5?'active-item':'']">
-                    有图 {{productionDetail['review']['img']}}
+                    有图
                   </div>
                 </div>
               </div>
               <split></split>
               <div class="pr-list">
                 <div>
-                  <div class="pr-item" v-for="item in reviewList">
+                  <div class="pr-item" v-for="item in commentList">
                     <div class="pr-item-top">
                       <div class="pr-item-top-author">
-                        {{item['author']['name']}}
+                        {{item['author']['nickname']}}
                       </div>
                       <div class="pr-item-top-date">
-                        {{item['date']}}
+                        {{item['createTime']}}
                       </div>
                       <star class="star-comp" :size="36" :score="item['star']"></star>
                     </div>
                     <div class="pr-item-text clear-float">
-                      {{item['content']['text']}}
+                      {{item['text']}}
                     </div>
-                    <div class="pr-item-img" v-if="item['content']['hasImage']=='1'">
-                      <div class="pr-item-img-item" v-for="link in item['content']['imgList']">
+                    <div class="pr-item-img" v-if="item['images'].length">
+                      <div class="pr-item-img-item" v-for="link in item['images']">
                         <img :src="link" alt="">
                       </div>
                     </div>
                     <div class="pr-item-type">
-                      {{item['productionType']}}
+                      版本: {{item['properties']}}
                     </div>
                     <div class="pr-item-order">
-                      购买日期: {{item['orderDate']}}
+                      购买日期: {{item['orderCreateTime']}}
                     </div>
+                    <splits></splits>
                   </div>
                 </div>
               </div>
@@ -123,6 +124,7 @@
   import Vue from 'vue'
   import star from '@/components/Util/Star/Star'
   import split from '@/components/Util/Split/Split'
+  import splits from '@/components/Util/Split/SplitSmall'
   import selecttype from '@/components/Util/SelectType/SelectType'
   import BetterScroll from 'better-scroll'
   import slider from 'vue-concise-slider'
@@ -134,6 +136,7 @@
     components: {
       slider,
       split,
+      splits,
       star,
       selecttype
     },
@@ -164,7 +167,7 @@
         currentProductionNavIndex: 0,
         scrollProduction: null,
         productionDetail: null,
-        review: [], // todo 评价
+        commentList: [],
         pageNum: 1, // todo 评论分页
         pageSize: 10,
         pageCount: 1,
@@ -187,54 +190,6 @@
         }
       }
     },
-    computed: {
-      /**
-       * 根据评星筛选评论
-       */
-      reviewList() {
-        let list = []
-        switch (this.currentStar) {
-          case 1: // 全部
-            list = this.productionDetail['review']['list']
-            break
-          case 2: // 好评
-            for (let i = 0; i < this.productionDetail['review']['list'].length; i++) {
-              let item = this.productionDetail['review']['list'][i]
-              if (item['star'] >= 4) {
-                list.push(item)
-              }
-            }
-            break
-          case 3: // 中评
-            for (let i = 0; i < this.productionDetail['review']['list'].length; i++) {
-              let item = this.productionDetail['review']['list'][i]
-              if (item['star'] === 3) {
-                list.push(item)
-              }
-            }
-            break
-          case 4: // 差评
-            for (let i = 0; i < this.productionDetail['review']['list'].length; i++) {
-              let item = this.productionDetail['review']['list'][i]
-              if (item['star'] <= 2) {
-                list.push(item)
-              }
-            }
-            break
-          case 5: // 有图
-            for (let i = 0; i < this.productionDetail['review']['list'].length; i++) {
-              let item = this.productionDetail['review']['list'][i]
-              if (item['content']['hasImage'] === '1') {
-                list.push(item)
-              }
-            }
-            break
-          default:
-            break
-        }
-        return list
-      }
-    },
     methods: {
       /**
        * slider组件事件
@@ -253,6 +208,40 @@
        */
       changeStar(id) {
         this.currentStar = id
+        let url = path()['commentListLevel']
+        switch (id) {
+          case 2:
+            // 好评
+            url += '?goodsId=' +
+              this.productionDetail['goodsId'] +
+              '&level=1' +
+              '&pageNum=' + this.pageNum
+            break
+          case 3:
+            // 中评
+            url += '?goodsId=' +
+              this.productionDetail['goodsId'] +
+              '&level=2' +
+              '&pageNum=' + this.pageNum
+            break
+          case 4:
+            // 差评
+            url += '?goodsId=' +
+              this.productionDetail['goodsId'] +
+              '&level=3' +
+              '&pageNum=' + this.pageNum
+            break
+          case 5:
+            // 有图
+            url = path()['commentListImg'] + '?goodsId=' +
+              this.productionDetail['goodsId'] +
+              '&pageNum=' + this.pageNum
+            break
+          default:
+            url = null
+            break
+        }
+        this.getCommentList(url)
         this.initScroll()
       },
       /**
@@ -265,8 +254,10 @@
         }
         this.$emit('tocart', cartInfo)
       },
+      /**
+       * 记录选中的参数
+       */
       selectType(product) {
-        console.log(product)
         this.selectedPropertiesId = product['propertiesId']
         let text = ''
         for (let key in product['text']) {
@@ -289,6 +280,10 @@
        */
       changeTab(index) {
         this.currentProductionNavIndex = index
+        if (index === 2) {
+          // 获取评论
+          this.getCommentList()
+        }
         this.initScroll()
       },
       initScroll() {
@@ -342,6 +337,35 @@
             }
             this.productionDetail['price'] = this.propertiesList[0]['price']
             this.selectType(this.propertiesList[0])
+          } else {
+            let msg = response.body['msg']
+            console.log(msg)
+          }
+        })
+      },
+      /**
+       * 评论列表
+       */
+      getCommentList(url) {
+        if (!url) {
+          url = path()['commentList'] + '?goodsId=' +
+            this.productionDetail['goodsId'] + '&pageNum=' + this.pageNum
+        }
+        this.$http.get(url).then((response) => {
+          let status = response.body['status']
+          if (status === 0) {
+            let data = response.body['data']
+            this.commentList = data['list']
+            for (let index in this.commentList) {
+              let comment = this.commentList[index]
+              console.log(comment)
+              if (comment['images']) {
+                comment['images'] = comment['images'].split(',')
+              } else {
+                comment['images'] = []
+              }
+            }
+            this.initScroll()
           } else {
             let msg = response.body['msg']
             console.log(msg)
@@ -498,11 +522,11 @@
                   float right
                   margin 0.3em
               .pr-item-text
-                width 80%
-                padding-left 20%
+                width 90%
+                padding 0 5%
               .pr-item-img
-                width 80%
-                padding-left 20%
+                width 90%
+                padding 0 5%
                 .pr-item-img-item
                   height 5em
                   margin 0.3em
@@ -510,13 +534,15 @@
                   img
                     height 100%
               .pr-item-type
-                width 80%
-                padding-left 20%
+                padding 0 5%
                 color #ccc
+                font-size 0.8em
+                display inline-block
               .pr-item-order
-                width 80%
-                padding-left 20%
+                padding 0 5%
                 color #ccc
+                font-size 0.8em
+                display inline-block
     .ph-buttons
       position fixed
       bottom 0
