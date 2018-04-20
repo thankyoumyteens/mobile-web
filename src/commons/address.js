@@ -2,8 +2,9 @@
  * Created by Admin on 2017/11/24.
  */
 export function path() {
-  let local = '/'
+  let local = ''
   let server = 'http://localhost:8088/mobile/'
+  // server = local
   return {
     /**
      * 用户

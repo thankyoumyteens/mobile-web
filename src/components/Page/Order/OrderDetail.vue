@@ -29,17 +29,17 @@
             <div class="order-list-item-order-no">订单号: {{orderDetail['orderNo']}}</div>
             <splits></splits>
             <div class="order-item-list-wrapper">
-              <div class="oil-item" v-for="orderItem in orderDetail['orderItemList']">
-                <div class="order-item-list-item-img"><img :src="orderItem['productImage']" alt=""></div>
+              <div class="oil-item" v-for="orderItem in orderDetail['itemList']">
+                <div class="order-item-list-item-img"><img :src="orderItem['mainImage']" alt=""></div>
                 <div class="order-item-item-list-item-name">{{orderItem['productName']}}</div>
-                <div class="order-item-item-list-item-detail">{{orderItem['detailStr']}}</div>
+                <div class="order-item-item-list-item-detail">{{orderItem['detail']}}</div>
                 <div class="order-item-item-list-item-quantity">x{{orderItem['quantity']}}</div>
                 <div class="order-item-item-list-item-price">￥{{orderItem['totalPrice']}}</div>
               </div>
             </div>
             <splits></splits>
             <div class="order-list-item-detail">
-              <p class="order-list-item-title" v-if="orderDetail['status']===10">去支付</p>
+              <p class="order-list-item-title" @click="doPay(orderDetail['orderNo'])" v-if="orderDetail['status']===10">去支付</p>
               <p class="order-list-item-title" v-if="orderDetail['status']===20">提醒发货</p>
               <p class="order-list-item-title" v-if="orderDetail['status']===40">确认收货</p>
               <p class="order-list-item-price">￥{{orderDetail['payment']}}</p>
@@ -68,6 +68,7 @@
           </div>
         </div>
       </div>
+      <waitp ref="waitpWaitPay"></waitp>
     </div>
   </transition>
 </template>
@@ -76,6 +77,7 @@
   import Vue from 'vue'
   import split from '@/components/Util/Split/Split'
   import splits from '@/components/Util/Split/SplitSmall'
+  import waitp from '@/components/Util/UtilPage/WaitPay'
   import BetterScroll from 'better-scroll'
   import {
     path
@@ -87,7 +89,8 @@
   export default {
     components: {
       split,
-      splits
+      splits,
+      waitp
     },
     data () {
       return {
@@ -98,6 +101,9 @@
       }
     },
     methods: {
+      doPay(orderNo) {
+        this.$refs.waitpWaitPay.show(orderNo)
+      },
       show (orderId) {
         this.orderId = orderId
         this.getOrderDetail()
@@ -128,16 +134,6 @@
           let res = response.body
           if (res['status'] === 0) {
             let data = res['data']
-            for (let k = 0; k < data['orderItemList'].length; k++) {
-              let orderItem = data['orderItemList'][k]
-              orderItem['typeNames'] = JSON.parse(orderItem['typeNames'])
-              let text = ''
-              for (let j = 0; j < orderItem['typeNames'].length; j++) {
-                let detail = orderItem['typeNames'][j]
-                text += '[' + detail['key'] + ':' + detail['value'][detail['selected']]['val'] + ']'
-              }
-              orderItem['detailStr'] = text
-            }
             this.orderDetail = data
             this.initScroll()
           } else {

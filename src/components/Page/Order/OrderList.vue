@@ -17,14 +17,14 @@
                 <div class="oil-item" v-for="orderItem in item['orderItemList']">
                   <div class="order-item-list-item-img"><img :src="orderItem['mainImage']" alt=""></div>
                   <div class="order-item-item-list-item-name">{{orderItem['productName']}}</div>
-                  <div class="order-item-item-list-item-detail">{{orderItem['detailStr']}}</div>
+                  <div class="order-item-item-list-item-detail">{{orderItem['detail']}}</div>
                   <div class="order-item-item-list-item-quantity">x{{orderItem['quantity']}}</div>
                   <div class="order-item-item-list-item-price">￥{{orderItem['totalPrice']}}</div>
                 </div>
               </div>
               <splits></splits>
               <div class="order-list-item-detail">
-                <p class="order-list-item-title" v-if="item['status']===10">去支付</p>
+                <p class="order-list-item-title" @click="doPay(item['orderNo'])" v-if="item['status']===10">去支付</p>
                 <p class="order-list-item-title" v-if="item['status']===20">提醒发货</p>
                 <p class="order-list-item-title" v-if="item['status']===40">确认收货</p>
                 <p class="order-list-item-price">￥{{item['totalPrice']}}</p>
@@ -38,6 +38,7 @@
         </div>
       </div>
       <od ref="comp_od"></od>
+      <waitp ref="waitpWaitPay"></waitp>
     </div>
   </transition>
 </template>
@@ -47,6 +48,7 @@
   import split from '@/components/Util/Split/Split'
   import splits from '@/components/Util/Split/SplitSmall'
   import od from '@/components/Page/Order/OrderDetail'
+  import waitp from '@/components/Util/UtilPage/WaitPay'
   import BetterScroll from 'better-scroll'
   import {
     path
@@ -56,7 +58,8 @@
     components: {
       split,
       splits,
-      od
+      od,
+      waitp
     },
     data () {
       return {
@@ -73,6 +76,9 @@
       }
     },
     methods: {
+      doPay(orderNo) {
+        this.$refs.waitpWaitPay.show(orderNo)
+      },
       show (type) {
         this.orderList = []
         this.pageNum = 1
@@ -108,13 +114,13 @@
         this.getOrderList()
       },
       getOrderList () {
-        let param = ''
+        let url = ''
         switch (this.status) {
           case -1:
-            param = '?pageNum=' + this.pageNum
+            url = path()['orderList'] + '?pageNum=' + this.pageNum
             break
         }
-        this.$http.get(path()['orderList'] + param).then(response => {
+        this.$http.get(url).then(response => {
           let res = response.body
           if (res['status'] === 0) {
             let data = response.body['data']['list']
@@ -122,17 +128,6 @@
             this.hasNextPage = response.body['data']['hasNextPage']
             for (let i = 0; i < data.length; i++) {
               let item = data[i]
-              // todo 改进商品参数处理
-              for (let k = 0; k < item['orderItemList'].length; k++) {
-                let orderItem = item['orderItemList'][k]
-                orderItem['detail'] = JSON.parse(orderItem['detail'])
-                let text = ''
-                for (let j = 0; j < orderItem['detail'].length; j++) {
-                  let detail = orderItem['detail'][j]
-                  text += '[' + detail['key'] + ':' + detail['value'][detail['selected']]['val'] + ']'
-                }
-                orderItem['detailStr'] = text
-              }
               // 下一页数据追加到数组末尾
               let index = this.orderList.length
               Vue.set(this.orderList, index, item)

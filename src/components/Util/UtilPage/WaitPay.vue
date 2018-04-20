@@ -50,6 +50,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+
   @keyframes bounce-in
     0%
       transform translate3d(100%, 0, 0)
