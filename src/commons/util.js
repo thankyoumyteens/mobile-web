@@ -1,4 +1,4 @@
-export function contains (list, item) {
+export function contains(list, item) {
   for (let i = 0; i < list.length; i++) {
     let el = list[i]
     if (el === item) {
@@ -8,7 +8,17 @@ export function contains (list, item) {
   return -1
 }
 
-export function formatTimestamp (string) {
+export function stringContains(list, item) {
+  for (let i = 0; i < list.length; i++) {
+    let el = list[i]
+    if (el == item) {
+      return true
+    }
+  }
+  return false
+}
+
+export function formatTimestamp(string) {
   let date = new Date(string)
   let r = ''
   r += date.getFullYear() + '-'

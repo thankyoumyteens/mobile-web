@@ -9,7 +9,7 @@
         <div class="cart-item-img" @click="showDetailFromCart(item)"><img :src="item['mainImage']" alt=""></div>
         <div class="cart-item-detail">
           <p class="cart-item-title">{{item['productName']}}</p>
-          <p class="cart-item-type">{{item['typeStr']}}</p>
+          <p class="cart-item-type">{{item['detail']}}</p>
           <p class="cart-item-price">￥{{item['unitPrice']}}</p>
         </div>
         <div class="cart-item-count">
@@ -52,7 +52,7 @@
         type: Object
       }
     },
-    data () {
+    data() {
       return {
         checkedList: [],
         cartList: [],
@@ -64,7 +64,7 @@
       }
     },
     computed: {
-      isAllChecked () {
+      isAllChecked() {
         if (this.cartList !== null) {
           for (let i = 0; i < this.cartList.length; i++) {
             let item = this.cartList[i]
@@ -77,51 +77,50 @@
       }
     },
     watch: {
-      'user' () {
+      'user'() {
         this.productionList = []
         this.pageNum = 1
         this.getCartList()
       }
     },
-    created () {
+    created() {
       this.cartList = []
       this.pageNum = 1
       this.getCartList()
-      // todo 删除购物车中的商品
     },
     methods: {
-      createOrderSuccess (order) {
+      createOrderSuccess(order) {
         this.getCartListReset()
         console.log(order)
-        // todo (可选)打开订单详情页
+        // todo (可选)打开订单详情页/支付页面
       },
-      createOrderBefore () {
+      createOrderBefore() {
         if (!this.checkCart()) {
           alert('请选择商品')
           return false
         }
-        // todo 下一页中的选中商品不包含
+        // todo bug下一页中的选中商品不包含
         this.$refs.coComp.show(this.cartList)
       },
       /**
        * 点击商品图片进入商品详情页面
        * @param cart
        */
-      showDetailFromCart (cart) {
+      showDetailFromCart(cart) {
         let productId = cart['productId']
         let o = {
-          'id': productId
+          'goodsId': productId
         }
         this.$emit('detail', o)
       },
-      getMore () {
+      getMore() {
         this.pageNum++
         this.getCartList()
       },
       /**
        * 检查购物车中是否有选中的商品
        */
-      checkCart () {
+      checkCart() {
         for (let i = 0; i < this.cartList.length; i++) {
           let item = this.cartList[i]
           if (item['checked'] === 1) {
@@ -130,7 +129,7 @@
         }
         return false
       },
-      cartItemSub (index) {
+      cartItemSub(index) {
         let item = this.cartList[index]
         this.$http.get(path()['sub'] + '?cartId=' + item['id']).then(response => {
           let res = response.body
@@ -144,7 +143,7 @@
           }
         })
       },
-      cartItemAdd (index) {
+      cartItemAdd(index) {
         let item = this.cartList[index]
         this.$http.get(path()['add'] + '?cartId=' + item['id']).then(response => {
           let res = response.body
@@ -161,7 +160,7 @@
       /**
        * 选中或取消选中商品
        */
-      checkItem (item, index) {
+      checkItem(item, index) {
         this.$http.get(path()['check'] + '?cartId=' + item['id']).then(response => {
           let res = response.body
           console.log(res)
@@ -177,7 +176,7 @@
       /**
        * 选中全部商品
        */
-      checkAll () {
+      checkAll() {
         this.$http.get(path()['checkAll']).then(response => {
           let res = response.body
           console.log(res)
@@ -194,7 +193,7 @@
       /**
        * 计算总价
        */
-      computeTotalPrice () {
+      computeTotalPrice() {
         let totalPrice = 0.0
         for (let i = 0; i < this.cartList.length; i++) {
           let item = this.cartList[i]
@@ -204,7 +203,7 @@
         }
         this.totalPrice = totalPrice
       },
-      getCartListReset () {
+      getCartListReset() {
         if (this.user !== null && this.user !== undefined) {
           this.$http.get(path()['getCart'] + '?pageNum=' + this.pageNum).then(response => {
             let res = response.body
@@ -212,16 +211,6 @@
             if (res['status'] === 0) {
               let data = res['data']
               this.cartList = data['list']
-              for (let i = 0; i < this.cartList.length; i++) {
-                this.cartList[i]['detail'] = JSON.parse(this.cartList[i]['detail'])
-                let item = this.cartList[i]
-                let text = ''
-                for (let j = 0; j < item['detail'].length; j++) {
-                  let detail = item['detail'][j]
-                  text += '[' + detail['value'][detail['selected']]['val'] + ']'
-                }
-                this.cartList[i]['typeStr'] = text
-              }
               this.computeTotalPrice()
             } else {
               console.log(res['msg'])
@@ -229,7 +218,7 @@
           })
         }
       },
-      getCartList () {
+      getCartList() {
         if (this.user !== null && this.user !== undefined) {
           this.$http.get(path()['getCart'] + '?pageNum=' + this.pageNum).then(response => {
             let res = response.body
@@ -241,16 +230,6 @@
                 // 下一页数据追加到数组末尾
                 let index = this.cartList.length
                 Vue.set(this.cartList, index, item)
-              }
-              for (let i = 0; i < this.cartList.length; i++) {
-                this.cartList[i]['detail'] = JSON.parse(this.cartList[i]['detail'])
-                let item = this.cartList[i]
-                let text = ''
-                for (let j = 0; j < item['detail'].length; j++) {
-                  let detail = item['detail'][j]
-                  text += '[' + detail['value'][detail['selected']]['val'] + ']'
-                }
-                this.cartList[i]['typeStr'] = text
               }
               this.computeTotalPrice()
             } else {

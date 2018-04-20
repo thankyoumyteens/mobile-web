@@ -27,9 +27,11 @@ module.exports = {
     'no-unused-vars': 0,
     // 不检测文件末尾是否有空行
     'eol-last': 0,
-    // 函数做空个是否有空格
+    // 函数左括号是否有空格
     'space-before-function-paren': 0,
     // 关闭缩进限制
-    'indent': 'off'
+    'indent': 'off',
+    // 关闭 ===
+    'eqeqeq': 'off'
   }
 }

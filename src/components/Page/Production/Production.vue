@@ -6,17 +6,23 @@
         <div>
           <div class="production-info">
             <div class="production-nav">
-              <div class="production-nav-item border-1px" @click="changeTab(0)" :class="[currentProductionNavIndex==0?'active':'']">商品</div>
-              <div class="production-nav-item border-1px" @click="changeTab(1)" :class="[currentProductionNavIndex==1?'active':'']">详情</div>
-              <div class="production-nav-item border-1px" @click="changeTab(2)" :class="[currentProductionNavIndex==2?'active':'']">评价</div>
+              <div class="production-nav-item border-1px" @click="changeTab(0)"
+                   :class="[currentProductionNavIndex==0?'active':'']">商品
+              </div>
+              <div class="production-nav-item border-1px" @click="changeTab(1)"
+                   :class="[currentProductionNavIndex==1?'active':'']">详情
+              </div>
+              <div class="production-nav-item border-1px" @click="changeTab(2)"
+                   :class="[currentProductionNavIndex==2?'active':'']">评价
+              </div>
             </div>
             <!--商品-->
             <section class="production-home" v-if="productionDetail != null" v-show="currentProductionNavIndex==0">
               <div class="ph-image-show">
                 <!--废弃-->
                 <!--<div class="ph-image-wrapper border-1px"-->
-                     <!--@touchstart='touchStartImage' @touchmove='touchMoveImage' @touchend='touchEndImage'>-->
-                  <!--<img class="ph-img" :src="item" alt="" v-for="item,index in productionDetail['production']['images']">-->
+                <!--@touchstart='touchStartImage' @touchmove='touchMoveImage' @touchend='touchEndImage'>-->
+                <!--<img class="ph-img" :src="item" alt="" v-for="item,index in productionDetail['production']['images']">-->
                 <!--</div>-->
                 <!--<div class="ph-image-index">{{currentImageIndex+1}}/{{productionDetail['production']['images'].length}}</div>-->
                 <!-- 配置slider组件 -->
@@ -101,7 +107,7 @@
             </section>
           </div>
           <div class="production-info" v-if="productionDetail == null">
-              加载失败
+            加载失败
           </div>
         </div>
       </section>
@@ -137,7 +143,7 @@
       }
     },
     watch: {
-      'productionSimple' () {
+      'productionSimple'() {
         this.getProduction()
         this.initScroll()
         // 更换商品时重置初始参数
@@ -149,7 +155,7 @@
         this.selectedType = null
       }
     },
-    data () {
+    data() {
       return {
         currentStar: 1, // 查看评论类型(有图/好评/中评/差评)
         selection: '请选择版本',
@@ -165,6 +171,8 @@
         hasNextPage: false,
         productionShow: false,
         selectedType: null, // 存储选择的商品参数
+        selectedPropertiesId: -1,
+        isVisited: false,
         // slider组件数据
         pages: [],
         // slider组件参数
@@ -183,7 +191,7 @@
       /**
        * 根据评星筛选评论
        */
-      reviewList () {
+      reviewList() {
         let list = []
         switch (this.currentStar) {
           case 1: // 全部
@@ -231,122 +239,59 @@
       /**
        * slider组件事件
        */
-      slide (data) {
-        console.log(data)
+      slide(data) {
+        // console.log(data)
       },
-      onTap (data) {
-        console.log(data)
+      onTap(data) {
+        // console.log(data)
       },
-      onInit (data) {
-        console.log(data)
+      onInit(data) {
+        // console.log(data)
       },
       /**
        * 筛选评论
        */
-      changeStar (id) {
+      changeStar(id) {
         this.currentStar = id
         this.initScroll()
       },
       /**
        * 添加商品到购物车
        */
-      addToCart (product) {
-        this.$emit('tocart', product)
+      addToCart(product) {
+        let cartInfo = {
+          propertiesId: product['propertiesId'],
+          goodsId: this.productionDetail['goodsId']
+        }
+        this.$emit('tocart', cartInfo)
       },
-      selectType (product) {
-        this.productionDetail = product
+      selectType(product) {
+        console.log(product)
+        this.selectedPropertiesId = product['propertiesId']
         let text = ''
-        for (let i = 0; i < this.productionDetail['detail'].length; i++) {
-          let detail = this.productionDetail['detail'][i]
-          text += '[' + detail['key'] + ':' + detail['value'][detail['selected']]['val'] + ']'
+        for (let key in product['text']) {
+          let val = product['text'][key]
+          text += val + ' '
         }
         this.selection = (text === '' ? '请选择版本' : text)
+        this.productionDetail['price'] = product['price']
       },
       /**
        * 显示商品参数选择对话框
        */
-      showSelect () {
-        this.$refs.selecttype.show(this.productionDetail)
-      },
-      /**
-       * 滑动图片切换到下一张 废弃
-       * @param e
-       */
-      touchStartImage (e) {
-        e = e || event
-        // tounches类数组，等于1时表示此时有只有一只手指在触摸屏幕
-        if (e.touches.length === 1) {
-          // 记录开始位置
-          this.touchImage['startX'] = e.touches[0].clientX
-        }
-      },
-      /**
-       * 滑动图片切换到下一张 废弃
-       * @param e
-       */
-      touchMoveImage (e) {
-        e = e || event
-        if (e.touches.length === 1) {
-          let moveX = e.touches[0].clientX
-          let el = document.getElementsByClassName('ph-image-wrapper')[0]
-          let offsetX = moveX * 0.02
-          if (moveX > this.touchImage['startX']) {
-            if (el.offsetLeft >= 0) return
-            // 右滑
-            let left = el.offsetLeft + offsetX
-            el.style.left = left + 'px'
-          }
-          if (moveX < this.touchImage['startX']) {
-            if (el.offsetLeft <= -((this.productionDetail['production']['images'].length - 1) * this.touchImage['width'])) return
-            // 左滑
-            let left = el.offsetLeft - offsetX
-            el.style.left = left + 'px'
-          }
-        }
-      },
-      /**
-       * 滑动图片切换到下一张 废弃
-       * @param e
-       */
-      touchEndImage (e) {
-        e = e || event
-        if (e.changedTouches.length === 1) {
-          let endX = e.changedTouches[0].clientX
-          let disX = this.touchImage['startX'] - endX
-          let el = document.getElementsByClassName('ph-image-wrapper')[0]
-          if (disX > 100) {
-            // 右滑
-            if (this.currentImageIndex >= this.productionDetail['production']['images'].length - 1) {
-              this.currentImageIndex = 0
-              el.style.left = 0 + 'px'
-              return
-            }
-            this.currentImageIndex++
-            let left = -this.currentImageIndex * this.touchImage['width']
-            el.style.left = left + 'px'
-          }
-          if (disX < -100) {
-            // 左滑
-            if (this.currentImageIndex <= 0) {
-              this.currentImageIndex = this.productionDetail['production']['images'].length - 1
-              el.style.left = -(this.currentImageIndex * this.touchImage['width']) + 'px'
-              return
-            }
-            this.currentImageIndex--
-            let left = -this.currentImageIndex * this.touchImage['width']
-            el.style.left = left + 'px'
-          }
-        }
+      showSelect() {
+        this.$refs.selecttype.show(this.propertiesList, this.isVisited)
+        this.isVisited = true
       },
       /**
        * 切换商品/详情/评论
        * @param index
        */
-      changeTab (index) {
+      changeTab(index) {
         this.currentProductionNavIndex = index
         this.initScroll()
       },
-      initScroll () {
+      initScroll() {
         this.$nextTick(() => {
           if (!this.scrollProduction) {
             this.scrollProduction = new BetterScroll(this.$refs.scrollWrapperProduction, {
@@ -357,28 +302,27 @@
           }
         })
       },
-      show () {
+      show() {
         this.productionShow = true
       },
-      hide () {
+      hide() {
         this.productionShow = false
       },
       /**
        * 获取商品信息
        */
-      getProduction () {
-        let productId = this.productionSimple['id']
-        let url = path()['productionDetail'] + '?productId=' + productId
+      getProduction() {
+        this.isVisited = false
+        let productId = this.productionSimple['goodsId']
+        let url = path()['productionDetail'] + '?goodsId=' + productId
         this.$http.get(url).then((response) => {
           let status = response.body['status']
           this.productionDetail = null
           if (status === 0) {
             let data = response.body['data']
-            let detail = JSON.parse(data['detail'])
+            this.propertiesList = data['propertiesList']
             this.productionDetail = data
-            this.productionDetail['detail'] = detail
             this.initScroll()
-            console.log(this.productionDetail)
             // slider组件数据
             let imgList = this.productionDetail['subImages'].split(',')
             for (let i = 0; i < imgList.length; i++) {
@@ -392,6 +336,12 @@
               }
               Vue.set(this.pages, i, item)
             }
+            for (let i = 0; i < this.propertiesList.length; i++) {
+              let properties = this.propertiesList[i]
+              properties['text'] = JSON.parse(properties['text'])
+            }
+            this.productionDetail['price'] = this.propertiesList[0]['price']
+            this.selectType(this.propertiesList[0])
           } else {
             let msg = response.body['msg']
             console.log(msg)
@@ -410,15 +360,19 @@
       transform translate3d(100%, 0, 0)
     100%
       transform translate3d(0, 0, 0)
+
   @keyframes bounce-out
     0%
       transform translate3d(0, 0, 0)
     100%
       transform translate3d(100%, 0, 0)
+
   .production-move-enter-active
     animation bounce-in .2s linear
+
   .production-move-leave-active
     animation bounce-out .2s linear
+
   .production
     position fixed
     top 0

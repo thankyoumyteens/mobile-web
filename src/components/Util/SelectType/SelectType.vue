@@ -1,24 +1,24 @@
 <template>
   <transition name="select-move">
-    <div class="select-type border-1px" v-if="production!=null" v-show="selectShow">
+    <div class="select-type border-1px" v-if="propertiesList" v-show="selectShow">
       <div class="close" @click="hide"><i class="icon-cross"></i></div>
       <div class="st-main">
         <header class="border-1px">
           <div class="st-img">
-            <img :src="production['mainImage']" alt="">
+            <img :src="propertiesList[currentIndex]['mainImage']" alt="">
           </div>
           <div class="st-price">
             ￥{{totalMoney}}
           </div>
         </header>
         <div class="st-select">
-          <div class="st-select-box border-1px" v-for="typeItem,index in production['detail']">
-            <div class="st-select-title">{{typeItem['key']}}</div>
+          <div class="st-select-box border-1px" v-for="(val, key, index) in typeList">
+            <div class="st-select-title">{{key}}</div>
             <div class="st-select-item"
-                 :class="[i==typeItem['selected']?'selected':'']"
-                 @click="doSelect(index, i, value)"
-                 v-for="value,i in typeItem['value']">
-              {{value['val']}}
+                 :class="[i===indexObj[key]?'selected':'']"
+                 @click="doSelect(key, i)"
+                 v-for="(typeText,i) in val">
+              {{typeText}}
             </div>
             <div class="clear-float"></div>
           </div>
@@ -33,47 +33,81 @@
 
 <script type="text/ecmascript-6">
   import Vue from 'vue'
+  import {stringContains} from '@/commons/util'
 
   export default {
-    data () {
+    data() {
       return {
         selectShow: false,
-        production: null
-      }
-    },
-    computed: {
-      totalMoney () {
-        let total = 0
-        if (this.production) {
-          let old = parseFloat(this.production['price'])
-          total = old
-          for (let i = 0; i < this.production['detail'].length; i++) {
-            let item = this.production['detail'][i]
-            let add = parseFloat(item['value'][item['selected']]['money'])
-            total += add
-          }
-        }
-        return total
+        propertiesList: null,
+        totalMoney: 0,
+        currentIndex: 0,
+        typeList: {},
+        typeListLength: 0,
+        indexObj: {} // 选择的版本
       }
     },
     methods: {
-      addToCart () {
-        this.$emit('cart', this.production)
-        // this.selectShow = false
+      addToCart() {
+        this.$emit('cart', this.propertiesList[this.currentIndex])
+        this.selectShow = false
       },
       /**
        * 选择商品参数
        */
-      doSelect (index, i, value) {
-        this.production['detail'][index]['selected'] = i
+      doSelect(key, index) {
+        // Vue.set(this.indexObj, key, index)
+        this.indexObj[key] = index
+        for (let index in this.propertiesList) {
+          let properties = this.propertiesList[index]
+          let text = properties['text']
+          let count = 0
+          for (let key in text) {
+            if (text.hasOwnProperty(key)) {
+              let value = text[key]
+              if (value == this.typeList[key][this.indexObj[key]]) {
+                count++
+              }
+            }
+          }
+          if (count === this.typeListLength) {
+            console.log(text)
+            this.totalMoney = properties['price']
+            this.currentIndex = index
+          }
+        }
       },
-      show (production) {
-        console.log(production)
-        this.production = production
+      show(propertiesList, isVisited) {
+        if (!isVisited) {
+          this.propertiesList = propertiesList
+          let map = {}
+          for (let i = 0; i < this.propertiesList.length; i++) {
+            let properties = this.propertiesList[i]
+            let text = properties['text']
+            // properties['text'] = text
+            for (let key in text) {
+              if (text.hasOwnProperty(key)) {
+                let value = text[key]
+                if (map[key]) {
+                  if (!stringContains(map[key], value)) {
+                    map[key].push(value)
+                  }
+                } else {
+                  map[key] = []
+                  map[key].push(value)
+                  this.indexObj[key] = 0
+                  this.typeListLength++
+                }
+              }
+            }
+            this.typeList = map
+          }
+          this.totalMoney = this.propertiesList[0]['price']
+        }
         this.selectShow = true
       },
-      hide () {
-        this.$emit('selected', this.production)
+      hide() {
+        this.$emit('selected', this.propertiesList[this.currentIndex])
         this.selectShow = false
       }
     }
@@ -88,15 +122,19 @@
       transform translate3d(0, 100%, 0)
     100%
       transform translate3d(0, 0, 0)
+
   @keyframes bounce-out-vertical
     0%
       transform translate3d(0, 0, 0)
     100%
       transform translate3d(0, 100%, 0)
+
   .select-move-enter-active
     animation bounce-in-vertical .2s linear
+
   .select-move-leave-active
     animation bounce-out-vertical .2s linear
+
   .select-type
     border-top-1px(#ccc)
     position fixed

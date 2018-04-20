@@ -2,14 +2,20 @@
   <div id="app">
     <header></header>
     <section id="viewer">
-      <router-view :user="user" @success="loginSuccess" @detail="detail" @logout="logoutSuccess" @avatar="changeAvatarSuccess" @update="updateSuccess" @search="openSearch" @category="openProductions"></router-view>
+      <router-view :user="user" @success="loginSuccess" @detail="detail" @logout="logoutSuccess"
+                   @avatar="changeAvatarSuccess" @update="updateSuccess" @search="openSearch"
+                   @category="openProductions"></router-view>
     </section>
     <section id="navBar">
-      <div @click="goTo('home')" :class="[currentComponent=='home'?'nav-active':'']" class="nav-item"><i class="nav-item-icon icon-home"></i><span class="nav-item-text">首页</span></div>
-      <div @click="goTo('category')" :class="[currentComponent=='category'?'nav-active':'']" class="nav-item"><i class="nav-item-icon icon-list"></i><span class="nav-item-text">分类</span></div>
+      <div @click="goTo('home')" :class="[currentComponent=='home'?'nav-active':'']" class="nav-item"><i
+        class="nav-item-icon icon-home"></i><span class="nav-item-text">首页</span></div>
+      <div @click="goTo('category')" :class="[currentComponent=='category'?'nav-active':'']" class="nav-item"><i
+        class="nav-item-icon icon-list"></i><span class="nav-item-text">分类</span></div>
       <!--<div @click="goTo('recommend')" :class="[currentComponent=='recommend'?'nav-active':'']" class="nav-item"><i class="nav-item-icon icon-eye"></i><span class="nav-item-text">发现</span></div>-->
-      <div @click="goTo('cart')" :class="[currentComponent=='cart'?'nav-active':'']" class="nav-item"><i class="nav-item-icon icon-cart"></i><span class="nav-item-text">购物车</span></div>
-      <div @click="goTo('user')" :class="[currentComponent=='user'?'nav-active':'']" class="nav-item"><i class="nav-item-icon icon-user"></i><span class="nav-item-text">我的</span></div>
+      <div @click="goTo('cart')" :class="[currentComponent=='cart'?'nav-active':'']" class="nav-item"><i
+        class="nav-item-icon icon-cart"></i><span class="nav-item-text">购物车</span></div>
+      <div @click="goTo('user')" :class="[currentComponent=='user'?'nav-active':'']" class="nav-item"><i
+        class="nav-item-icon icon-user"></i><span class="nav-item-text">我的</span></div>
     </section>
     <search @find="find" ref="search"></search>
     <productions @search="openSearch" @detail="detail" ref="productions" :productionInfo="productionInfo"></productions>
@@ -33,7 +39,7 @@
       productions,
       production
     },
-    created () {
+    created() {
       this.getUserInfo()
       // 刷新页面后保持底部导航栏选中样式
       let address = this.$route.path
@@ -44,7 +50,7 @@
       }
       this.currentComponent = address
     },
-    data () {
+    data() {
       return {
         productionSimple: null,
         productionInfo: null,
@@ -53,24 +59,24 @@
       }
     },
     methods: {
-      changeAvatarSuccess (uri) {
+      changeAvatarSuccess(uri) {
         this.getUserInfo()
       },
-      updateSuccess (user) {
+      updateSuccess(user) {
         this.user = user
         console.log(this.user)
       },
-      loginSuccess (user) {
+      loginSuccess(user) {
         if (user !== null && user !== undefined) {
           this.user = user
           // 将本地购物车商品保存到用户购物车中
         }
         console.log(user)
       },
-      logoutSuccess () {
+      logoutSuccess() {
         this.user = null
       },
-      getUserInfo () {
+      getUserInfo() {
         this.$http.post(path()['userInfo']).then(response => {
           let res = response.body
           if (res['status'] === 0) {
@@ -81,7 +87,7 @@
           }
         })
       },
-      toCart (product) {
+      toCart(cartInfo) {
         // 将商品添加到购物车 如果没登陆(this.user===null)就保存到本地或者转到登陆
         // todo 防止重复添加商品, 根据productId
         if (this.user === null) {
@@ -89,9 +95,9 @@
           alert('请登陆')
         } else {
           this.$http.post(path()['addToCart'], {
-            'productId': product['id'],
+            'propertiesId': cartInfo['propertiesId'],
             'quantity': 1,
-            'detail': JSON.stringify(product['detail'])
+            'goodsId': cartInfo['goodsId']
           }).then(response => {
             let res = response.body
             if (res['status'] === 0) {
@@ -102,11 +108,11 @@
           })
         }
       },
-      detail (item) {
+      detail(item) {
         this.productionSimple = item
         this.$refs.production.show()
       },
-      openProductions (category) {
+      openProductions(category) {
         let o = {
           'type': 'c',
           'data': category
@@ -114,7 +120,7 @@
         this.productionInfo = o
         this.$refs.productions.show()
       },
-      openSearch (who) {
+      openSearch(who) {
         switch (who) {
           case 'Home':
             break
@@ -123,7 +129,7 @@
         }
         this.$refs.search.show()
       },
-      find (text) {
+      find(text) {
         let o = {
           'type': 's',
           'data': text
@@ -132,7 +138,7 @@
         this.$refs.productions.show()
       },
       // 切换component
-      goTo (address) {
+      goTo(address) {
         this.currentComponent = address
         if (address === 'home') {
           router.push('/')

@@ -1,7 +1,7 @@
 /**
  * Created by Admin on 2017/11/24.
  */
-export function path () {
+export function path() {
   let local = '/'
   let server = 'http://localhost:8088/mobile/'
   return {
@@ -26,9 +26,9 @@ export function path () {
     /**
      * 商品
      */
-    'productionList': server + 'product/list.do', // 获取商品列表
-    'productionDetail': server + 'product/detail.do', // 获取商品详情
-    'productionListByKeywords': server + 'product/search.do', // 搜索商品
+    'productionList': server + 'goods/list.do', // 获取商品列表
+    'productionDetail': server + 'goods/detail.do', // 获取商品详情
+    'productionListByKeywords': server + 'goods/search.do', // 搜索商品
     /**
      * 购物车
      */
@@ -37,7 +37,7 @@ export function path () {
     'check': server + 'cart/check.do', // 选中购物车中的商品
     'checkAll': server + 'cart/check_all.do', // 全选购物车中的商品
     'getCart': server + 'cart/list.do', // 获取购物车列表
-    'addToCart': server + 'cart/create.do', // 添加商品到购物车
+    'addToCart': server + 'cart/create_goods.do', // 添加商品到购物车
     /**
      * 收货地址
      */

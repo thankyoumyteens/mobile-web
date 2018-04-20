@@ -19,7 +19,8 @@
     "vue-concise-slider": "^2.4.3",
     "vue-resource": "^1.5.0",
     "vue-router": "^3.0.1",
-    "we-vue": "^2.1.0"
+    "we-vue": "^2.1.0",
+    "china-area-data": "^4.0.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
