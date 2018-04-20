@@ -358,7 +358,6 @@
             this.commentList = data['list']
             for (let index in this.commentList) {
               let comment = this.commentList[index]
-              console.log(comment)
               if (comment['images']) {
                 comment['images'] = comment['images'].split(',')
               } else {
