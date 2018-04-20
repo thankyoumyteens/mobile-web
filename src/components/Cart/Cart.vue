@@ -31,6 +31,7 @@
       <div class="pay-button" @click="createOrderBefore">结算</div>
     </div>
     <co ref="coComp" @success="createOrderSuccess"></co>
+    <waitp ref="waitpWaitPay"></waitp>
   </div>
 </template>
 
@@ -38,6 +39,7 @@
   import Vue from 'vue'
   import co from '@/components/Page/Order/CreateOrder'
   import checkbox from '@/components/Util/Checkbox/Checkbox'
+  import waitp from '@/components/Util/UtilPage/WaitPay'
   import {
     path
   } from '@/commons/address.js'
@@ -45,7 +47,8 @@
   export default {
     components: {
       checkbox,
-      co
+      co,
+      waitp
     },
     props: {
       user: {
@@ -93,6 +96,7 @@
         this.getCartListReset()
         console.log(order)
         // todo (可选)打开订单详情页/支付页面
+        this.$refs.waitpWaitPay.show(order['orderNo'])
       },
       createOrderBefore() {
         if (!this.checkCart()) {

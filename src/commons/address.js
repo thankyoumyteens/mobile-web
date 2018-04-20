@@ -52,6 +52,7 @@ export function path() {
     /**
      * 订单
      */
+    'payLink': server + 'pay/alipay.do', // 创建订单
     'createOrder': server + 'order/create.do', // 创建订单
     'orderList': server + 'order/list.do', // 订单列表
     'orderDetail': server + 'order/detail.do', // 订单详情
