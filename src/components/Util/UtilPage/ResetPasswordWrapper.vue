@@ -8,20 +8,18 @@
       </header>
       <split></split>
       <div class="si-content">
-        <div class="si-label">
-          <div class="sil-title">原密码: </div>
-          <input type="password" class="si-input" ref="passwordOld" value="">
-        </div>
-        <div class="si-label">
-          <div class="sil-title">新密码: </div>
-          <input type="password" class="si-input" ref="passwordNew" value="">
-        </div>
+        <wv-group title="">
+          <wv-input label="旧密码" placeholder="请输入当前密码" v-model="pwdOld" type="password"></wv-input>
+          <wv-input label="新密码" placeholder="请输入当前密码" v-model="pwdNew" type="password"></wv-input>
+          <wv-input label="新密码" placeholder="请再次输入当前密码" v-model="pwdNewRepeat" type="password"></wv-input>
+        </wv-group>
       </div>
     </div>
   </transition>
 </template>
 
 <script type="text/ecmascript-6">
+  import {Dialog} from 'we-vue'
   import split from '@/components/Util/Split/Split'
   import {
     path
@@ -33,22 +31,39 @@
     },
     data () {
       return {
-        isShow: false
+        isShow: false,
+        pwdOld: '',
+        pwdNew: '',
+        pwdNewRepeat: ''
       }
     },
     methods: {
       doReset () {
-        let passwordOld = this.$refs.passwordOld.value
-        let passwordNew = this.$refs.passwordNew.value
+        if (this.pwdNew !== this.pwdNewRepeat) {
+          Dialog({
+            title: '提示',
+            message: '两次输入的密码不相同',
+            skin: 'ios'
+          })
+          return false
+        }
         this.$http.post(path()['resetPassword'], {
-          'passwordOld': passwordOld,
-          'passwordNew': passwordNew
+          'passwordOld': this.pwdOld,
+          'passwordNew': this.pwdNew
         }).then(response => {
           let res = response.body
           if (res['status'] === 0) {
-            alert(res['msg'])
+            Dialog({
+              title: '成功',
+              message: res['msg'],
+              skin: 'ios'
+            })
           } else {
-            alert(res['msg'])
+            Dialog({
+              title: '失败',
+              message: res['msg'],
+              skin: 'ios'
+            })
           }
         })
       },
@@ -82,7 +97,7 @@
     top 0
     left 0
     bottom 0
-    z-index 999999
+    z-index 999
     width 100%
     background #fff
     box-sizing border-box

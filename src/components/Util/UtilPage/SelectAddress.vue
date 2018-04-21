@@ -3,42 +3,70 @@
     <div class="select-address" v-show="isShow">
       <header>
         <div class="close" @click="hide"><</div>
-        <span class="title">选择地址</span>
+        <span class="title"></span>
         <a class="login-link" @click="doReset">确定</a>
       </header>
       <split></split>
       <div class="si-content">
-        <div class="si-label">
-          <div class="sil-title">省: </div>
-          <select @change="selectP" ref="shippingRegionP" class="si-input">
-            <option selected>请选择</option>
-            <option v-for="item,index in regionListP" :value="index">{{item['regionName']}}</option>
-          </select>
-        </div>
-        <div class="si-label">
-          <div class="sil-title">市: </div>
-          <select @change="selectC" ref="shippingRegionC" class="si-input">
-            <option selected>请选择</option>
-            <option v-for="item,index in regionListC" :value="index">{{item['regionName']}}</option>
-          </select>
-        </div>
-        <div class="si-label">
-          <div class="sil-title">区: </div>
-          <select @change="selectD" ref="shippingRegionD" class="si-input">
-            <option selected>请选择</option>
-            <option v-for="item,index in regionListD" :value="index">{{item['regionName']}}</option>
-          </select>
-        </div>
+        <wv-group title="选择地址">
+          <wv-cell title="请选择" is-link :value="address | pickerValueFilter" @click.native="addressPickerShow = true" />
+        </wv-group>
+
+        <wv-picker
+          :visible.sync="addressPickerShow"
+          v-model="address"
+          ref="addressPicker"
+          :columns="addressColumns"
+          :visible-item-count="5"
+          @change="onAddressChange"
+          @confirm="confirmAddress"
+        />
       </div>
     </div>
   </transition>
 </template>
 
 <script type="text/ecmascript-6">
+  import chinaAreaData from 'china-area-data'
   import split from '@/components/Util/Split/Split'
   import {
     path
   } from '@/commons/address.js'
+
+  const provinces = Object.values(chinaAreaData[86])
+  // 获取某一省下的市
+  const getCities = (province) => {
+    let provinceCode
+    for (let i in chinaAreaData[86]) {
+      if (province === chinaAreaData[86][i]) {
+        provinceCode = i
+        break
+      }
+    }
+    return typeof chinaAreaData[provinceCode] === 'object' ? Object.values(chinaAreaData[provinceCode]) : []
+  }
+  // 获取某一市下的区/县
+  function getAreas (province, city) {
+    let provinceCode, cityCode
+    for (let i in chinaAreaData[86]) {
+      if (province === chinaAreaData[86][i]) {
+        provinceCode = i
+        break
+      }
+    }
+    for (let i in chinaAreaData[provinceCode]) {
+      if (city === chinaAreaData[provinceCode][i]) {
+        cityCode = i
+        break
+      }
+    }
+    if (chinaAreaData[cityCode]) {
+      return typeof chinaAreaData[cityCode] === 'object' ? Object.values(chinaAreaData[cityCode]) : []
+    } else {
+      // 只有两级的情况
+      return []
+    }
+  }
 
   export default {
     components: {
@@ -47,76 +75,58 @@
     data () {
       return {
         isShow: false,
-        regionListP: [],
-        regionListC: [],
-        regionListD: [],
-        regionType: 'province'
+        addressPickerShow: false,
+        address: [],
+        addressColumns: [
+          {
+            values: provinces
+          },
+          {
+            values: getCities('湖北省')
+          },
+          {
+            values: getAreas('湖北省', '宜昌市')
+          }
+        ]
       }
-    }, // todo 重做
-    methods: {
-      doReset () {
-        let province = this.regionListP[this.$refs.shippingRegionP.value]
-        let city = this.regionListC[this.$refs.shippingRegionC.value]
-        let district = this.regionListD[this.$refs.shippingRegionD.value]
-        let address = {
-          'p': province['regionName'],
-          'c': city['regionName'],
-          'd': district['regionName']
+    },
+    mounted () {
+      this.$nextTick(() => {
+        this.$refs.addressPicker.setValues(['湖北省', '宜昌市', '长阳土家族自治县'])
+      })
+    },
+    filters: {
+      pickerValueFilter (val) {
+        if (Array.isArray(val)) {
+          return val.toString()
+        } else {
+          return '请选择'
         }
-        this.$emit('success', address)
+      }
+    },
+    methods: {
+      onAddressChange (picker, addressValues, slotIndex) {
+        if (slotIndex === 0) {
+          const cities = getCities(addressValues[0])
+          picker.setColumnValues(1, cities)
+          picker.setColumnValues(2, getAreas(addressValues[0], cities[0]))
+        } else if (slotIndex === 1) {
+          picker.setColumnValues(2, getAreas(addressValues[0], addressValues[1]))
+        }
+      },
+      confirmAddress (picker) {
+        this.address = picker.getValues()
+        console.log(this.address)
+      },
+      doReset () {
+        this.$emit('success', this.address)
         this.hide()
-      },
-      selectP () {
-        console.log(this.$refs.shippingRegionP.value)
-        let province = this.regionListP[this.$refs.shippingRegionP.value]
-        this.regionType = 'city'
-        this.getRegionList(province['regionId'])
-      },
-      selectC () {
-        console.log(this.$refs.shippingRegionC.value)
-        let city = this.regionListC[this.$refs.shippingRegionC.value]
-        console.log(city)
-        this.regionType = 'district'
-        this.getRegionList(city['regionId'])
-      },
-      selectD () {
-        console.log(this.$refs.shippingRegionD.value)
-        let district = this.regionListD[this.$refs.shippingRegionD.value]
       },
       show () {
         this.isShow = true
-        this.getRegionList(1)
       },
       hide () {
         this.isShow = false
-      },
-      getRegionList (parentId) {
-        this.$http.get(path()['region'] + '?parentId=' + parentId).then(response => {
-          let res = response.body
-          if (res['status'] === 0) {
-            let data = res['data']
-            console.log(data)
-            if (data.length === 2) {
-              if (data[0]['regionName'] === '市辖区') {
-                this.getRegionList(data[0]['regionId'])
-                return false
-              }
-            }
-            switch (this.regionType) {
-              case 'province':
-                this.regionListP = data
-                break
-              case 'city':
-                this.regionListC = data
-                break
-              case 'district':
-                this.regionListD = data
-                break
-            }
-          } else {
-            console.log(res['msg'])
-          }
-        })
       }
     }
   }
@@ -142,7 +152,7 @@
     top 0
     left 0
     bottom 0
-    z-index 999999
+    z-index 999
     width 100%
     background #fff
     box-sizing border-box

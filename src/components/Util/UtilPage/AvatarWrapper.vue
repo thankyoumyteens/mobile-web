@@ -18,6 +18,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import {Dialog} from 'we-vue'
   import split from '@/components/Util/Split/Split'
   import {
     path
@@ -62,7 +63,11 @@
         }).then(response => {
           let res = response.body
           if (res['status'] === 0) {
-            alert(res['msg'])
+            Dialog({
+              title: '提示',
+              message: res['msg'],
+              skin: 'ios'
+            })
             this.$emit('avatar', this.avatarUri)
           }
         })
@@ -92,7 +97,11 @@
             this.avatarUrl = url
             this.avatarUri = uri
           } else {
-            alert(res['msg'])
+            Dialog({
+              title: '提示',
+              message: res['msg'],
+              skin: 'ios'
+            })
             this.isEnable = false
             this.msg = '请选择文件'
           }
@@ -132,7 +141,7 @@
     top 0
     left 0
     bottom 0
-    z-index 999999
+    z-index 999
     width 100%
     background #fff
     box-sizing border-box

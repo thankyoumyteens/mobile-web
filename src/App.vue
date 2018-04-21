@@ -25,6 +25,7 @@
 
 <script>
   import router from './router'
+  import {Dialog} from 'we-vue'
   import search from '@/components/Page/Search/Search'
   import productions from '@/components/Page/Productions/Productions'
   import production from '@/components/Page/Production/Production'
@@ -64,7 +65,6 @@
       },
       updateSuccess(user) {
         this.user = user
-        console.log(this.user)
       },
       loginSuccess(user) {
         if (user !== null && user !== undefined) {
@@ -82,7 +82,7 @@
             let data = res['data']
             this.user = data
           } else {
-            console.log(res['msg'])
+            console.log('登陆状态: ' + res['msg'])
           }
         })
       },
@@ -91,7 +91,11 @@
         // todo 防止重复添加商品, 根据productId
         if (this.user === null) {
           // todo localStorage
-          alert('请登陆')
+          Dialog({
+            title: '提示',
+            message: '请登陆',
+            skin: 'ios'
+          })
         } else {
           this.$http.post(path()['addToCart'], {
             'propertiesId': cartInfo['propertiesId'],
@@ -100,9 +104,17 @@
           }).then(response => {
             let res = response.body
             if (res['status'] === 0) {
-              alert('添加到购物车成功')
+              Dialog({
+                title: '提示',
+                message: '添加到购物车成功',
+                skin: 'ios'
+              })
             } else {
-              alert(res['msg'])
+              Dialog({
+                title: '提示',
+                message: res['msg'],
+                skin: 'ios'
+              })
             }
           })
         }

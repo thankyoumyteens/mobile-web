@@ -38,6 +38,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import {Dialog} from 'we-vue'
   import split from '@/components/Util/Split/Split'
   import {
     path
@@ -66,11 +67,19 @@
         let answer = this.$refs.answerUpdate.value
 
         if (!(/^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/.test(email))) {
-          alert('邮箱有误，请重填')
+          Dialog({
+            title: '提示',
+            message: '邮箱格式有误，请重填',
+            skin: 'ios'
+          })
           return false
         }
         if (!(/^1[34578]\d{9}$/.test(phone))) {
-          alert('手机号码有误，请重填')
+          Dialog({
+            title: '提示',
+            message: '请输入有效的手机号码',
+            skin: 'ios'
+          })
           return false
         }
         this.$http.post(path()['updateUserInfo'], {
@@ -82,10 +91,18 @@
         }).then(response => {
           let res = response.body
           if (res['status'] === 0) {
-            alert(res['msg'])
+            Dialog({
+              title: '成功',
+              message: res['msg'],
+              skin: 'ios'
+            })
             this.$emit('success', res['data'])
           } else {
-            console.log(res['msg'])
+            Dialog({
+              title: '失败',
+              message: res['msg'],
+              skin: 'ios'
+            })
           }
         })
       },
@@ -119,7 +136,7 @@
     top 0
     left 0
     bottom 0
-    z-index 999999
+    z-index 999
     width 100%
     background #fff
     box-sizing border-box

@@ -45,6 +45,7 @@
 
 <script type="text/ecmascript-6">
   import Vue from 'vue'
+  import { Dialog } from 'we-vue'
   import split from '@/components/Util/Split/Split'
   import splits from '@/components/Util/Split/SplitSmall'
   import od from '@/components/Page/Order/OrderDetail'
@@ -157,6 +158,11 @@
             this.initScroll()
           } else {
             console.log(res['msg'])
+            Dialog({
+              title: '提示',
+              message: res['msg'],
+              skin: 'ios'
+            })
           }
         })
       }
@@ -184,7 +190,7 @@
     top 0
     left 0
     bottom 0
-    z-index 999999
+    z-index 990
     width 100%
     background #fff
     box-sizing border-box

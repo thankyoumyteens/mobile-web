@@ -33,6 +33,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import { Dialog } from 'we-vue'
   import split from '@/components/Util/Split/Split'
   import login from '@/components/Page/Login/Login'
   import info from '@/components/Page/UserInfo/UserInfo'

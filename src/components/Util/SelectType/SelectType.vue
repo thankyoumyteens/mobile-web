@@ -138,7 +138,7 @@
   .select-type
     border-top-1px(#ccc)
     position fixed
-    z-index 100000
+    z-index 999
     bottom 0
     left 0
     right 0

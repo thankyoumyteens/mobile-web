@@ -248,6 +248,7 @@
        * 添加商品到购物车
        */
       addToCart(product) {
+        this.selectType(product)
         let cartInfo = {
           propertiesId: product['propertiesId'],
           goodsId: this.productionDetail['goodsId']
@@ -401,7 +402,7 @@
     top 0
     left 0
     bottom 0
-    z-index 99999
+    z-index 998
     width 100%
     background #fff
     box-sizing border-box

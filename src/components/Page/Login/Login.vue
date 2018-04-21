@@ -29,6 +29,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import { Dialog } from 'we-vue'
   import qrpw from '@/components/Util/UtilPage/QuestionResetPasswordWrapper'
   import {
     path
@@ -56,19 +57,35 @@
           return
         }
         if (password !== repeatPassword) {
-          alert('两次输入的密码不相同')
+          Dialog({
+            title: '提示',
+            message: '两次输入的密码不相同',
+            skin: 'ios'
+          })
           return
         }
         if (!(/^[a-zA-z]\w{3,15}$/.test(username))) {
-          alert('用户名有误，请重填')
+          Dialog({
+            title: '提示',
+            message: '用户名格式有误，请重填',
+            skin: 'ios'
+          })
           return false
         }
         if (!(/^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/.test(email))) {
-          alert('邮箱有误，请重填')
+          Dialog({
+            title: '提示',
+            message: '邮箱格式有误，请重填',
+            skin: 'ios'
+          })
           return false
         }
         if (!(/^1[34578]\d{9}$/.test(phone))) {
-          alert('手机号码有误，请重填')
+          Dialog({
+            title: '提示',
+            message: '请输入有效的手机号码',
+            skin: 'ios'
+          })
           return false
         }
         this.$http.post(path()['register'], {
@@ -80,10 +97,18 @@
         }).then(response => {
           let res = response.body
           if (res['status'] === 0) {
-            alert(res['msg'])
+            Dialog({
+              title: '注册成功',
+              message: res['msg'],
+              skin: 'ios'
+            })
             this.changeContent()
           } else {
-            console.log(res['msg'])
+            Dialog({
+              title: '注册失败',
+              message: res['msg'],
+              skin: 'ios'
+            })
           }
         })
       },
@@ -103,7 +128,11 @@
             this.$emit('success', data)
             this.hide()
           } else {
-            console.log(res['msg'])
+            Dialog({
+              title: '登陆失败',
+              message: res['msg'],
+              skin: 'ios'
+            })
           }
         })
       },
@@ -143,7 +172,7 @@
     top 0
     left 0
     bottom 0
-    z-index 999999
+    z-index 999
     width 100%
     background #fff
     box-sizing border-box

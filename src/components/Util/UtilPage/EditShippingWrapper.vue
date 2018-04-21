@@ -3,31 +3,20 @@
     <div class="edit-shipping-wrapper" v-show="isShow">
       <header>
         <div class="close" @click="hide"><</div>
-        <span class="title">编辑</span>
+        <span class="title"></span>
         <a class="login-link" @click="doUpdateShipping">完成</a>
       </header>
       <split></split>
       <div class="si-content">
-        <div class="si-label">
-          <div class="sil-title">收货人: </div>
-          <input type="text" class="si-input" ref="shippingReceiverName" :value="(shipping?shipping['receiverName']:'')">
-        </div>
-        <div class="si-label">
-          <div class="sil-title">电话: </div>
-          <input type="text" class="si-input" ref="shippingReceiverMobile" :value="(shipping?shipping['receiverMobile']:'')">
-        </div>
-        <div class="si-label">
-          <div class="sil-title">地址: </div>
-          <div @click="showShippingSelectAddress">{{msg}}</div>
-        </div>
-        <div class="si-label">
-          <div class="sil-title">详细地址: </div>
-          <input type="text" class="si-input" ref="shippingReceiverAddress" :value="(shipping?shipping['receiverAddress']:'')">
-        </div>
-        <div class="si-label">
-          <div class="sil-title">邮编: </div>
-          <input type="text" class="si-input" ref="shippingReceiverZip" :value="(shipping?shipping['receiverZip']:'')">
-        </div>
+        <wv-group title="收货信息">
+          <wv-input label="收货人" placeholder="请输入内容" v-model="receiverName"></wv-input>
+          <wv-input label="电话" placeholder="请输入电话" v-model="receiverMobile" type="number"></wv-input>
+          <wv-input label="收货地址" v-model="msg" :readonly="true">
+            <button class="weui-vcode-btn" @click="showShippingSelectAddress" slot="ft">选择收货地址</button >
+          </wv-input>
+          <wv-input label="详细地址" placeholder="请输入详细地址" v-model="receiverAddress"></wv-input>
+          <wv-input label="邮编" placeholder="请输入邮编" v-model="receiverZip" type="number"></wv-input>
+        </wv-group>
       </div>
       <sa ref="saWrapper" @success="fillAddress"></sa>
     </div>
@@ -52,40 +41,34 @@
         shipping: null,
         regionList: [],
         address: null,
-        msg: '选择地址'
+        msg: '',
+        receiverName: '',
+        receiverMobile: '',
+        receiverAddress: '',
+        receiverZip: ''
       }
     },
     methods: {
       fillAddress (address) {
         this.address = address
-        this.msg = address['p'] + ' ' + address['c'] + ' ' + address['d']
+        this.msg = address[0] + ' ' + address[1] + ' ' + address[2]
       },
       showShippingSelectAddress () {
         this.$refs.saWrapper.show()
       },
       doUpdateShipping () {
-        console.log(this.shipping)
-        let receiverName = this.$refs.shippingReceiverName.value
-        let receiverMobile = this.$refs.shippingReceiverMobile.value
-        let receiverAddress = this.$refs.shippingReceiverAddress.value
-        let receiverZip = this.$refs.shippingReceiverZip.value
-
-        let receiverProvince = this.address['p']
-        let receiverCity = this.address['c']
-        let receiverDistrict = this.address['d']
-        // if (!(/^1[34578]\d{9}$/.test(phone))) {
-        //   alert('手机号码有误，请重填')
-        //   return false
-        // }
+        let receiverProvince = this.address[0]
+        let receiverCity = this.address[1]
+        let receiverDistrict = this.address[2]
         this.$http.post(path()[this.shipping ? 'updateShipping' : 'addShipping'], {
           'id': this.shipping ? this.shipping['id'] : '',
-          'receiverName': receiverName,
-          'receiverMobile': receiverMobile,
+          'receiverName': this.receiverName,
+          'receiverMobile': this.receiverMobile,
           'receiverProvince': receiverProvince,
           'receiverCity': receiverCity,
           'receiverDistrict': receiverDistrict,
-          'receiverAddress': receiverAddress,
-          'receiverZip': receiverZip
+          'receiverAddress': this.receiverAddress,
+          'receiverZip': this.receiverZip
         }).then(response => {
           let res = response.body
           if (res['status'] === 0) {
@@ -98,7 +81,23 @@
       },
       show (shipping) {
         this.isShow = true
-        this.shipping = shipping
+        if (shipping) {
+          let address = [shipping['receiverProvince'], shipping['receiverCity'], shipping['receiverDistrict']]
+          this.fillAddress(address)
+          this.shipping = shipping
+          this.receiverName = shipping['receiverName']
+          this.receiverMobile = shipping['receiverMobile']
+          this.receiverAddress = shipping['receiverAddress']
+          this.receiverZip = shipping['receiverZip']
+        } else {
+          let address = ['', '', '']
+          this.fillAddress(address)
+          this.shipping = shipping
+          this.receiverName = ''
+          this.receiverMobile = ''
+          this.receiverAddress = ''
+          this.receiverZip = ''
+        }
       },
       hide () {
         this.isShow = false
@@ -127,7 +126,7 @@
     top 0
     left 0
     bottom 0
-    z-index 999999
+    z-index 999
     width 100%
     background #fff
     box-sizing border-box
@@ -155,24 +154,20 @@
         margin-right 1em
     .si-content
       .si-label
-        display block
         width 95%
         height 3em
         line-height 3em
         margin 1em auto
         padding-left 0.9em
         box-sizing border-box
+        display flex
         .sil-title
-          float left
-          width 20%
+          width 5em
+          margin-right 1em
           line-height 3em
-        .sil-text
-          float left
-          margin-left 1em
-          line-height 3em
+        .si-item
+          flex 1
         .si-input
-          margin-left 1em
-          width 50%
           height 3em
           line-height 3em
           border 0.1em solid #ccc
