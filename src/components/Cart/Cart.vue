@@ -278,7 +278,7 @@
           max-width 40%
           height 7em
           img
-            max-width 100%
+            max-width 112px
             height 100%
         .cart-item-detail
           float left

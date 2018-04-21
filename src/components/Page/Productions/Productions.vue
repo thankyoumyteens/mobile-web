@@ -220,6 +220,7 @@
           float left
           height 11em
           img
+            max-width 176px
             height 100%
         .production-detail
           .production-title

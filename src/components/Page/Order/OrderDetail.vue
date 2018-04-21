@@ -231,6 +231,7 @@
               max-width 40%
               height 6em
               img
+                max-width 96px
                 height 100%
             .order-item-item-list-item-name
               position absolute
