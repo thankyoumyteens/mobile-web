@@ -25,12 +25,6 @@
             <!--商品-->
             <section class="production-home" v-if="productionDetail" v-show="currentProductionNavIndex===0">
               <div class="ph-image-show">
-                <!--废弃-->
-                <!--<div class="ph-image-wrapper border-1px"-->
-                <!--@touchstart='touchStartImage' @touchmove='touchMoveImage' @touchend='touchEndImage'>-->
-                <!--<img class="ph-img" :src="item" alt="" v-for="item,index in productionDetail['production']['images']">-->
-                <!--</div>-->
-                <!--<div class="ph-image-index">{{currentImageIndex+1}}/{{productionDetail['production']['images'].length}}</div>-->
                 <!-- 配置slider组件 -->
                 <slider :pages="pages" :sliderinit="sliderinit" @slide='slide' @tap='onTap' @init='onInit'>
                   <!-- 设置loading,可自定义 -->
@@ -112,9 +106,6 @@
                 </div>
               </div>
             </section>
-          </div>
-          <div class="production-info" v-if="productionDetail == null">
-            加载失败
           </div>
         </div>
       </section>
@@ -265,6 +256,11 @@
        * 记录选中的参数
        */
       selectType(product) {
+        if (!product) {
+          this.selection = '请选择版本'
+          this.productionDetail['price'] = 0
+          return false
+        }
         this.selectedPropertiesId = product['propertiesId']
         let text = ''
         for (let key in product['text']) {
@@ -342,8 +338,7 @@
               let properties = this.propertiesList[i]
               properties['text'] = JSON.parse(properties['text'])
             }
-            this.productionDetail['price'] = this.propertiesList[0]['price']
-            this.selectType(this.propertiesList[0])
+            this.productionDetail['price'] = 0
           } else {
             let msg = response.body['msg']
             console.log(msg)

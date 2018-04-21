@@ -33,6 +33,7 @@
 
 <script type="text/ecmascript-6">
   import Vue from 'vue'
+  import {Dialog} from 'we-vue'
   import {stringContains} from '@/commons/util'
 
   export default {
@@ -44,11 +45,21 @@
         currentIndex: 0,
         typeList: {},
         typeListLength: 0,
+        selectedKeys: {},
+        isOk: false,
         indexObj: {} // 选择的版本
       }
     },
     methods: {
       addToCart() {
+        if (!this.isOk) {
+          Dialog({
+            title: '提示',
+            message: '请选择',
+            skin: 'ios'
+          })
+          return false
+        }
         this.$emit('cart', this.propertiesList[this.currentIndex])
         this.selectShow = false
       },
@@ -56,58 +67,119 @@
        * 选择商品参数
        */
       doSelect(key, index) {
-        // Vue.set(this.indexObj, key, index)
+        console.log('key->' + key)
+        console.log('currentIndex->' + index)
+        console.log('arrIndex->' + this.indexObj[key])
+        console.log(this.indexObj[key] === index)
         this.indexObj[key] = index
-        for (let index in this.propertiesList) {
-          let properties = this.propertiesList[index]
-          let text = properties['text']
-          let count = 0
+        let tmp = this.totalMoney
+        this.totalMoney = 0
+        // 记录选择的规格数量
+        if (!this.selectedKeys[key]) {
+          this.selectedKeys[key] = true
+        }
+        let count1 = 0
+        let count2 = 0
+        for (let k in this.selectedKeys) {
+          this.totalMoney = count1
+          if (this.selectedKeys[k]) {
+            count1++
+          }
+        }
+        for (let k in this.typeList) {
+          this.totalMoney = count1
+          count2++
+        }
+        this.totalMoney = tmp
+        // 选择全部规格后计算总价
+        if (count1 === count2) {
+          this.isOk = false
+          for (let i in this.propertiesList) {
+            let text = this.propertiesList[i]['text']
+            let ocCount = 0
+            for (let k in text) {
+              let v = text[k]
+              let selectedV = this.typeList[k][this.indexObj[k]]
+              if (v == selectedV) {
+                ocCount++
+              }
+            }
+            if (ocCount === count2) {
+              this.isOk = true
+              this.totalMoney = this.propertiesList[i]['price']
+              this.currentIndex = i
+            }
+          }
+          if (!this.isOk) {
+            Dialog({
+              title: '提示',
+              message: '无货',
+              skin: 'ios'
+            })
+            this.indexObj[key] = -1
+            this.selectedKeys[key] = false
+          }
+        }
+        // 选择全部规格后计算总价
+      },
+      formatMap(list) {
+        let map = {}
+        for (let i = 0; i < list.length; i++) {
+          let text = list[i]
           for (let key in text) {
             if (text.hasOwnProperty(key)) {
               let value = text[key]
-              if (value == this.typeList[key][this.indexObj[key]]) {
-                count++
+              if (map[key]) {
+                if (!stringContains(map[key], value)) {
+                  map[key].push(value)
+                }
+              } else {
+                map[key] = []
+                map[key].push(value)
+                this.indexObj[key] = -1
+                this.typeListLength++
               }
             }
           }
-          if (count === this.typeListLength) {
-            console.log(text)
-            this.totalMoney = properties['price']
-            this.currentIndex = index
-          }
+          this.typeList = map
         }
+        // 输出
+        // console.log('规格 start')
+        // for (let k in this.typeList) {
+        //   let v = this.typeList[k]
+        //   let s = ''
+        //   for (let i in v) {
+        //     s += v[i] + ' '
+        //   }
+        //   console.log(k + '->' + s)
+        // }
+        // console.log('规格 end')
+        // 输出
       },
       show(propertiesList, isVisited) {
         if (!isVisited) {
           this.propertiesList = propertiesList
-          let map = {}
-          for (let i = 0; i < this.propertiesList.length; i++) {
-            let properties = this.propertiesList[i]
-            let text = properties['text']
-            // properties['text'] = text
-            for (let key in text) {
-              if (text.hasOwnProperty(key)) {
-                let value = text[key]
-                if (map[key]) {
-                  if (!stringContains(map[key], value)) {
-                    map[key].push(value)
-                  }
-                } else {
-                  map[key] = []
-                  map[key].push(value)
-                  this.indexObj[key] = 0
-                  this.typeListLength++
-                }
-              }
-            }
-            this.typeList = map
+          console.log(this.propertiesList.length)
+          let list = []
+          for (let index in this.propertiesList) {
+            list.push(this.propertiesList[index]['text'])
           }
-          this.totalMoney = this.propertiesList[0]['price']
+          this.formatMap(list)
+          // for (let key in this.indexObj) {
+          //   this.indexObj[key] = 0
+          // }
+          // this.totalMoney = this.propertiesList[0]['price']
+          this.totalMoney = 0
+          this.selectedKeys = {}
         }
         this.selectShow = true
       },
       hide() {
+        if (!this.isOk) {
+          this.$emit('selected', null)
+        } else {
         this.$emit('selected', this.propertiesList[this.currentIndex])
+        }
         this.selectShow = false
       }
     }
