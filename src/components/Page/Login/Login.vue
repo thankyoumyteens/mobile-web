@@ -180,7 +180,7 @@
       width 100%
       height 3em
       line-height 3em
-      background #c31d00
+      background #dc143c
       position relative
       text-align center
       color #fff
@@ -203,7 +203,7 @@
       width 95%
       height 2em
       line-height 2em
-      color #e31d1a
+      color #dc143c
       margin-left 2.5%
       text-decoration underline
     .si-content
