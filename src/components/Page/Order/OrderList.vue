@@ -87,6 +87,18 @@
             this.title = '全部订单'
             this.status = -1
             break
+          case 'notPay':
+            this.title = '待付款'
+            this.status = 1
+            break
+          case 'payed':
+            this.title = '待收货'
+            this.status = 2
+            break
+          case 'sent':
+            this.title = '待收货'
+            this.status = 3
+            break
         }
         this.getOrderList()
         this.isShow = true
@@ -118,6 +130,15 @@
         switch (this.status) {
           case -1:
             url = path()['orderList'] + '?pageNum=' + this.pageNum
+            break
+          case 1:
+            url = path()['orderListNotPay'] + '?pageNum=' + this.pageNum
+            break
+          case 2:
+            url = path()['orderListPayed'] + '?pageNum=' + this.pageNum
+            break
+          case 3:
+            url = path()['orderListPayed'] + '?pageNum=' + this.pageNum
             break
         }
         this.$http.get(url).then(response => {

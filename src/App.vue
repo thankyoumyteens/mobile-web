@@ -71,7 +71,6 @@
           this.user = user
           // 将本地购物车商品保存到用户购物车中
         }
-        console.log(user)
       },
       logoutSuccess() {
         this.user = null
@@ -83,7 +82,7 @@
             let data = res['data']
             this.user = data
           } else {
-            console.log(res['message'])
+            console.log(res['msg'])
           }
         })
       },

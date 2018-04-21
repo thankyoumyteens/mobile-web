@@ -4,11 +4,13 @@
       <div class="wall">
         <transition-group class="img-wrapper" tag="div" name="image">
           <!--<div class="img-wrapper">-->
-            <img @click="openDetail(item)" :src="item['img']" v-show="index===currentImgIndex" class="img-item" v-for="(item,index) in imgList" :key="index">
+          <img @click="openDetail(item)" :src="item" v-show="index===currentImgIndex" class="img-item"
+               v-for="(item,index) in imgList" :key="index">
           <!--</div>-->
         </transition-group>
         <div class="count-bar">
-          <span @click="changeImg(index)" v-for="(item,index) in imgList" :class="{'count-active':index===currentImgIndex}" :key="index"></span>
+          <span @click="changeImg(index)" v-for="(item,index) in imgList"
+                :class="{'count-active':index===currentImgIndex}" :key="index"></span>
         </div>
       </div>
       <div @click="openSearchPage" class="search-bar">
@@ -26,20 +28,21 @@
   } from '@/commons/address.js'
 
   export default {
-    created () {
+    created() {
       // 获取图片
       this.$http.get(path()['homeImgList']).then((response) => {
         let status = response.body['status']
-        let msg = response.body['msg']
         let data = response.body['data']
-        if (status === 200) {
+        if (status === 0) {
           for (let i = 0; i < data.length; i++) {
             let item = data[i]
             Vue.set(this.imgList, i, item)
           }
+          console.log(this.imgList)
           // 开启图片轮播
           this.autoChange()
         } else {
+          let msg = response.body['msg']
           console.log(msg)
         }
       })
@@ -48,14 +51,14 @@
         let status = response.body['status']
         let msg = response.body['msg']
         let data = response.body['data']
-        if (status === 200) {
+        if (status === 0) {
           this.placeholder = data
         } else {
           console.log(msg)
         }
       })
     },
-    data () {
+    data() {
       return {
         imgTimer: null, // 图片轮播计时器
         currentImgIndex: 0, // 当前显示的图片在imgList中的索引
@@ -64,16 +67,16 @@
       }
     },
     methods: {
-      openDetail (item) {
+      openDetail(item) {
         console.log(item['img'])
       },
-      openSearchPage () {
+      openSearchPage() {
         this.$emit('search', 'Home')
       },
-      changeImg (index) {
+      changeImg(index) {
         this.currentImgIndex = index
       },
-      autoChange () {
+      autoChange() {
         this.imgTimer = setInterval(() => {
           if (this.currentImgIndex === this.imgList.length - 1) {
             this.currentImgIndex = 0
@@ -83,11 +86,11 @@
         }, 2500)
       },
       // 仅对鼠标有效
-      start () {
+      start() {
         this.autoChange()
       },
       // 仅对鼠标有效
-      stop () {
+      stop() {
         clearInterval(this.imgTimer)
       }
     }
@@ -98,13 +101,17 @@
   .image-enter-active
     transform translateX(0)
     transition all 1s ease
+
   .image-leave-active
     transform translateX(-100%)
     transition all 1s ease
+
   .image-enter
     transform translateX(100%)
+
   .image-leave
     transform translateX(0)
+
   .home
     header
       position relative
@@ -135,24 +142,24 @@
             &.count-active
               background #e31d1a !important
     .search-bar
-        background #fff
+      background #fff
+      position absolute
+      top 1em
+      left 1em
+      right 1em
+      border-top-left-radius 2em
+      border-bottom-left-radius 2em
+      border-top-right-radius 2em
+      border-bottom-right-radius 2em
+      .search-bar-icon
         position absolute
-        top 1em
         left 1em
-        right 1em
-        border-top-left-radius 2em
-        border-bottom-left-radius 2em
-        border-top-right-radius 2em
-        border-bottom-right-radius 2em
-        .search-bar-icon
-          position absolute
-          left 1em
-          top 0.5em
-          color #777
-        div
-          color #777
-          height 2em
-          line-height 2em
-          padding 0
-          padding-left 3em
+        top 0.5em
+        color #777
+      div
+        color #777
+        height 2em
+        line-height 2em
+        padding 0
+        padding-left 3em
 </style>

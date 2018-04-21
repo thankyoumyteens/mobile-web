@@ -3,7 +3,7 @@
     <div class="user-detail">
       <!--未登录-->
       <div class="ui-login" @click="showLogin" v-show="!isUser">
-        <div class="ui-avatar"><img src="/static/default/avatar.jpg" ></div>
+        <div class="ui-avatar"><img src="/static/default/avatar.jpg"></div>
         <div class="ui-text">登陆/注册</div>
       </div>
       <!--已登陆-->
@@ -15,16 +15,19 @@
     <div class="order-info">
       <div @click="openOrderAll" class="order-info-item"><i class="icon-menu"></i><span
         class="order-info-title">全部订单</span></div>
-      <div class="order-info-item"><i class="icon-menu2"></i><span
+      <div @click="openOrderNotPay" class="order-info-item"><i class="icon-menu2"></i><span
         class="order-info-title">待付款</span></div>
-      <div class="order-info-item"><i class="icon-list2"></i><span
+      <div @click="openOrderPayed" class="order-info-item"><i class="icon-list2"></i><span
         class="order-info-title">待收货</span></div>
-      <div class="order-info-item"><i class="icon-list"></i><span
-        class="order-info-title">待评价</span></div>
+      <!--<div @click="openOrderSent" class="order-info-item"><i class="icon-list2"></i><span-->
+        <!--class="order-info-title">待收货</span></div>-->
+      <!--<div @click="openOrderAll" class="order-info-item"><i class="icon-list"></i><span-->
+      <!--class="order-info-title">待评价</span></div>-->
     </div>
     <split></split>
     <login ref="login" @success="loginSuccess"></login>
-    <info ref="userInfo" :user="user" @logout="logoutSuccess" @avatar="changeAvatarSuccess" @update="updateSuccess"></info>
+    <info ref="userInfo" :user="user" @logout="logoutSuccess" @avatar="changeAvatarSuccess"
+          @update="updateSuccess"></info>
     <olist ref="orlist"></olist>
   </div>
 </template>
@@ -47,43 +50,58 @@
         type: Object
       }
     },
-    data () {
+    data() {
       return {
         isUser: false
       }
     },
     watch: {
-      'user' () {
+      'user'() {
         this.isUser = this.user !== null && this.user !== undefined
       }
     },
-    created () {
+    created() {
       if (this.user !== null && this.user !== undefined) {
         this.isUser = true
       }
     },
     methods: {
-      openOrderAll () {
+      openOrderAll() {
         if (this.user !== null && this.user !== undefined) {
           this.$refs.orlist.show('all')
         }
       },
-      changeAvatarSuccess (uri) {
+      openOrderNotPay() {
+        if (this.user !== null && this.user !== undefined) {
+          this.$refs.orlist.show('notPay')
+        }
+      },
+      openOrderPayed() {
+        if (this.user !== null && this.user !== undefined) {
+          this.$refs.orlist.show('payed')
+        }
+      },
+      openOrderSent() {
+        if (this.user !== null && this.user !== undefined) {
+          this.$refs.orlist.show('sent')
+        }
+      },
+      changeAvatarSuccess(uri) {
         this.$emit('avatar', uri)
       },
-      updateSuccess (user) {
+      updateSuccess(user) {
         this.$emit('update', user)
       },
-      showUserInfo () {
+      showUserInfo() {
         this.$refs.userInfo.show()
       },
-      loginSuccess (user) {
+      loginSuccess(user) {
         this.$emit('success', user)
       },
-      logoutSuccess () {
+      logoutSuccess() {
         this.$emit('logout')
       },
-      showLogin () {
+      showLogin() {
         this.$refs.login.show()
       }
     }
