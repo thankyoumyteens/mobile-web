@@ -8,8 +8,11 @@
           <div>搜索商品</div>
         </div>
       </header>
-      <div class="loading" v-if="productionList.length<=0">
+      <div class="loading" v-if="isLoading&&productionList.length<=0">
         <wv-spinner type="dot-circle" :size="50"></wv-spinner>
+      </div>
+      <div class="loading" v-if="!isLoading&&productionList.length<=0">
+        暂无商品
       </div>
       <section class="production-list scroll-wrapper" v-if="productionList.length>0" ref="scrollWrapperProductionList">
         <div>
@@ -24,15 +27,6 @@
 
           <div class="next-page" @click="getMore" v-show="hasNextPage">
             点击加载更多
-          </div>
-
-          <div class="production-item border-1px" v-if="productionList.length <= 0">
-            <div class="production-img"></div>
-            <div class="production-detail">
-              <p class="production-title">暂无商品</p>
-              <p class="production-price"></p>
-              <p class="production-review"></p>
-            </div>
           </div>
         </div>
       </section>
@@ -64,6 +58,7 @@
         scrollProductionList: null,
         productionsShow: false,
         productionList: [],
+        isLoading: true,
         pageNum: 1,
         pageSize: 10,
         pages: 1,
@@ -102,6 +97,7 @@
         this.productionsShow = false
       },
       getProductionList () {
+        this.isLoading = true
         let type = this.productionInfo['type']
         let data = this.productionInfo['data']
         let url = ''
@@ -114,7 +110,7 @@
         }
         this.$http.get(url).then((response) => {
           let status = response.body['status']
-          // this.productionList = []
+          this.isLoading = false
           if (status === 0) {
             let data = response.body['data']['list']
             this.pages = response.body['data']['pages']
