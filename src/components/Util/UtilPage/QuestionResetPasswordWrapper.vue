@@ -1,12 +1,7 @@
 <template>
   <transition name="user-info-move">
     <div class="reset-password-wrapper" v-show="isShow">
-      <header>
-        <div class="close" @click="hide"><</div>
-        <span class="title">忘记密码</span>
-        <a class="login-link" @click="doNext">{{label}}</a>
-      </header>
-      <split></split>
+      <v-header titleText="忘记密码" :actionText="label" @back="hide" @action="doNext"></v-header>
       <div class="si-content" v-show="!isShowQuestion">
         <div class="si-label">
           <div class="sil-title">用户名: </div>
@@ -35,6 +30,7 @@
 
 <script type="text/ecmascript-6">
   import {Dialog} from 'we-vue'
+  import VHeader from '@/components/Util/Header/Header'
   import split from '@/components/Util/Split/Split'
   import {
     path
@@ -42,7 +38,8 @@
 
   export default {
     components: {
-      split
+      split,
+      VHeader
     },
     data () {
       return {
@@ -178,28 +175,6 @@
     width 100%
     background #fff
     box-sizing border-box
-    header
-      width 100%
-      height 3em
-      line-height 3em
-      background #fff
-      position relative
-      text-align center
-      color #000
-      .close
-        position absolute
-        left 10px
-        top 0
-        height 3em
-        line-height 3em
-        width 3em
-      .title
-        display inline-block
-        height 3em
-        line-height 3em
-      .login-link
-        float right
-        margin-right 1em
     .si-content
       .si-label
         display block

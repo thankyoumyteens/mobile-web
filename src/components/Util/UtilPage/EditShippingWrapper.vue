@@ -1,12 +1,7 @@
 <template>
   <transition name="user-info-move">
     <div class="edit-shipping-wrapper" v-show="isShow">
-      <header>
-        <div class="close" @click="hide"><</div>
-        <span class="title"></span>
-        <a class="login-link" @click="doUpdateShipping">完成</a>
-      </header>
-      <split></split>
+      <v-header titleText="收货信息" actionText="完成" @back="hide" @action="doUpdateShipping"></v-header>
       <div class="si-content">
         <wv-group title="收货信息">
           <wv-input label="收货人" placeholder="请输入内容" v-model="receiverName"></wv-input>
@@ -24,6 +19,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import VHeader from '@/components/Util/Header/Header'
   import sa from '@/components/Util/UtilPage/SelectAddress'
   import split from '@/components/Util/Split/Split'
   import {
@@ -33,7 +29,8 @@
   export default {
     components: {
       split,
-      sa
+      sa,
+      VHeader
     },
     data () {
       return {
@@ -130,56 +127,4 @@
     width 100%
     background #fff
     box-sizing border-box
-    header
-      width 100%
-      height 3em
-      line-height 3em
-      background #fff
-      position relative
-      text-align center
-      color #000
-      .close
-        position absolute
-        left 10px
-        top 0
-        height 3em
-        line-height 3em
-        width 3em
-      .title
-        display inline-block
-        height 3em
-        line-height 3em
-      .login-link
-        float right
-        margin-right 1em
-    .si-content
-      .si-label
-        width 95%
-        height 3em
-        line-height 3em
-        margin 1em auto
-        padding-left 0.9em
-        box-sizing border-box
-        display flex
-        .sil-title
-          width 5em
-          margin-right 1em
-          line-height 3em
-        .si-item
-          flex 1
-        .si-input
-          height 3em
-          line-height 3em
-          border 0.1em solid #ccc
-          border-radius 5px
-          padding-left 1em
-          box-sizing border-box
-      .login-button
-        color #fff
-        background rgba(240, 20, 20, 0.9)
-        &:active
-          background rgba(240, 20, 20, 0.8)
-        &.disable
-          color #ccc
-          background rgba(240, 20, 20, 0.7)
 </style>

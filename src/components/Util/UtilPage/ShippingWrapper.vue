@@ -1,12 +1,7 @@
 <template>
   <transition name="user-info-move">
     <div class="shipping-wrapper" v-if="user!==null" v-show="isShow">
-      <header>
-        <div class="close" @click="hide"><</div>
-        <span class="title">收货地址</span>
-        <a class="login-link" @click="showEditor(null)">新增</a>
-      </header>
-      <split></split>
+      <v-header titleText="收货地址" actionText="新建" @back="hide" @action="showEditor"></v-header>
       <div class="shipping-list-wrapper" ref="shippingListWrapper">
         <div>
           <div class="shipping-list-item" v-for="item in shippingList">
@@ -39,6 +34,7 @@
 
 <script type="text/ecmascript-6">
   import {Dialog} from 'we-vue'
+  import VHeader from '@/components/Util/Header/Header'
   import split from '@/components/Util/Split/Split'
   import edit from '@/components/Util/UtilPage/EditShippingWrapper'
   import BetterScroll from 'better-scroll'
@@ -49,7 +45,8 @@
   export default {
     components: {
       split,
-      edit
+      edit,
+      VHeader
     },
     props: {
       user: {
@@ -153,28 +150,6 @@
     width 100%
     background #fff
     box-sizing border-box
-    header
-      width 100%
-      height 3em
-      line-height 3em
-      background #fff
-      position relative
-      text-align center
-      color #000
-      .close
-        position absolute
-        left 10px
-        top 0
-        height 3em
-        line-height 3em
-        width 3em
-      .title
-        display inline-block
-        height 3em
-        line-height 3em
-      .login-link
-        float right
-        margin-right 1em
     .shipping-list-wrapper
       width 100%
       position absolute

@@ -1,14 +1,9 @@
 <template>
   <transition name="user-info-move">
     <div class="reset-password-wrapper" v-show="isShow">
-      <header>
-        <div class="close" @click="hide"><</div>
-        <span class="title">修改密码</span>
-        <a class="login-link" @click="doReset">更新</a>
-      </header>
-      <split></split>
+      <v-header titleText="修改密码" actionText="修改" @back="hide" @action="doReset"></v-header>
       <div class="si-content">
-        <wv-group title="">
+        <wv-group title="修改密码">
           <wv-input label="旧密码" placeholder="请输入当前密码" v-model="pwdOld" type="password"></wv-input>
           <wv-input label="新密码" placeholder="请输入当前密码" v-model="pwdNew" type="password"></wv-input>
           <wv-input label="新密码" placeholder="请再次输入当前密码" v-model="pwdNewRepeat" type="password"></wv-input>
@@ -20,6 +15,7 @@
 
 <script type="text/ecmascript-6">
   import {Dialog} from 'we-vue'
+  import VHeader from '@/components/Util/Header/Header'
   import split from '@/components/Util/Split/Split'
   import {
     path
@@ -27,7 +23,8 @@
 
   export default {
     components: {
-      split
+      split,
+      VHeader
     },
     data () {
       return {
@@ -101,60 +98,4 @@
     width 100%
     background #fff
     box-sizing border-box
-    header
-      width 100%
-      height 3em
-      line-height 3em
-      background #fff
-      position relative
-      text-align center
-      color #000
-      .close
-        position absolute
-        left 10px
-        top 0
-        height 3em
-        line-height 3em
-        width 3em
-      .title
-        display inline-block
-        height 3em
-        line-height 3em
-      .login-link
-        float right
-        margin-right 1em
-    .si-content
-      .si-label
-        display block
-        width 95%
-        height 3em
-        line-height 3em
-        margin 1em auto
-        padding-left 0.9em
-        box-sizing border-box
-        .sil-title
-          float left
-          width 20%
-          line-height 3em
-        .sil-text
-          float left
-          margin-left 1em
-          line-height 3em
-        .si-input
-          margin-left 1em
-          width 50%
-          height 3em
-          line-height 3em
-          border 0.1em solid #ccc
-          border-radius 5px
-          padding-left 1em
-          box-sizing border-box
-      .login-button
-        color #fff
-        background rgba(240, 20, 20, 0.9)
-        &:active
-          background rgba(240, 20, 20, 0.8)
-        &.disable
-          color #ccc
-          background rgba(240, 20, 20, 0.7)
 </style>

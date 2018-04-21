@@ -1,11 +1,7 @@
 <template>
   <transition name="user-info-move">
     <div class="order-list" v-show="isShow">
-      <header>
-        <div class="close" @click="hide"><</div>
-        <span class="title">{{title}}</span>
-      </header>
-      <split></split>
+      <v-header :titleText="title" @back="hide"></v-header>
       <div class="sc-wrapper" ref="olistWrapper">
         <div>
           <div class="order-list-wrapper">
@@ -46,6 +42,7 @@
 <script type="text/ecmascript-6">
   import Vue from 'vue'
   import { Dialog } from 'we-vue'
+  import VHeader from '@/components/Util/Header/Header'
   import split from '@/components/Util/Split/Split'
   import splits from '@/components/Util/Split/SplitSmall'
   import od from '@/components/Page/Order/OrderDetail'
@@ -60,7 +57,8 @@
       split,
       splits,
       od,
-      waitp
+      waitp,
+      VHeader
     },
     data () {
       return {
@@ -194,28 +192,6 @@
     width 100%
     background #fff
     box-sizing border-box
-    header
-      width 100%
-      height 3em
-      line-height 3em
-      background #fff
-      position relative
-      text-align center
-      color #000
-      .close
-        position absolute
-        left 10px
-        top 0
-        height 3em
-        line-height 3em
-        width 3em
-      .title
-        display inline-block
-        height 3em
-        line-height 3em
-      .login-link
-        float right
-        margin-right 1em
     .sc-wrapper
       overflow hidden
       position absolute

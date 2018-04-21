@@ -1,11 +1,7 @@
 <template>
   <transition name="user-info-move">
     <div class="avatar-wrapper" v-if="user!==null" v-show="isShow">
-      <header>
-        <div class="close" @click="hide"><</div>
-        <span class="title">更换头像</span>
-      </header>
-      <split></split>
+      <v-header titleText="更换头像" @back="hide"></v-header>
       <div class="login-button upl-wrapper">
         <div class="upl-text">{{msgSelect}}</div>
         <input class="hide" @change="selectFile" type="file" name="upload_file" ref="upload_file">
@@ -19,6 +15,7 @@
 
 <script type="text/ecmascript-6">
   import {Dialog} from 'we-vue'
+  import VHeader from '@/components/Util/Header/Header'
   import split from '@/components/Util/Split/Split'
   import {
     path
@@ -26,7 +23,8 @@
 
   export default {
     components: {
-      split
+      split,
+      VHeader
     },
     props: {
       user: {
@@ -176,25 +174,6 @@
         z-index -1
         float left
         margin auto
-    header
-      width 100%
-      height 3em
-      line-height 3em
-      background #fff
-      position relative
-      text-align center
-      color #000
-      .close
-        position absolute
-        left 10px
-        top 0
-        height 3em
-        line-height 3em
-        width 3em
-      .title
-        display inline-block
-        height 3em
-        line-height 3em
     .avatar-placeholder
       display block
       max-width 50%

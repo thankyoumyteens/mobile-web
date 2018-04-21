@@ -1,11 +1,7 @@
 <template>
   <transition name="user-info-move">
     <div class="user-info" v-if="user!==null" v-show="isShow">
-      <header>
-        <div class="close" @click="hide"><</div>
-        <span class="title">账户设置</span>
-      </header>
-      <split></split>
+      <v-header titleText="账号管理" @back="hide"></v-header>
       <div class="ui-user">
         <div class="ui-avatar" @click="changeAvatar"><img :src="user['avatar']" alt=""></div>
         <div class="ui-info">
@@ -39,6 +35,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import VHeader from '@/components/Util/Header/Header'
   import split from '@/components/Util/Split/Split'
   import uiw from '@/components/Util/UtilPage/UserInfoWrapper'
   import sw from '@/components/Util/UtilPage/ShippingWrapper'
@@ -54,7 +51,8 @@
       uiw,
       sw,
       aw,
-      rpw
+      rpw,
+      VHeader
     },
     props: {
       user: {
@@ -130,25 +128,6 @@
     width 100%
     background #fff
     box-sizing border-box
-    header
-      width 100%
-      height 3em
-      line-height 3em
-      background #fff
-      position relative
-      text-align center
-      color #000
-      .close
-        position absolute
-        left 10px
-        top 0
-        height 3em
-        line-height 3em
-        width 3em
-      .title
-        display inline-block
-        height 3em
-        line-height 3em
     .ui-user
       padding 1em 0
       width 100%

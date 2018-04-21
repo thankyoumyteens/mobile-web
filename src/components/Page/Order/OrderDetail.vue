@@ -1,11 +1,7 @@
 <template>
   <transition name="user-info-move">
     <div class="order-detail" v-show="isShow">
-      <header>
-        <div class="close" @click="hide"><</div>
-        <span class="title">订单详情</span>
-      </header>
-      <split></split>
+      <v-header titleText="订单详情" @back="hide"></v-header>
       <div class="sc-wrapper" ref="scWrapper">
         <div>
           <div class="order-detail-wrapper" v-if="orderDetail">
@@ -75,6 +71,7 @@
 
 <script type="text/ecmascript-6">
   import Vue from 'vue'
+  import VHeader from '@/components/Util/Header/Header'
   import split from '@/components/Util/Split/Split'
   import splits from '@/components/Util/Split/SplitSmall'
   import waitp from '@/components/Util/UtilPage/WaitPay'
@@ -90,7 +87,8 @@
     components: {
       split,
       splits,
-      waitp
+      waitp,
+      VHeader
     },
     data () {
       return {
@@ -169,28 +167,6 @@
     width 100%
     background #fff
     box-sizing border-box
-    header
-      width 100%
-      height 3em
-      line-height 3em
-      background #fff
-      position relative
-      text-align center
-      color #000
-      .close
-        position absolute
-        left 10px
-        top 0
-        height 3em
-        line-height 3em
-        width 3em
-      .title
-        display inline-block
-        height 3em
-        line-height 3em
-      .login-link
-        float right
-        margin-right 1em
     .rel
       position relative
       height 100%

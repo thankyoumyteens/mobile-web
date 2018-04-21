@@ -1,6 +1,7 @@
 <template>
   <transition name="wait-pay-move">
     <div class="wait-pay" v-show="isShow">
+      <!--<v-header titleText="支付" actionText="去支付" @back="hide" @action=""></v-header>-->
       <header>
         <div class="close" @click="hide"><</div>
         <span class="title">订单</span>
@@ -22,6 +23,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import VHeader from '@/components/Util/Header/Header'
   import split from '@/components/Util/Split/Split'
   import {
     path
@@ -29,7 +31,8 @@
 
   export default {
     components: {
-      split
+      split,
+      VHeader
     },
     data() {
       return {

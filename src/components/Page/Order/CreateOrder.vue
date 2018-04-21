@@ -1,12 +1,7 @@
 <template>
   <transition name="user-info-move">
     <div class="create-order" v-show="isShow">
-      <header>
-        <div class="close" @click="hide"><</div>
-        <span class="title">确认订单</span>
-        <a class="login-link" @click="doReset">确定</a>
-      </header>
-      <split></split>
+      <v-header titleText="确认订单" actionText="确定" @back="hide" @action="doReset"></v-header>
       <div class="shipping-list-item" v-if="shippingList[shippingIndex]">
         <div class="sli-line sli-top">
           <div class="sli-item">{{shippingList[shippingIndex]['receiverName']}}</div>
@@ -52,6 +47,7 @@
 
 <script type="text/ecmascript-6">
   import Vue from 'vue'
+  import VHeader from '@/components/Util/Header/Header'
   import split from '@/components/Util/Split/Split'
   import BetterScroll from 'better-scroll'
   import {
@@ -60,7 +56,8 @@
 
   export default {
     components: {
-      split
+      split,
+      VHeader
     },
     data () {
       return {
@@ -193,28 +190,6 @@
     width 100%
     background #fff
     box-sizing border-box
-    header
-      width 100%
-      height 3em
-      line-height 3em
-      background #fff
-      position relative
-      text-align center
-      color #000
-      .close
-        position absolute
-        left 10px
-        top 0
-        height 3em
-        line-height 3em
-        width 3em
-      .title
-        display inline-block
-        height 3em
-        line-height 3em
-      .login-link
-        float right
-        margin-right 1em
     .rel
       position relative
       height 100%
