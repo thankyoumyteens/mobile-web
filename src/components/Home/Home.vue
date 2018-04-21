@@ -38,7 +38,6 @@
             let item = data[i]
             Vue.set(this.imgList, i, item)
           }
-          console.log(this.imgList)
           // 开启图片轮播
           this.autoChange()
         } else {
