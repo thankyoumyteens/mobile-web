@@ -1,6 +1,6 @@
 <template>
   <div class="header-use-we-vue">
-    <wv-header :title="titleText" :fixed="false" background-color="rgb(76, 175, 80)">
+    <wv-header :title="titleText" :fixed="isFixed" :background-color="backgroundColor">
       <div class="btn-back" slot="left" @click="back">
         <
         <!--<i class="iconfont icon-back" @click="$router.push('/')"></i>-->
@@ -23,6 +23,14 @@
         titleText: {
           type: String,
           default: ''
+        },
+        isFixed: {
+          type: Boolean,
+          default: false
+        },
+        backgroundColor: {
+          type: String,
+          default: '#dc143c'
         }
       },
       methods: {

@@ -51,6 +51,14 @@
       }
       this.currentComponent = address
     },
+    mounted() {
+      // 禁用浏览器后退
+      window.onpopstate = () => {
+        if (!this.allowBack) {
+          history.go(1)
+        }
+      }
+    },
     data() {
       return {
         productionSimple: null,
@@ -185,7 +193,7 @@
         text-align center
         color #555
         &.nav-active
-          color #e31d1a
+          color #dc143c
         .nav-item-icon
           display block
           font-size 2em

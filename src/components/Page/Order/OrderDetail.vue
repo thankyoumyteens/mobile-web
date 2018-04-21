@@ -173,7 +173,7 @@
     .sc-wrapper
       overflow hidden
       position absolute
-      top 4.5em
+      top 50px
       bottom 0
       width 100%
       .order-detail-wrapper

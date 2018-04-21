@@ -13,27 +13,32 @@ export default new Router({
     {
       path: '/',
       name: 'Home',
-      component: Home
+      component: Home,
+      meta: {allowBack: false}
     },
     {
       path: '/category',
       name: 'Category',
-      component: Category
+      component: Category,
+      meta: {allowBack: false}
     },
     {
       path: '/recommend',
       name: 'Recommend',
-      component: Recommend
+      component: Recommend,
+      meta: {allowBack: false}
     },
     {
       path: '/cart',
       name: 'Cart',
-      component: Cart
+      component: Cart,
+      meta: {allowBack: false}
     },
     {
       path: '/user',
       name: 'User',
-      component: User
+      component: User,
+      meta: {allowBack: false}
     }
   ]
 })

@@ -140,6 +140,7 @@
             url = path()['orderListPayed'] + '?pageNum=' + this.pageNum
             break
         }
+        // todo 加载中
         this.$http.get(url).then(response => {
           let res = response.body
           if (res['status'] === 0) {
@@ -195,7 +196,7 @@
     .sc-wrapper
       overflow hidden
       position absolute
-      top 4.5em
+      top 50px
       bottom 0
       width 100%
     .order-list-wrapper
