@@ -5,7 +5,7 @@
       <div class="loading" v-if="currentProductionNavIndex===0&&!productionDetail">
         <wv-spinner type="dot-circle" :size="50"></wv-spinner>
       </div>
-      <div class="loading" v-if="currentProductionNavIndex===2&&commentList.length<=0">
+      <div class="loading" v-if="isLoadingComment&&currentProductionNavIndex===2&&commentList.length<=0">
         <wv-spinner type="dot-circle" :size="50"></wv-spinner>
       </div>
       <section class="production-detail scroll-wrapper" ref="scrollWrapperProduction">
@@ -51,7 +51,7 @@
               <div class="pm-content" v-html="productionDetail['detail']['html']"></div>
             </section>
             <!--评价-->
-            <section class="production-review" v-if="commentList.length > 0" v-show="currentProductionNavIndex===2">
+            <section class="production-review" v-show="currentProductionNavIndex===2">
               <div class="pr-top">
                 <!--<div class="pr-top-percent border-1px">-->
                 <!--好评率:-->
@@ -75,7 +75,7 @@
                 </div>
               </div>
               <split></split>
-              <div class="pr-list">
+              <div class="pr-list" v-if="commentList.length > 0">
                 <div>
                   <div class="pr-item" v-for="item in commentList">
                     <div class="pr-item-top">
@@ -164,6 +164,7 @@
         currentProductionNavIndex: 0,
         scrollProduction: null,
         productionDetail: null,
+        isLoadingComment: false,
         commentList: [],
         pageNum: 1, // todo 评论分页
         pageSize: 10,
@@ -349,12 +350,14 @@
        * 评论列表
        */
       getCommentList(url) {
+        this.isLoadingComment = true
         if (!url) {
           url = path()['commentList'] + '?goodsId=' +
             this.productionDetail['goodsId'] + '&pageNum=' + this.pageNum
         }
         // todo 分页
         this.$http.get(url).then((response) => {
+          this.isLoadingComment = false
           let status = response.body['status']
           if (status === 0) {
             let data = response.body['data']
