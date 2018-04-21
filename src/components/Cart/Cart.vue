@@ -1,6 +1,6 @@
 <template>
   <div class="cart">
-    <div class="cart-list" v-if="cartList!=null">
+    <div class="cart-list" v-if="cartList.length>0">
       <div class="cart-item" v-for="(item,index) in cartList">
         <div class="cart-item-checkbox" @click="checkItem(item, index)">
           <checkbox :checked="item['checked']==1"></checkbox>
@@ -22,6 +22,10 @@
         点击加载更多
       </div>
     </div>
+    <div class="loading" v-if="user&&cartList.length<=0">
+      <wv-spinner type="dot-circle" :size="50"></wv-spinner>
+    </div>
+    <div class="loading" v-if="!user">请登陆</div>
     <div class="pay-bar">
       <div class="pay-bar-checkbox" @click="checkAll">
         <checkbox ref="checkAll" :checked="isAllChecked"></checkbox>

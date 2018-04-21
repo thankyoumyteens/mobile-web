@@ -1,7 +1,11 @@
 <template>
   <div class="category">
-    <div class="category-item border-1px" @click="detail(item)" v-for="item in categoryList">
+    <div class="category-item border-1px" @click="detail(item)" v-if="categoryList.length>0"
+         v-for="item in categoryList">
       <div class="company-logo"><img :src="item['img']" alt=""></div>
+    </div>
+    <div class="loading" v-if="categoryList.length<=0">
+      <wv-spinner type="dot-circle" :size="50"></wv-spinner>
     </div>
   </div>
 </template>
@@ -13,7 +17,7 @@
   } from '@/commons/address.js'
 
   export default {
-    created () {
+    created() {
       this.$http.get(path()['categoryList']).then((response) => {
         let status = response.body['status']
         if (status === 0) {
@@ -22,13 +26,13 @@
         }
       })
     },
-    data () {
+    data() {
       return {
         categoryList: []
       }
     },
     methods: {
-      detail (category) {
+      detail(category) {
         this.$emit('category', category)
       }
     }

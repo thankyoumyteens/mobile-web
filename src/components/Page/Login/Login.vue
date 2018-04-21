@@ -4,8 +4,8 @@
       <header>
         <div class="close" @click="hide"><</div>
         <h1 class="title"></h1>
-        <a class="login-link" @click="doLogin" v-show="isLogin">登陆</a>
-        <a class="login-link" @click="doRegister" v-show="!isLogin">注册</a>
+        <a class="login-link" @click="doLogin" v-show="isLogin">{{loginText}}</a>
+        <a class="login-link" @click="doRegister" v-show="!isLogin">{{regText}}</a>
       </header>
       <div class="si-content" v-show="isLogin">
         <input type="text" ref="username" placeholder="账号">
@@ -42,7 +42,9 @@
     data () {
       return {
         isShow: false,
-        isLogin: true
+        isLogin: true,
+        loginText: '登陆',
+        regText: '注册'
       }
     },
     methods: {
@@ -88,6 +90,7 @@
           })
           return false
         }
+        this.regText = '请稍等...'
         this.$http.post(path()['register'], {
           'username': username,
           'password': password,
@@ -96,6 +99,7 @@
           'phone': phone
         }).then(response => {
           let res = response.body
+          this.regText = '注册'
           if (res['status'] === 0) {
             Dialog({
               title: '注册成功',
@@ -118,11 +122,13 @@
         if (username === '' || password === '') {
           return
         }
+        this.loginText = '请稍等...'
         this.$http.post(path()['login'], {
           'username': username,
           'password': password
         }).then(response => {
           let res = response.body
+          this.loginText = '登陆'
           if (res['status'] === 0) {
             let data = res['data']
             this.$emit('success', data)

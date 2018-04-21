@@ -2,7 +2,10 @@
   <transition name="user-info-move">
     <div class="order-list" v-show="isShow">
       <v-header :titleText="title" @back="hide"></v-header>
-      <div class="sc-wrapper" ref="olistWrapper">
+      <div class="loading" v-if="orderList.length<=0">
+        <wv-spinner type="dot-circle" :size="50"></wv-spinner>
+      </div>
+      <div class="sc-wrapper" ref="olistWrapper" v-if="orderList.length>0">
         <div>
           <div class="order-list-wrapper">
             <div class="order-list-item" v-for="(item,index) in orderList">

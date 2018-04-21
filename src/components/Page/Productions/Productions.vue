@@ -8,7 +8,10 @@
           <div>搜索商品</div>
         </div>
       </header>
-      <section class="production-list scroll-wrapper" ref="scrollWrapperProductionList">
+      <div class="loading" v-if="productionList.length<=0">
+        <wv-spinner type="dot-circle" :size="50"></wv-spinner>
+      </div>
+      <section class="production-list scroll-wrapper" v-if="productionList.length>0" ref="scrollWrapperProductionList">
         <div>
           <div class="production-item border-1px" @click="showDetail(production)" v-for="production in productionList">
             <div class="production-img"><img :src="production['mainImage']" alt=""></div>
@@ -80,6 +83,7 @@
       },
       initScroll () {
         this.$nextTick(() => {
+          if (!this.$refs.scrollWrapperProductionList) return
           if (!this.scrollProductionList) {
             this.scrollProductionList = new BetterScroll(this.$refs.scrollWrapperProductionList, {
               click: true

@@ -2,6 +2,12 @@
   <transition name="production-move">
     <div class="production" v-show="productionShow">
       <div class="close" @click="hide"><i class="icon-cross"></i></div>
+      <div class="loading" v-if="currentProductionNavIndex===0&&!productionDetail">
+        <wv-spinner type="dot-circle" :size="50"></wv-spinner>
+      </div>
+      <div class="loading" v-if="currentProductionNavIndex===2&&commentList.length<=0">
+        <wv-spinner type="dot-circle" :size="50"></wv-spinner>
+      </div>
       <section class="production-detail scroll-wrapper" ref="scrollWrapperProduction">
         <div>
           <div class="production-info">
@@ -17,7 +23,7 @@
               </div>
             </div>
             <!--商品-->
-            <section class="production-home" v-if="productionDetail != null" v-show="currentProductionNavIndex==0">
+            <section class="production-home" v-if="productionDetail" v-show="currentProductionNavIndex===0">
               <div class="ph-image-show">
                 <!--废弃-->
                 <!--<div class="ph-image-wrapper border-1px"-->
@@ -47,11 +53,11 @@
               <split></split>
             </section>
             <!--详情-->
-            <section class="production-more" v-if="false" v-show="currentProductionNavIndex==1">
+            <section class="production-more" v-if="false" v-show="currentProductionNavIndex===1">
               <div class="pm-content" v-html="productionDetail['detail']['html']"></div>
             </section>
             <!--评价-->
-            <section class="production-review" v-if="commentList.length > 0" v-show="currentProductionNavIndex==2">
+            <section class="production-review" v-if="commentList.length > 0" v-show="currentProductionNavIndex===2">
               <div class="pr-top">
                 <!--<div class="pr-top-percent border-1px">-->
                 <!--好评率:-->
@@ -352,6 +358,7 @@
           url = path()['commentList'] + '?goodsId=' +
             this.productionDetail['goodsId'] + '&pageNum=' + this.pageNum
         }
+        // todo 分页
         this.$http.get(url).then((response) => {
           let status = response.body['status']
           if (status === 0) {

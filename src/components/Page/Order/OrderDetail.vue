@@ -2,6 +2,9 @@
   <transition name="user-info-move">
     <div class="order-detail" v-show="isShow">
       <v-header titleText="订单详情" @back="hide"></v-header>
+      <div class="loading" v-if="!orderDetail">
+        <wv-spinner type="dot-circle" :size="50"></wv-spinner>
+      </div>
       <div class="sc-wrapper" ref="scWrapper">
         <div>
           <div class="order-detail-wrapper" v-if="orderDetail">
