@@ -2,27 +2,21 @@
   <transition name="user-info-move">
     <div class="reset-password-wrapper" v-show="isShow">
       <v-header titleText="忘记密码" :actionText="label" @back="hide" @action="doNext"></v-header>
-      <div class="si-content" v-show="!isShowQuestion">
-        <div class="si-label">
-          <div class="sil-title">用户名: </div>
-          <input type="text" class="si-input" ref="questionUsername" value="">
-        </div>
+      <div class="si-iii-content" v-show="!isShowQuestion">
+        <wv-group title="忘记密码">
+          <wv-input label="用户名" placeholder="" v-model="username"></wv-input>
+        </wv-group>
       </div>
-      <div class="si-content" v-show="isShowQuestion&&!isResetPassword">
-        <div class="si-label">
-          <div class="sil-title">密保问题: </div>
-          <div class="sil-text">{{question}}</div>
-        </div>
-        <div class="si-label">
-          <div class="sil-title">答案: </div>
-          <input type="text" class="si-input" ref="questionAnswer" value="">
-        </div>
+      <div class="si-iii-content" v-show="isShowQuestion&&!isResetPassword">
+        <wv-group title="忘记密码">
+          <wv-input label="密保问题" placeholder="" v-model="question"></wv-input>
+          <wv-input label="答案" placeholder="" v-model="answer"></wv-input>
+        </wv-group>
       </div>
-      <div class="si-content" v-show="isResetPassword">
-        <div class="si-label">
-          <div class="sil-title">新密码: </div>
-          <input type="password" class="si-input" ref="questionPassword" value="">
-        </div>
+      <div class="si-iii-content" v-show="isResetPassword">
+        <wv-group title="忘记密码">
+          <wv-input label="新密码" placeholder="" type="password" v-model="pwdNew"></wv-input>
+        </wv-group>
       </div>
     </div>
   </transition>
@@ -49,7 +43,10 @@
         isResetPassword: false,
         step: 1,
         question: '',
-        token: ''
+        token: '',
+        username: '',
+        answer: '',
+        pwdNew: ''
       }
     },
     methods: {
@@ -70,11 +67,11 @@
         }
       },
       getQuestion () {
-        if (!this.$refs.questionUsername.value) {
+        if (!this.username) {
           return
         }
         this.$http.post(path()['getQuestion'], {
-          'username': this.$refs.questionUsername.value
+          'username': this.username
         }).then(response => {
           let res = response.body
           if (res['status'] === 0) {
@@ -91,13 +88,13 @@
         })
       },
       checkAnswer () {
-        if (!this.$refs.questionAnswer.value) {
+        if (!this.answer) {
           return
         }
         this.$http.post(path()['checkAnswer'], {
-          'username': this.$refs.questionUsername.value,
+          'username': this.username,
           'question': this.question,
-          'answer': this.$refs.questionAnswer.value
+          'answer': this.answer
         }).then(response => {
           let res = response.body
           if (res['status'] === 0) {
@@ -116,8 +113,8 @@
       },
       doReset () {
         this.$http.post(path()['questionResetPassword'], {
-          'username': this.$refs.questionUsername.value,
-          'password': this.$refs.questionPassword.value,
+          'username': this.username,
+          'password': this.pwdNew,
           'token': this.token
         }).then(response => {
           let res = response.body
@@ -141,6 +138,11 @@
         this.isShow = true
         this.label = '继续'
         this.step = 1
+        this.question = ''
+        this.answer = ''
+        this.token = ''
+        this.username = ''
+        this.pwdNew = ''
         this.isShowQuestion = false
         this.isResetPassword = false
       },
@@ -175,38 +177,4 @@
     width 100%
     background #fff
     box-sizing border-box
-    .si-content
-      .si-label
-        display block
-        width 95%
-        height 3em
-        line-height 3em
-        margin 1em auto
-        padding-left 0.9em
-        box-sizing border-box
-        .sil-title
-          float left
-          width 20%
-          line-height 3em
-        .sil-text
-          float left
-          margin-left 1em
-          line-height 3em
-        .si-input
-          margin-left 1em
-          width 50%
-          height 3em
-          line-height 3em
-          border 0.1em solid #ccc
-          border-radius 5px
-          padding-left 1em
-          box-sizing border-box
-      .login-button
-        color #fff
-        background rgba(240, 20, 20, 0.9)
-        &:active
-          background rgba(240, 20, 20, 0.8)
-        &.disable
-          color #ccc
-          background rgba(240, 20, 20, 0.7)
 </style>
