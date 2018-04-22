@@ -5,7 +5,6 @@ export function path() {
   let local = ''
   let server = 'http://localhost:8088/mobile/'
   // server = local
-  // todo 购物车为空时一直loading
   // todo 写评论
   return {
     /**

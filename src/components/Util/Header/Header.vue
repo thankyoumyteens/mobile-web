@@ -30,7 +30,7 @@
         },
         backgroundColor: {
           type: String,
-          default: '#dc143c'
+          default: '#e64340'
         }
       },
       methods: {

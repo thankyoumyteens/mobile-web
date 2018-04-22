@@ -96,9 +96,7 @@
       },
       toCart(cartInfo) {
         // 将商品添加到购物车 如果没登陆(this.user===null)就保存到本地或者转到登陆
-        // todo 防止重复添加商品, 根据productId
         if (this.user === null) {
-          // todo localStorage
           Dialog({
             title: '提示',
             message: '请登陆',
@@ -193,7 +191,7 @@
         text-align center
         color #555
         &.nav-active
-          color #dc143c
+          color #e64340
         .nav-item-icon
           display block
           font-size 2em

@@ -47,6 +47,7 @@
 
 <script type="text/ecmascript-6">
   import Vue from 'vue'
+  import {Dialog} from 'we-vue'
   import VHeader from '@/components/Util/Header/Header'
   import split from '@/components/Util/Split/Split'
   import BetterScroll from 'better-scroll'
@@ -112,6 +113,14 @@
         }
       },
       doReset () {
+        if (this.shippingList <= 0) {
+          Dialog({
+            title: '提示',
+            message: '请先添加收货地址',
+            skin: 'ios'
+          })
+          return false
+        }
         this.$http.post(path()['createOrder'], {
           'shippingId': this.shippingList[this.shippingIndex]['id']
         }).then(response => {

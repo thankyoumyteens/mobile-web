@@ -3,10 +3,8 @@
     <header>
       <div class="wall">
         <transition-group class="img-wrapper" tag="div" name="image">
-          <!--<div class="img-wrapper">-->
           <img @click="openDetail(item)" :src="item" v-show="index===currentImgIndex" class="img-item"
                v-for="(item,index) in imgList" :key="index">
-          <!--</div>-->
         </transition-group>
         <div class="count-bar">
           <span @click="changeImg(index)" v-for="(item,index) in imgList"
@@ -139,7 +137,7 @@
             display inline-block
             margin-right 0.5em
             &.count-active
-              background #e31d1a !important
+              background #e64340 !important
     .search-bar
       background #fff
       position absolute

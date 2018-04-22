@@ -22,8 +22,11 @@
         点击加载更多
       </div>
     </div>
-    <div class="loading" v-if="user&&cartList.length<=0">
+    <div class="loading" v-if="isLoading&&user&&cartList.length<=0">
       <wv-spinner type="dot-circle" :size="50"></wv-spinner>
+    </div>
+    <div class="loading" v-if="!isLoading&&user&&cartList.length<=0">
+      空空如也
     </div>
     <div class="loading" v-if="!user">请登陆</div>
     <div class="pay-bar">
@@ -67,7 +70,8 @@
         pageNum: 1,
         pageSize: 10,
         pages: 1,
-        hasNextPage: false
+        hasNextPage: false,
+        isLoading: false
       }
     },
     computed: {
@@ -99,7 +103,6 @@
       createOrderSuccess(order) {
         this.getCartListReset()
         console.log(order)
-        // todo (可选)打开订单详情页/支付页面
         this.$refs.waitpWaitPay.show(order['orderNo'])
       },
       createOrderBefore() {
@@ -228,7 +231,9 @@
       },
       getCartList() {
         if (this.user !== null && this.user !== undefined) {
+          this.isLoading = true
           this.$http.get(path()['getCart'] + '?pageNum=' + this.pageNum).then(response => {
+            this.isLoading = false
             let res = response.body
             console.log(res)
             if (res['status'] === 0) {
@@ -244,8 +249,6 @@
               console.log(res['msg'])
             }
           })
-        } else {
-          // todo 读取本地购物车列表
         }
       }
     }
@@ -299,7 +302,7 @@
             font-size 0.8em
             line-height 3em
           .cart-item-price
-            color crimson
+            color #e64340
         .cart-item-count
           position absolute
           right 1em
@@ -339,7 +342,7 @@
         position absolute
         right 0
         top 0
-        background-color crimson
+        background-color #e64340
         color #fff
         width 5em
         line-height 3em

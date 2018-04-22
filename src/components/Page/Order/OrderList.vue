@@ -2,8 +2,11 @@
   <transition name="user-info-move">
     <div class="order-list" v-show="isShow">
       <v-header :titleText="title" @back="hide"></v-header>
-      <div class="loading" v-if="orderList.length<=0">
+      <div class="loading" v-if="isLoading&&orderList.length<=0">
         <wv-spinner type="dot-circle" :size="50"></wv-spinner>
+      </div>
+      <div class="loading" v-if="!isLoading&&orderList.length<=0">
+        没有订单
       </div>
       <div class="sc-wrapper" ref="olistWrapper" v-if="orderList.length>0">
         <div>
@@ -74,7 +77,8 @@
         shippingIndex: 0,
         olistWrapperScroll: null,
         status: -1,
-        title: ''
+        title: '',
+        isLoading: false
       }
     },
     methods: {
@@ -128,6 +132,7 @@
         this.getOrderList()
       },
       getOrderList () {
+        this.isLoading = true
         let url = ''
         switch (this.status) {
           case -1:
@@ -144,6 +149,7 @@
             break
         }
         this.$http.get(url).then(response => {
+          this.isLoading = false
           let res = response.body
           if (res['status'] === 0) {
             let data = response.body['data']['list']
