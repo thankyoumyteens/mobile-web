@@ -38,7 +38,7 @@
             </div>
             <splits></splits>
             <div class="order-list-item-detail">
-              <p class="order-list-item-title" @click="doPay(orderDetail['orderNo'])" v-if="orderDetail['status']===10">去支付</p>
+              <p class="order-list-item-title" @click="doPay(orderDetail)" v-if="orderDetail['status']===10">去支付</p>
               <p class="order-list-item-title" v-if="orderDetail['status']===20">提醒发货</p>
               <p class="order-list-item-title" v-if="orderDetail['status']===40">确认收货</p>
               <p class="order-list-item-price">￥{{orderDetail['payment']}}</p>
@@ -46,23 +46,23 @@
             <split></split>
             <div class="order-list-item-time" v-if="orderDetail['createTime']">
               <p class="order-list-item-time-title">创建时间:</p>
-              <p class="order-list-item-time-text">{{formatDate(orderDetail['createTime'])}}</p>
+              <p class="order-list-item-time-text">{{(orderDetail['createTime'])}}</p>
             </div>
             <div class="order-list-item-time" v-if="orderDetail['paymentTime']">
               <p class="order-list-item-time-title">支付时间:</p>
-              <p class="order-list-item-time-text">{{formatDate(orderDetail['paymentTime'])}}</p>
+              <p class="order-list-item-time-text">{{(orderDetail['paymentTime'])}}</p>
             </div>
             <div class="order-list-item-time" v-if="orderDetail['sendTime']">
               <p class="order-list-item-time-title">发货时间:</p>
-              <p class="order-list-item-time-text">{{formatDate(orderDetail['sendTime'])}}</p>
+              <p class="order-list-item-time-text">{{(orderDetail['sendTime'])}}</p>
             </div>
             <div class="order-list-item-time" v-if="orderDetail['endTime']">
               <p class="order-list-item-time-title">完成时间:</p>
-              <p class="order-list-item-time-text">{{formatDate(orderDetail['endTime'])}}</p>
+              <p class="order-list-item-time-text">{{(orderDetail['endTime'])}}</p>
             </div>
             <div class="order-list-item-time" v-if="orderDetail['closeTime']">
               <p class="order-list-item-time-title">关闭时间:</p>
-              <p class="order-list-item-time-text">{{formatDate(orderDetail['closeTime'])}}</p>
+              <p class="order-list-item-time-text">{{(orderDetail['closeTime'])}}</p>
             </div>
           </div>
         </div>
@@ -82,9 +82,6 @@
   import {
     path
   } from '@/commons/address.js'
-  import {
-    formatTimestamp
-  } from '@/commons/util.js'
 
   export default {
     components: {
@@ -102,8 +99,8 @@
       }
     },
     methods: {
-      doPay(orderNo) {
-        this.$refs.waitpWaitPay.show(orderNo)
+      doPay(order) {
+        this.$refs.waitpWaitPay.show(order)
       },
       show (orderId) {
         this.orderId = orderId
@@ -124,9 +121,6 @@
             this.scWrapperScroll.refresh()
           }
         })
-      },
-      formatDate (string) {
-        return formatTimestamp(string)
       },
       getOrderDetail () {
         this.$http.post(path()['orderDetail'], {
@@ -189,7 +183,7 @@
             width 95%
             margin-left 2.5%
             margin-right 2.5%
-            height 3em
+            /*height 3em*/
             line-height 3em
             &.sli-top
               font-weight bold

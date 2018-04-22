@@ -26,7 +26,7 @@
               </div>
               <splits></splits>
               <div class="order-list-item-detail">
-                <p class="order-list-item-title" @click="doPay(item['orderNo'])" v-if="item['status']===10">去支付</p>
+                <p class="order-list-item-title" @click="doPay(item['orderId'], item['orderNo'])" v-if="item['status']===10">去支付</p>
                 <p class="order-list-item-title" v-if="item['status']===20">提醒发货</p>
                 <p class="order-list-item-title" v-if="item['status']===40">确认收货</p>
                 <p class="order-list-item-price">￥{{item['totalPrice']}}</p>
@@ -82,8 +82,8 @@
       }
     },
     methods: {
-      doPay(orderNo) {
-        this.$refs.waitpWaitPay.show(orderNo)
+      doPay(orderId, orderNo) {
+        this.$refs.waitpWaitPay.showById(orderId, orderNo)
       },
       show (type) {
         this.orderList = []

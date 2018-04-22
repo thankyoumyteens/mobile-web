@@ -102,8 +102,7 @@
     methods: {
       createOrderSuccess(order) {
         this.getCartListReset()
-        console.log(order)
-        this.$refs.waitpWaitPay.show(order['orderNo'])
+        this.$refs.waitpWaitPay.show(order)
       },
       createOrderBefore() {
         if (!this.checkCart()) {

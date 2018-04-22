@@ -60,6 +60,10 @@ export function path() {
     'orderListNotPay': server + 'order/list_not_pay.do', // 订单列表
     'orderListPayed': server + 'order/list_payed.do', // 订单列表
     'orderDetail': server + 'order/detail.do', // 订单详情
+    'orderDetailByNo': server + 'order/detail_by_no.do', // 订单详情
+    /**
+     * 首页
+     */
     'homeImgList': server + 'home/images.do', // 获取首页轮播图片列表
     'homePlaceholder': server + 'home/placeholder.do' // 获取首页搜索框提示文字
   }
