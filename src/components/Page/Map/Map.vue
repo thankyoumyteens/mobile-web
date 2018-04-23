@@ -38,32 +38,48 @@
             zoomToAccuracy: true     // 定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
           })
           mapObj.addControl(geolocation)
-          geolocation.getCurrentPosition() // 精确定位, 需要https
+          // 定位到市
           geolocation.getCityInfo((status, result) => {
             if (status == 'complete') {
               vueObject.updateMap(result['center'])
             }
-          }) // 定位到市
-          // 定位成功
-          AMap.event.addListener(geolocation, 'complete', (geolocationResult) => {
-            console.log('定位成功')
-            console.log(geolocationResult)
-            let position = geolocationResult['position']
-            // 根据定位信息更新地图
-            vueObject.updateMap(position)
           })
-          // 定位失败
-          AMap.event.addListener(geolocation, 'error', (geolocationError) => {
-            console.log('定位失败')
-            // console.log(geolocationError['info'])
-            console.log(geolocationError['message'])
-            if (geolocationError['info'] == 'FAILED') {
-              // vueObject.getPosition()
+          // 精确定位, 需要https
+          geolocation.getCurrentPosition((status, result) => {
+            if (status == 'complete') {
+              console.log('定位成功')
+              console.log(result)
+              vueObject.updateMap(result['position'])
+            }
+            if (status == 'error') {
+              console.log('定位失败')
+              // console.log(geolocationError['info'])
+              console.log(result['message'])
+              if (result['info'] == 'FAILED') {
+                // vueObject.getPosition()
+              }
             }
           })
+          // 定位成功
+          // AMap.event.addListener(geolocation, 'complete', (geolocationResult) => {
+          //   console.log('定位成功')
+          //   console.log(geolocationResult['position'])
+          //   // 根据定位信息更新地图
+          //   vueObject.updateMap(geolocationResult['position'])
+          // })
+          // 定位失败
+          // AMap.event.addListener(geolocation, 'error', (geolocationError) => {
+          //   console.log('定位失败')
+          //   // console.log(geolocationError['info'])
+          //   console.log(geolocationError['message'])
+          //   if (geolocationError['info'] == 'FAILED') {
+          //     vueObject.getPosition()
+          //   }
+          // })
         })
       },
       initMap(position) {
+        let vueObject = this
         if (!position) {
           position = [121.473658, 31.230378] // 上海
         }
@@ -72,10 +88,15 @@
           zoom: 11,
           center: position
         })
+        // 设置插件
+        AMap.plugin(['AMap.ToolBar'], function () {
+          // 创建并添加工具条控件
+          vueObject.map.addControl(new AMap.ToolBar())
+        })
       },
       updateMap(position) {
         // 设置缩放级别和中心点
-        this.map.setZoomAndCenter(11, position)
+        this.map.setZoomAndCenter(14, position)
         // 在新中心点添加 marker
         let marker = new AMap.Marker({
           map: this.map,
