@@ -49,6 +49,7 @@
             if (status == 'complete') {
               console.log('定位成功')
               console.log(result)
+              // 更新地图
               vueObject.updateMap(result['position'])
             }
             if (status == 'error') {
@@ -60,22 +61,6 @@
               }
             }
           })
-          // 定位成功
-          // AMap.event.addListener(geolocation, 'complete', (geolocationResult) => {
-          //   console.log('定位成功')
-          //   console.log(geolocationResult['position'])
-          //   // 根据定位信息更新地图
-          //   vueObject.updateMap(geolocationResult['position'])
-          // })
-          // 定位失败
-          // AMap.event.addListener(geolocation, 'error', (geolocationError) => {
-          //   console.log('定位失败')
-          //   // console.log(geolocationError['info'])
-          //   console.log(geolocationError['message'])
-          //   if (geolocationError['info'] == 'FAILED') {
-          //     vueObject.getPosition()
-          //   }
-          // })
         })
       },
       initMap(position) {
