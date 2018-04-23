@@ -2,9 +2,11 @@
   <div id="app">
     <header></header>
     <section id="viewer">
+      <!--<keep-alive>-->
       <router-view :user="user" @success="loginSuccess" @detail="detail" @logout="logoutSuccess"
                    @avatar="changeAvatarSuccess" @update="updateSuccess" @search="openSearch"
                    @category="openProductions"></router-view>
+      <!--</keep-alive>-->
     </section>
     <section id="navBar">
       <div @click="goTo('home')" :class="[currentComponent=='home'?'nav-active':'']" class="nav-item"><i

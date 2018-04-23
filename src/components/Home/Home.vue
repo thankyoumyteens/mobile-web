@@ -16,16 +16,21 @@
         <div>{{placeholder}}</div>
       </div>
     </header>
+    <geo-map></geo-map>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import Vue from 'vue'
+  import GeoMap from '@/components/Page/Map/Map'
   import {
     path
   } from '@/commons/address.js'
 
   export default {
+    components: {
+      GeoMap
+    },
     created() {
       // 获取图片
       this.$http.get(path()['homeImgList']).then((response) => {
@@ -54,6 +59,8 @@
           console.log(msg)
         }
       })
+    },
+    mounted() {
     },
     data() {
       return {
@@ -159,4 +166,7 @@
         line-height 2em
         padding 0
         padding-left 3em
+    .map-container
+      width 100%
+      height 20em
 </style>

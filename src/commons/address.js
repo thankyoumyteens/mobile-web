@@ -5,7 +5,12 @@ export function path() {
   let local = ''
   let server = 'http://localhost:8088/mobile/'
   // server = local
+  // todo 删除购物车
+  // todo 商品详情
   // todo 写评论
+  // todo 打开支付宝页后院页面显示[支付完成, 支付未完成]选项
+  // todo 提醒发货
+  // todo 各种分页
   return {
     /**
      * 用户

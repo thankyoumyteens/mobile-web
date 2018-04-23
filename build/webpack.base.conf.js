@@ -27,6 +27,9 @@ module.exports = {
       '@': resolve('src'),
     }
   },
+  externals: {
+    'AMap': 'AMap'
+  },
   module: {
     rules: [
       ...(config.dev.useEslint? [{
