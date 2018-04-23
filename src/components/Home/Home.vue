@@ -16,7 +16,7 @@
         <div>{{placeholder}}</div>
       </div>
     </header>
-    <geo-map></geo-map>
+    <!--<geo-map></geo-map>-->
   </div>
 </template>
 
