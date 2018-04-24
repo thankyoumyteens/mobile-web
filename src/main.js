@@ -14,7 +14,6 @@ Vue.use(WeVue)
 
 Vue.config.productionTip = false
 
-Vue.http.options.emulateJSON = true
 Vue.http.options.headers = {
   'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
 }
