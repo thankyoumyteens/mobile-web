@@ -117,6 +117,7 @@
         this.$refs.comp_od.show(orderId)
       },
       initScroll () {
+        if (!this.$refs.olistWrapper) return
         this.$nextTick(() => {
           if (!this.olistWrapperScroll) {
             this.olistWrapperScroll = new BetterScroll(this.$refs.olistWrapper, {

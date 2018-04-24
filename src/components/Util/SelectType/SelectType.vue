@@ -60,7 +60,9 @@
           })
           return false
         }
-        this.$emit('cart', this.propertiesList[this.currentIndex])
+        let index = this.currentIndex
+        this.currentIndex = 0
+        this.$emit('cart', this.propertiesList[index])
         this.selectShow = false
       },
       /**
@@ -165,20 +167,18 @@
             list.push(this.propertiesList[index]['text'])
           }
           this.formatMap(list)
-          // for (let key in this.indexObj) {
-          //   this.indexObj[key] = 0
-          // }
-          // this.totalMoney = this.propertiesList[0]['price']
           this.totalMoney = 0
           this.selectedKeys = {}
         }
         this.selectShow = true
       },
       hide() {
+        let index = this.currentIndex
+        this.currentIndex = 0
         if (!this.isOk) {
           this.$emit('selected', null)
         } else {
-        this.$emit('selected', this.propertiesList[this.currentIndex])
+        this.$emit('selected', this.propertiesList[index])
         }
         this.selectShow = false
       }

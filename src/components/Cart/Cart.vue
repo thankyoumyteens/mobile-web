@@ -17,6 +17,9 @@
           <div class="cart-item-count-item cart-item-count-text">{{item['quantity']}}</div>
           <div @click="cartItemAdd(index)" class="cart-item-count-item cart-item-count-op cart-item-count-add">+</div>
         </div>
+        <div class="cart-item-delete" @click="deleteCartItem(item['id'])">
+          <i class="icon-cross"></i>
+        </div>
       </div>
       <div class="next-page" @click="getMore" v-show="hasNextPage">
         点击加载更多
@@ -44,6 +47,7 @@
 
 <script type="text/ecmascript-6">
   import Vue from 'vue'
+  import {Dialog} from 'we-vue'
   import co from '@/components/Page/Order/CreateOrder'
   import checkbox from '@/components/Util/Checkbox/Checkbox'
   import waitp from '@/components/Util/UtilPage/WaitPay'
@@ -100,6 +104,25 @@
       this.getCartList()
     },
     methods: {
+      deleteCartItem(cartId) {
+        this.$http.get(path()['deleteCartItem'] + '?cartId=' + cartId).then((response) => {
+          let res = response.body
+          if (res.status === 0) {
+            Dialog({
+              title: '提示',
+              message: res.msg,
+              skin: 'ios'
+            })
+            this.getCartListReset()
+          } else {
+            Dialog({
+              title: '提示',
+              message: res.msg,
+              skin: 'ios'
+            })
+          }
+        })
+      },
       createOrderSuccess(order) {
         this.getCartListReset()
         this.$refs.waitpWaitPay.show(order)
@@ -302,6 +325,11 @@
             line-height 3em
           .cart-item-price
             color #e64340
+        .cart-item-delete
+          position absolute
+          right 1em
+          top 50%
+          transform translateY(-50%)
         .cart-item-count
           position absolute
           right 1em

@@ -5,7 +5,6 @@ export function path() {
   let local = ''
   let server = 'http://localhost:8088/mobile/'
   // server = local
-  // todo 删除购物车
   // todo 商品详情
   // todo 写评论
   // todo 打开支付宝页后院页面显示[支付完成, 支付未完成]选项
@@ -42,6 +41,7 @@ export function path() {
     /**
      * 购物车
      */
+    'deleteCartItem': server + 'cart/delete.do', // 删除购物车中商品
     'sub': server + 'cart/sub.do', // 购物车中商品减一
     'add': server + 'cart/add.do', // 购物车中商品加一
     'check': server + 'cart/check.do', // 选中购物车中的商品
