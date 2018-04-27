@@ -5,7 +5,7 @@
       <header>
         <div class="close" @click="hide"><</div>
         <span class="title">订单</span>
-        <a class="login-link" v-if="payLink" target="_blank" :href="payLink">去支付</a>
+        <a class="login-link" v-if="payLink" @click="confirmPayStatus" target="_blank" :href="payLink">去支付</a>
       </header>
       <split></split>
       <div class="loading" v-if="!orderDetail">
@@ -75,6 +75,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import { Dialog } from 'we-vue'
   import VHeader from '@/components/Util/Header/Header'
   import split from '@/components/Util/Split/Split'
   import splits from '@/components/Util/Split/SplitSmall'
@@ -97,6 +98,39 @@
       }
     },
     methods: {
+      confirmPayStatus() {
+        Dialog({
+          title: '',
+          message: '支付完成?',
+          skin: 'ios',
+          confirmButtonText: '是',
+          cancelButtonText: '否',
+          showConfirmButton: true,
+          showCancelButton: true
+        }).then(() => {
+          this.queryPayStatus()
+        }).catch(() => {
+          console.log('cancel')
+        })
+      },
+      queryPayStatus() {
+        this.$http.get(path()['alipayQuery'] + '?orderNo=' + this.orderDetail['orderNo']).then(response => {
+          let res = response.body
+          if (res['status'] === 0) {
+            Dialog({
+              title: '提示',
+              message: res['msg'],
+              skin: 'ios'
+            })
+          } else {
+            Dialog({
+              title: '提示',
+              message: res['msg'],
+              skin: 'ios'
+            })
+          }
+        })
+      },
       show(order) {
         this.isShow = true
         this.orderDetail = order
