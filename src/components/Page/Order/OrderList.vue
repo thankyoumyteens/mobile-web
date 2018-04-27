@@ -26,9 +26,10 @@
               </div>
               <splits></splits>
               <div class="order-list-item-detail">
+                <p class="order-list-item-title" @click="doCancel(index, item['orderNo'])" v-if="item['status']===10">取消订单</p>
                 <p class="order-list-item-title" @click="doPay(item['orderId'], item['orderNo'])" v-if="item['status']===10">去支付</p>
-                <p class="order-list-item-title" v-if="item['status']===20">提醒发货</p>
-                <p class="order-list-item-title" v-if="item['status']===40">确认收货</p>
+                <p class="order-list-item-title" @click="sendDeliveryMessage(item['orderNo'])" v-if="item['status']===20">提醒发货</p>
+                <p class="order-list-item-title" @click="doConfirm(index, item['orderNo'])" v-if="item['status']===40">确认收货</p>
                 <p class="order-list-item-price">￥{{item['totalPrice']}}</p>
               </div>
               <split></split>
@@ -82,6 +83,64 @@
       }
     },
     methods: {
+      sendDeliveryMessage(orderNo) {
+        this.$http.get(path()['sendDeliveryMessage'] + '?orderNo=' + orderNo).then(response => {
+          let res = response.body
+          if (res['status'] === 0) {
+            Dialog({
+              title: '提示',
+              message: '提醒发货成功',
+              skin: 'ios'
+            })
+          } else {
+            Dialog({
+              title: '提示',
+              message: res['msg'],
+              skin: 'ios'
+            })
+          }
+        })
+      },
+      doConfirm(index, orderNo) {
+        this.$http.get(path()['orderConfirm'] + '?orderNo=' + orderNo).then(response => {
+          let res = response.body
+          if (res['status'] === 0) {
+            this.orderList[index]['status'] = 50
+            this.orderList[index]['statusMsg'] = '已完成'
+            Dialog({
+              title: '提示',
+              message: '成功',
+              skin: 'ios'
+            })
+          } else {
+            Dialog({
+              title: '提示',
+              message: res['msg'],
+              skin: 'ios'
+            })
+          }
+        })
+      },
+      doCancel(index, orderNo) {
+        this.$http.get(path()['orderCancel'] + '?orderNo=' + orderNo).then(response => {
+          let res = response.body
+          if (res['status'] === 0) {
+            this.orderList[index]['status'] = 0
+            this.orderList[index]['statusMsg'] = '已取消'
+            Dialog({
+              title: '提示',
+              message: '成功',
+              skin: 'ios'
+            })
+          } else {
+            Dialog({
+              title: '提示',
+              message: res['msg'],
+              skin: 'ios'
+            })
+          }
+        })
+      },
       doPay(orderId, orderNo) {
         this.$refs.waitpWaitPay.showById(orderId, orderNo)
       },

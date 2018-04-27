@@ -38,9 +38,10 @@
             </div>
             <splits></splits>
             <div class="order-list-item-detail">
+              <p class="order-list-item-title" @click="doCancel(orderDetail['orderNo'])" v-if="orderDetail['status']===10">取消订单</p>
               <p class="order-list-item-title" @click="doPay(orderDetail)" v-if="orderDetail['status']===10">去支付</p>
-              <p class="order-list-item-title" v-if="orderDetail['status']===20">提醒发货</p>
-              <p class="order-list-item-title" v-if="orderDetail['status']===40">确认收货</p>
+              <p class="order-list-item-title" @click="sendDeliveryMessage(orderDetail['orderNo'])" v-if="orderDetail['status']===20">提醒发货</p>
+              <p class="order-list-item-title" @click="doConfirm(orderDetail['orderNo'])" v-if="orderDetail['status']===40">确认收货</p>
               <p class="order-list-item-price">￥{{orderDetail['payment']}}</p>
             </div>
             <split></split>
@@ -74,6 +75,7 @@
 
 <script type="text/ecmascript-6">
   import Vue from 'vue'
+  import { Dialog } from 'we-vue'
   import VHeader from '@/components/Util/Header/Header'
   import split from '@/components/Util/Split/Split'
   import splits from '@/components/Util/Split/SplitSmall'
@@ -99,6 +101,64 @@
       }
     },
     methods: {
+      sendDeliveryMessage(orderNo) {
+        this.$http.get(path()['sendDeliveryMessage'] + '?orderNo=' + orderNo).then(response => {
+          let res = response.body
+          if (res['status'] === 0) {
+            Dialog({
+              title: '提示',
+              message: '提醒发货成功',
+              skin: 'ios'
+            })
+          } else {
+            Dialog({
+              title: '提示',
+              message: res['msg'],
+              skin: 'ios'
+            })
+          }
+        })
+      },
+      doConfirm(orderNo) {
+        this.$http.get(path()['orderConfirm'] + '?orderNo=' + orderNo).then(response => {
+          let res = response.body
+          if (res['status'] === 0) {
+            this.orderDetail['status'] = 50
+            this.orderDetail['statusMsg'] = '已完成'
+            Dialog({
+              title: '提示',
+              message: '成功',
+              skin: 'ios'
+            })
+          } else {
+            Dialog({
+              title: '提示',
+              message: res['msg'],
+              skin: 'ios'
+            })
+          }
+        })
+      },
+      doCancel(orderNo) {
+        this.$http.get(path()['orderCancel'] + '?orderNo=' + orderNo).then(response => {
+          let res = response.body
+          if (res['status'] === 0) {
+            this.orderDetail['status'] = 0
+            this.orderDetail['statusMsg'] = '已取消'
+            Dialog({
+              title: '提示',
+              message: '成功',
+              skin: 'ios'
+            })
+          } else {
+            Dialog({
+              title: '提示',
+              message: res['msg'],
+              skin: 'ios'
+            })
+          }
+        })
+      },
       doPay(order) {
         this.$refs.waitpWaitPay.show(order)
       },

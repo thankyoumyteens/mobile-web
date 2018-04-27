@@ -8,7 +8,6 @@ export function path() {
   // todo 商品详情
   // todo 写评论
   // todo 打开支付宝页后院页面显示[支付完成, 支付未完成]选项
-  // todo 提醒发货
   // todo 各种分页
   return {
     /**
@@ -59,8 +58,11 @@ export function path() {
     /**
      * 订单
      */
+    'sendDeliveryMessage': server + 'message/send_delivery_msg.do', // 提醒发货
     'payLink': server + 'pay/alipay.do', // 创建订单
     'createOrder': server + 'order/create.do', // 创建订单
+    'orderCancel': server + 'order/cancel.do', // 创建订单
+    'orderConfirm': server + 'order/confirm.do', // 创建订单
     'orderList': server + 'order/list.do', // 订单列表
     'orderListNotPay': server + 'order/list_not_pay.do', // 订单列表
     'orderListPayed': server + 'order/list_payed.do', // 订单列表
