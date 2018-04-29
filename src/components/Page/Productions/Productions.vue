@@ -55,7 +55,7 @@
     },
     data () {
       return {
-        scrollProductionList: null,
+        scrollProductionList1: null,
         productionsShow: false,
         productionList: [],
         isLoading: true,
@@ -78,13 +78,14 @@
       },
       initScroll () {
         this.$nextTick(() => {
+          console.log(this.$refs.scrollWrapperProductionList)
           if (!this.$refs.scrollWrapperProductionList) return
-          if (!this.scrollProductionList) {
-            this.scrollProductionList = new BetterScroll(this.$refs.scrollWrapperProductionList, {
+          if (!this.scrollProductionList1) {
+            this.scrollProductionList1 = new BetterScroll(this.$refs.scrollWrapperProductionList, {
               click: true
             })
           } else {
-            this.scrollProductionList.refresh()
+            this.scrollProductionList1.refresh()
           }
         })
       },
@@ -92,9 +93,11 @@
         this.productionsShow = true
         this.productionList = []
         this.pageNum = 1
+        this.initScroll()
       },
       hide () {
         this.productionsShow = false
+        this.scrollProductionList1 = null
       },
       getProductionList () {
         this.isLoading = true
