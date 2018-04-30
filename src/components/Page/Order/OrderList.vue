@@ -170,13 +170,14 @@
       },
       hide () {
         this.isShow = false
+        this.olistWrapperScroll = null
       },
       showOrderDetail (orderId) {
         console.log(orderId)
         this.$refs.comp_od.show(orderId)
       },
       initScroll () {
-        if (!this.$refs.olistWrapper) return
+        // if (!this.$refs.olistWrapper) return
         this.$nextTick(() => {
           if (!this.olistWrapperScroll) {
             this.olistWrapperScroll = new BetterScroll(this.$refs.olistWrapper, {
