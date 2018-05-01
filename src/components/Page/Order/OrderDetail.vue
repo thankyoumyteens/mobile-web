@@ -42,6 +42,7 @@
               <p class="order-list-item-title" @click="doPay(orderDetail)" v-if="orderDetail['status']===10">去支付</p>
               <p class="order-list-item-title" @click="sendDeliveryMessage(orderDetail['orderNo'])" v-if="orderDetail['status']===20">提醒发货</p>
               <p class="order-list-item-title" @click="doConfirm(orderDetail['orderNo'])" v-if="orderDetail['status']===40">确认收货</p>
+              <p class="order-list-item-title" @click="doComment(orderDetail)" v-if="orderDetail['status']===50">评论</p>
               <p class="order-list-item-price">￥{{orderDetail['payment']}}</p>
             </div>
             <split></split>
@@ -69,6 +70,7 @@
         </div>
       </div>
       <waitp ref="waitpWaitPay"></waitp>
+      <make-comment ref="makeComment"></make-comment>
     </div>
   </transition>
 </template>
@@ -80,6 +82,7 @@
   import split from '@/components/Util/Split/Split'
   import splits from '@/components/Util/Split/SplitSmall'
   import waitp from '@/components/Util/UtilPage/WaitPay'
+  import MakeComment from '@/components/Page/Production/MakeComment'
   import BetterScroll from 'better-scroll'
   import {
     path
@@ -90,7 +93,8 @@
       split,
       splits,
       waitp,
-      VHeader
+      VHeader,
+      MakeComment
     },
     data () {
       return {
@@ -118,6 +122,11 @@
             })
           }
         })
+      },
+      doComment(order) {
+        order.orderItemList = order.itemList
+        order.itemList = null
+        this.$refs.makeComment.show(order)
       },
       doConfirm(orderNo) {
         this.$http.get(path()['orderConfirm'] + '?orderNo=' + orderNo).then(response => {
@@ -220,7 +229,7 @@
     top 0
     left 0
     bottom 0
-    z-index 999
+    z-index 997
     width 100%
     background #fff
     box-sizing border-box

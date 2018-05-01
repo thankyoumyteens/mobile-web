@@ -36,6 +36,7 @@ export function path() {
     'commentList': server + 'comment/list.do', // 评论列表
     'commentListLevel': server + 'comment/list_level.do', // 筛选评论
     'commentListImg': server + 'comment/list_img.do', // 筛选有图评论
+    'makeComment': server + 'comment/create_list.do', // 评论
     /**
      * 购物车
      */
