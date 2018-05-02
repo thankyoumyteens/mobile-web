@@ -105,6 +105,7 @@
                   </div>
                 </div>
               </div>
+              <div class="next-page" @click="getMore" v-show="hasNextPage">点击加载更多</div>
             </section>
           </div>
         </div>
@@ -166,7 +167,9 @@
         productionDetail: null,
         isLoadingComment: false,
         commentList: [],
-        pageNum: 1, // todo 评论分页
+        commentUrl: '',
+        isChanged: false,
+        pageNum: 1,
         pageSize: 10,
         pageCount: 1,
         hasNextPage: false,
@@ -206,41 +209,39 @@
        * 筛选评论
        */
       changeStar(id) {
+        this.isChanged = true
+        this.pageNum = 1
         this.currentStar = id
-        let url = path()['commentListLevel']
+        this.commentUrl = path()['commentListLevel']
         switch (id) {
           case 2:
             // 好评
-            url += '?goodsId=' +
+            this.commentUrl += '?goodsId=' +
               this.productionDetail['goodsId'] +
-              '&level=1' +
-              '&pageNum=' + this.pageNum
+              '&level=1'
             break
           case 3:
             // 中评
-            url += '?goodsId=' +
+            this.commentUrl += '?goodsId=' +
               this.productionDetail['goodsId'] +
-              '&level=2' +
-              '&pageNum=' + this.pageNum
+              '&level=2'
             break
           case 4:
             // 差评
-            url += '?goodsId=' +
+            this.commentUrl += '?goodsId=' +
               this.productionDetail['goodsId'] +
-              '&level=3' +
-              '&pageNum=' + this.pageNum
+              '&level=3'
             break
           case 5:
             // 有图
-            url = path()['commentListImg'] + '?goodsId=' +
-              this.productionDetail['goodsId'] +
-              '&pageNum=' + this.pageNum
+            this.commentUrl = path()['commentListImg'] + '?goodsId=' +
+              this.productionDetail['goodsId']
             break
           default:
-            url = null
+            this.commentUrl = null
             break
         }
-        this.getCommentList(url)
+        this.getCommentList()
         this.initScroll()
       },
       /**
@@ -364,28 +365,53 @@
           }
         })
       },
+      getMore () {
+        this.pageNum++
+        this.isChanged = false
+        this.getCommentList()
+      },
       /**
        * 评论列表
        */
-      getCommentList(url) {
+      getCommentList() {
         this.isLoadingComment = true
-        if (!url) {
-          url = path()['commentList'] + '?goodsId=' +
-            this.productionDetail['goodsId'] + '&pageNum=' + this.pageNum
+        if (!this.commentUrl) {
+          this.commentUrl = path()['commentList'] + '?goodsId=' +
+            this.productionDetail['goodsId']
         }
-        // todo 分页
-        this.$http.get(url).then((response) => {
+        this.$http.get(this.commentUrl + '&pageNum=' + this.pageNum).then((response) => {
           this.isLoadingComment = false
           let status = response.body['status']
           if (status === 0) {
             let data = response.body['data']
-            this.commentList = data['list']
-            for (let index in this.commentList) {
-              let comment = this.commentList[index]
-              if (comment['images']) {
-                comment['images'] = comment['images'].split(',')
-              } else {
-                comment['images'] = []
+            this.hasNextPage = data.hasNextPage
+            if (this.isChanged) {
+              this.commentList = data['list']
+              for (let i = 0; i < this.commentList.length; i++) {
+                let item = this.commentList[i]
+                // 将评论的图片保存到数组
+                if (item['images']) {
+                  if (typeof item['images'] === 'string') {
+                    item['images'] = item['images'].split(',')
+                  }
+                } else {
+                  item['images'] = []
+                }
+              }
+            } else {
+              for (let i = 0; i < data['list'].length; i++) {
+                let item = data['list'][i]
+                // 将评论的图片保存到数组
+                if (item['images']) {
+                  if (typeof item['images'] === 'string') {
+                    item['images'] = item['images'].split(',')
+                  }
+                } else {
+                  item['images'] = []
+                }
+                // 下一页数据追加到数组末尾
+                let index = this.commentList.length
+                Vue.set(this.commentList, index, item)
               }
             }
             this.initScroll()
@@ -513,6 +539,11 @@
               width 100%
         .production-review
           width 100%
+          .next-page
+            height 5em
+            line-height 5em
+            width 100%
+            text-align center
           .pr-top
             width 100%
             .pr-top-percent

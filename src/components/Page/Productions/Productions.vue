@@ -25,9 +25,7 @@
             </div>
           </div>
 
-          <div class="next-page" @click="getMore" v-show="hasNextPage">
-            点击加载更多
-          </div>
+          <div class="next-page" @click="getMore" v-show="hasNextPage">点击加载更多</div>
         </div>
       </section>
     </div>
