@@ -47,8 +47,8 @@
               <split></split>
             </section>
             <!--详情-->
-            <section class="production-more" v-if="false" v-show="currentProductionNavIndex===1">
-              <div class="pm-content" v-html="productionDetail['detail']['html']"></div>
+            <section class="production-more" v-if="goodsDesc" v-show="currentProductionNavIndex===1">
+              <div class="pm-content" v-html="goodsDesc.text"></div>
             </section>
             <!--评价-->
             <section class="production-review" v-show="currentProductionNavIndex===2">
@@ -173,6 +173,7 @@
         productionShow: false,
         selectedType: null, // 存储选择的商品参数
         selectedPropertiesId: -1,
+        goodsDesc: null,
         isVisited: false,
         // slider组件数据
         pages: [],
@@ -284,7 +285,10 @@
        */
       changeTab(index) {
         this.currentProductionNavIndex = index
-        if (index === 2) {
+        if (index === 1) {
+          // 获取详情
+          this.getDetail()
+        } else if (index === 2) {
           // 获取评论
           this.getCommentList()
         }
@@ -340,6 +344,20 @@
               properties['text'] = JSON.parse(properties['text'])
             }
             this.productionDetail['price'] = 0
+          } else {
+            let msg = response.body['msg']
+            console.log(msg)
+          }
+        })
+      },
+      getDetail() {
+        this.$http.get(path()['productionDesc'] +
+          '?goodsId=' + this.productionDetail['goodsId']).then((response) => {
+          let status = response.body['status']
+          if (status === 0) {
+            let data = response.body['data']
+            this.goodsDesc = data
+            this.initScroll()
           } else {
             let msg = response.body['msg']
             console.log(msg)
@@ -487,6 +505,12 @@
             padding-left 3%
         .production-more
           width 100%
+          .pm-content
+            width 100%
+            p
+              width 100%
+            img
+              width 100%
         .production-review
           width 100%
           .pr-top

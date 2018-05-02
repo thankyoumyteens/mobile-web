@@ -5,8 +5,6 @@ export function path() {
   let local = ''
   let server = 'http://localhost:8088/mobile/'
   // server = local
-  // todo 商品详情
-  // todo 写评论
   // todo 各种分页
   return {
     /**
@@ -32,6 +30,7 @@ export function path() {
      */
     'productionList': server + 'goods/list.do', // 获取商品列表
     'productionDetail': server + 'goods/detail.do', // 获取商品详情
+    'productionDesc': server + 'goods/desc.do', // 获取商品介绍
     'productionListByKeywords': server + 'goods/search.do', // 搜索商品
     'commentList': server + 'comment/list.do', // 评论列表
     'commentListLevel': server + 'comment/list_level.do', // 筛选评论
