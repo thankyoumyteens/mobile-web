@@ -66,7 +66,8 @@
         cartList: [],
         shippingList: [],
         shippingIndex: 0,
-        scWrapperScroll: null
+        scWrapperScroll: null,
+        pageNum: 1 // 只结算当前页购物车中的商品
       }
     },
     methods: {
@@ -122,7 +123,8 @@
           return false
         }
         this.$http.post(path()['createOrder'], {
-          'shippingId': this.shippingList[this.shippingIndex]['id']
+          'shippingId': this.shippingList[this.shippingIndex]['id'],
+          'pageNum': this.pageNum
         }).then(response => {
           let res = response.body
           if (res['status'] === 0) {
@@ -133,7 +135,8 @@
           }
         })
       },
-      show (cartList) {
+      show (cartList, pageNum) {
+        this.pageNum = pageNum
         this.getShippingList()
         let index = 0
         for (let i = 0; i < cartList.length; i++) {

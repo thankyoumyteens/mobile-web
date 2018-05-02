@@ -132,8 +132,7 @@
           alert('请选择商品')
           return false
         }
-        // todo bug下一页中的选中商品不包含
-        this.$refs.coComp.show(this.cartList)
+        this.$refs.coComp.show(this.cartList, this.pageNum)
       },
       /**
        * 点击商品图片进入商品详情页面
