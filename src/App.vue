@@ -54,12 +54,6 @@
       this.currentComponent = address
     },
     mounted() {
-      // 禁用浏览器后退
-      window.onpopstate = () => {
-        if (!this.allowBack) {
-          history.go(1)
-        }
-      }
     },
     data() {
       return {

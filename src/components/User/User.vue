@@ -3,7 +3,7 @@
     <div class="user-detail">
       <!--未登录-->
       <div class="ui-login" @click="showLogin" v-show="!isUser">
-        <div class="ui-avatar"><img src="/static/default/avatar.jpg"></div>
+        <div class="ui-avatar"><img src="./avatar.jpg"></div>
         <div class="ui-text">登陆/注册</div>
       </div>
       <!--已登陆-->

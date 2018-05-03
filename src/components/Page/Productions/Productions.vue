@@ -76,7 +76,6 @@
       },
       initScroll () {
         this.$nextTick(() => {
-          console.log(this.$refs.scrollWrapperProductionList)
           if (!this.$refs.scrollWrapperProductionList) return
           if (!this.scrollProductionList1) {
             this.scrollProductionList1 = new BetterScroll(this.$refs.scrollWrapperProductionList, {
