@@ -16,6 +16,14 @@
         <div>{{placeholder}}</div>
       </div>
     </header>
+    <div class="tmp-content">
+      <div class="tc-title">测试用支付宝账号</div>
+      <div class="tc-text">gqrmwo6818@sandbox.com</div>
+      <div class="tc-title">测试用支付宝密码</div>
+      <div class="tc-text">111111</div>
+      <div class="tc-title">支付密码</div>
+      <div class="tc-text">111111</div>
+    </div>
     <!--<geo-map></geo-map>-->
   </div>
 </template>
@@ -169,4 +177,10 @@
     .map-container
       width 100%
       height 20em
+
+  .tmp-content
+    width 100%
+    text-align center
+    .tc-title
+      font-weight bold
 </style>
