@@ -16,6 +16,21 @@
               </div>
             </div>
             <div class="comment-row">
+              <el-upload
+                :action="uploadUrl"
+                list-type="picture-card"
+                :file-list="fileList2"
+                :before-upload="beforeUpload"
+                :on-preview="handlePictureCardPreview"
+                :on-success="uploadSuccess"
+                :on-remove="handleRemove">
+                <i class="el-icon-plus"></i>
+              </el-upload>
+              <!--<el-dialog :visible.sync="dialogVisible">-->
+                <!--<img width="100%" :src="dialogImageUrl" alt="">-->
+              <!--</el-dialog>-->
+            </div>
+            <div class="comment-row">
               <wv-group>
                 <wv-textarea placeholder="请输入评论" :rows="3" v-model="commentList[index]" :max-length="100"></wv-textarea>
               </wv-group>
@@ -44,13 +59,47 @@
     },
     data() {
       return {
+        fileList2: [],
+        dialogImageUrl: '',
+        dialogVisible: false,
+        uploadUrl: '',
+        imgList: [],
         starList: [],
         commentList: [],
         isShow: false,
         order: null
       }
     },
+    created() {
+      this.uploadUrl = path()['uploadImg']
+    },
     methods: {
+      handleRemove(file, fileList) {
+        console.log(file, fileList)
+      },
+      uploadSuccess(res, file) {
+        this.imgList.push(res.data.uri)
+        this.fileList2.push({
+          url: res.data.url
+        })
+        this.initScroll()
+        console.log(this.imgList)
+        console.log(this.dialogImageUrl)
+      },
+      beforeUpload() {
+        if (this.imgList && this.imgList.length >= 5) {
+          Dialog({
+            title: '提示',
+            message: '图片数量达到上限',
+            skin: 'ios'
+          })
+          return false
+        }
+      },
+      handlePictureCardPreview(file) {
+        this.dialogImageUrl = file.url
+        this.dialogVisible = true
+      },
       addComment() {
         let params = []
         for (let index in this.order.orderItemList) {
@@ -60,7 +109,7 @@
             orderItemId: orderItem.orderItemId,
             star: this.starList[index],
             text: this.commentList[index],
-            images: '' // todo 图片
+            images: this.imgList.join(',')
           }
           params.push(commentItem)
         }
@@ -75,7 +124,7 @@
               message: res['msg'],
               skin: 'ios'
             })
-            this.hide()
+            this.hide() // todo orderList更新status
           } else {
             Dialog({
               title: '提示',
@@ -137,6 +186,13 @@
     width 100%
     background #fff
     box-sizing border-box
+    .el-upload-list__item
+      width 5em
+      height 5em
+    .el-upload--picture-card
+      width 5em
+      height 5em
+      line-height 5em
     .comment-wrapper
       .order-item
         width 90%

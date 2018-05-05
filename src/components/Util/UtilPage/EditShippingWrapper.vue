@@ -19,6 +19,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import { Dialog } from 'we-vue'
   import VHeader from '@/components/Util/Header/Header'
   import sa from '@/components/Util/UtilPage/SelectAddress'
   import split from '@/components/Util/Split/Split'
@@ -72,7 +73,11 @@
             this.$emit('success', res['data'])
             this.hide()
           } else {
-            console.log(res['msg'])
+            Dialog({
+              title: '提示',
+              message: res['msg'],
+              skin: 'ios'
+            })
           }
         })
       },

@@ -5,7 +5,6 @@ export function path() {
   let local = ''
   let server = 'http://localhost:8088/mobile/'
   // server = local
-  // todo 各种分页
   return {
     /**
      * 用户
@@ -15,7 +14,7 @@ export function path() {
     'login': server + 'user/login.do', // 登陆
     'logout': server + 'user/logout.do', // 退出登陆
     'uploadAvatar': server + 'user/upload.do', // 上传头像
-    'updateAvatar': server + 'user/update_avatar.do', // 上传头像
+    'updateAvatar': server + 'user/update_avatar.do', // 修改头像
     'updateUserInfo': server + 'user/update_user_info.do', // 修改个人信息
     'resetPassword': server + 'user/reset_password.do', // 修改密码
     'getQuestion': server + 'user/get_question.do', // 获取找回密码问题
@@ -36,6 +35,7 @@ export function path() {
     'commentListLevel': server + 'comment/list_level.do', // 筛选评论
     'commentListImg': server + 'comment/list_img.do', // 筛选有图评论
     'makeComment': server + 'comment/create_list.do', // 评论
+    'uploadImg': server + 'comment/upload.do', // 上传图片
     /**
      * 购物车
      */
