@@ -82,7 +82,7 @@
         this.fileList2.push({
           url: res.data.url
         })
-        this.initScroll()
+        this.initScroll() // todo 无效
         console.log(this.imgList)
         console.log(this.dialogImageUrl)
       },
