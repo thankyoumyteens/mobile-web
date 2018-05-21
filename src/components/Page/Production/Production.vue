@@ -2,111 +2,110 @@
   <transition name="production-move">
     <div class="production" v-show="productionShow">
       <div class="close" @click="hide"><i class="icon-cross"></i></div>
-      <div class="loading" v-if="currentProductionNavIndex===0&&!productionDetail">
+      <div class="loading" v-if="currentNavIndex===0&&!productionItem">
         <wv-spinner type="dot-circle" :size="50"></wv-spinner>
       </div>
-      <div class="loading" v-if="isLoadingComment&&currentProductionNavIndex===2&&commentList.length<=0">
+      <div class="loading" v-if="isLoadingComment&&currentNavIndex===2&&commentList.length<=0">
         <wv-spinner type="dot-circle" :size="50"></wv-spinner>
       </div>
-      <section class="production-detail scroll-wrapper" ref="scrollWrapperProduction">
-        <div>
-          <div class="production-info">
-            <div class="production-nav">
-              <div class="production-nav-item border-1px" @click="changeTab(0)"
-                   :class="[currentProductionNavIndex==0?'active':'']">商品
-              </div>
-              <div class="production-nav-item border-1px" @click="changeTab(1)"
-                   :class="[currentProductionNavIndex==1?'active':'']">详情
-              </div>
-              <div class="production-nav-item border-1px" @click="changeTab(2)"
-                   :class="[currentProductionNavIndex==2?'active':'']">评价
-              </div>
+      <section class="production-detail">
+        <div class="production-info">
+          <div class="production-nav">
+            <div class="production-nav-item border-1px" @click="changeTab(0)"
+                 :class="[currentNavIndex==0?'active':'']">商品
             </div>
-            <!--商品-->
-            <section class="production-home" v-if="productionDetail" v-show="currentProductionNavIndex===0">
-              <div class="ph-image-show">
-                <!-- 配置slider组件 -->
-                <slider :pages="pages" :sliderinit="sliderinit" @slide='slide' @tap='onTap' @init='onInit'>
-                  <!-- 设置loading,可自定义 -->
-                  <div slot="loading">加载中...</div>
-                </slider>
-              </div>
-              <div class="ph-name">
-                {{productionDetail['name']}}
-              </div>
-              <div class="ph-remark">
-                {{productionDetail['subtitle']}}
-              </div>
-              <div class="ph-price">
-                ￥{{productionDetail['price']}}
-              </div>
-              <split></split>
-              <div class="ph-select" @click="showSelect">
-                {{selection}}
-              </div>
-              <split></split>
-            </section>
-            <!--详情-->
-            <section class="production-more" v-if="goodsDesc" v-show="currentProductionNavIndex===1">
-              <div class="pm-content" v-html="goodsDesc.text"></div>
-            </section>
-            <!--评价-->
-            <section class="production-review" v-show="currentProductionNavIndex===2">
-              <div class="pr-top">
-                <!--<div class="pr-top-percent border-1px">-->
-                <!--好评率:-->
-                <!--</div>-->
-                <div class="pr-top-star">
-                  <div class="pr-top-star-item" @click="changeStar(1)" :class="[currentStar==1?'active-item':'']">
-                    全部
-                  </div>
-                  <div class="pr-top-star-item" @click="changeStar(2)" :class="[currentStar==2?'active-item':'']">
-                    好评
-                  </div>
-                  <div class="pr-top-star-item" @click="changeStar(3)" :class="[currentStar==3?'active-item':'']">
-                    中评
-                  </div>
-                  <div class="pr-top-star-item" @click="changeStar(4)" :class="[currentStar==4?'active-item':'']">
-                    差评
-                  </div>
-                  <div class="pr-top-star-item" @click="changeStar(5)" :class="[currentStar==5?'active-item':'']">
-                    有图
+            <div class="production-nav-item border-1px" @click="changeTab(1)"
+                 :class="[currentNavIndex==1?'active':'']">详情
+            </div>
+            <div class="production-nav-item border-1px" @click="changeTab(2)"
+                 :class="[currentNavIndex==2?'active':'']">评价
+            </div>
+          </div>
+          <div class="production-content scroll-wrapper" ref="scrollWrapperProduction">
+            <div>
+              <!--商品-->
+              <section class="production-home" v-if="productionItem" v-show="currentNavIndex===0">
+                <div class="ph-image-show">
+                  <!-- 配置slider组件 -->
+                  <slider :pages="pages" :sliderinit="sliderinit">
+                    <!-- 设置loading,可自定义 -->
+                    <div slot="loading">加载中...</div>
+                  </slider>
+                </div>
+                <div class="ph-name">
+                  {{productionItem['name']}}
+                </div>
+                <div class="ph-remark">
+                  {{productionItem['subtitle']}}
+                </div>
+                <div class="ph-price">
+                  ￥{{productionItem['price']}}
+                </div>
+                <split></split>
+                <div class="ph-select" @click="showSelect">
+                  {{selection}}
+                </div>
+                <split></split>
+              </section>
+              <!--详情-->
+              <section class="production-more" v-if="goodsDesc" v-show="currentNavIndex===1">
+                <div class="pm-content" v-html="goodsDesc.text"></div>
+              </section>
+              <!--评价-->
+              <section class="production-review" v-show="currentNavIndex===2">
+                <div class="pr-top">
+                  <div class="pr-top-star">
+                    <div class="pr-top-star-item" @click="changeStar(1)" :class="[currentCommentType==1?'active-item':'']">
+                      全部
+                    </div>
+                    <div class="pr-top-star-item" @click="changeStar(2)" :class="[currentCommentType==2?'active-item':'']">
+                      好评
+                    </div>
+                    <div class="pr-top-star-item" @click="changeStar(3)" :class="[currentCommentType==3?'active-item':'']">
+                      中评
+                    </div>
+                    <div class="pr-top-star-item" @click="changeStar(4)" :class="[currentCommentType==4?'active-item':'']">
+                      差评
+                    </div>
+                    <div class="pr-top-star-item" @click="changeStar(5)" :class="[currentCommentType==5?'active-item':'']">
+                      有图
+                    </div>
                   </div>
                 </div>
-              </div>
-              <split></split>
-              <div class="pr-list" v-if="commentList.length > 0">
-                <div>
-                  <div class="pr-item" v-for="item in commentList">
-                    <div class="pr-item-top">
-                      <div class="pr-item-top-author">
-                        {{item['author']['nickname']}}
+                <split></split>
+                <div class="pr-list" v-if="commentList.length > 0">
+                  <div>
+                    <div class="pr-item" v-for="item in commentList">
+                      <div class="pr-item-top">
+                        <div class="pr-item-top-author">
+                          {{item['author']['nickname']}}
+                        </div>
+                        <div class="pr-item-top-date">
+                          {{item['createTime']}}
+                        </div>
+                        <star class="star-comp" :size="36" :score="item['star']"></star>
                       </div>
-                      <div class="pr-item-top-date">
-                        {{item['createTime']}}
+                      <div class="pr-item-text clear-float">
+                        {{item['text']}}
                       </div>
-                      <star class="star-comp" :size="36" :score="item['star']"></star>
-                    </div>
-                    <div class="pr-item-text clear-float">
-                      {{item['text']}}
-                    </div>
-                    <div class="pr-item-img" v-if="item['images'].length">
-                      <div class="pr-item-img-item" v-for="link in item['images']">
-                        <img :src="link" alt="">
+                      <div class="pr-item-img" v-if="item['images'].length">
+                        <div class="pr-item-img-item" v-for="link in item['images']">
+                          <img :src="link" alt="">
+                        </div>
                       </div>
+                      <div class="pr-item-type">
+                        版本: {{item['properties']}}
+                      </div>
+                      <div class="pr-item-order">
+                        购买日期: {{item['orderCreateTime']}}
+                      </div>
+                      <splits></splits>
                     </div>
-                    <div class="pr-item-type">
-                      版本: {{item['properties']}}
-                    </div>
-                    <div class="pr-item-order">
-                      购买日期: {{item['orderCreateTime']}}
-                    </div>
-                    <splits></splits>
                   </div>
                 </div>
-              </div>
-              <div class="next-page" @click="getMore" v-show="hasNextPage">点击加载更多</div>
-            </section>
+                <div class="next-page" @click="getMore" v-show="hasNextPage">点击加载更多</div>
+              </section>
+            </div>
           </div>
         </div>
       </section>
@@ -139,43 +138,39 @@
       selecttype
     },
     props: {
-      productionSimple: {
-        type: Object
+      goodsId: {
+        type: Number
       }
     },
     watch: {
-      'productionSimple'() {
+      'goodsId'() {
         this.getProduction()
         this.initScroll()
         // 更换商品时重置初始参数
-        this.touchImage = {}
-        this.currentImageIndex = 0
-        this.currentProductionNavIndex = 0
-        this.currentStar = 1
+        this.currentNavIndex = 0
+        this.currentCommentType = 1
         this.selection = '请选择版本'
         this.selectedType = null
+        this.commentUrl = null
       }
     },
     data() {
       return {
-        currentStar: 1, // 查看评论类型(有图/好评/中评/差评)
+        currentCommentType: 1, // 查看评论类型(有图/好评/中评/差评)
         selection: '请选择版本',
-        touchImage: {},
-        currentImageIndex: 0,
-        currentProductionNavIndex: 0,
+        currentNavIndex: 0, // 商品/详情/评论
         scrollProduction: null,
-        productionDetail: null,
-        isLoadingComment: false,
-        commentList: [],
-        commentUrl: '',
-        isChanged: false,
+        productionItem: null,
+        isLoadingComment: false, // 控制显示加载中的效果
+        commentList: [], // 评论列表
+        commentUrl: '', // 评论列表的请求地址
+        isChanged: false, // 是否删选评论
+        isNewPage: false, // 是不是新打开的商品页面
         pageNum: 1,
         pageSize: 10,
-        pageCount: 1,
         hasNextPage: false,
         productionShow: false,
         selectedType: null, // 存储选择的商品参数
-        selectedPropertiesId: -1,
         goodsDesc: null,
         isVisited: false,
         // slider组件数据
@@ -194,48 +189,25 @@
     },
     methods: {
       /**
-       * slider组件事件
-       */
-      slide(data) {
-        // console.log(data)
-      },
-      onTap(data) {
-        // console.log(data)
-      },
-      onInit(data) {
-        // console.log(data)
-      },
-      /**
        * 筛选评论
        */
-      changeStar(id) {
+      changeStar(commentType) {
         this.isChanged = true
         this.pageNum = 1
-        this.currentStar = id
+        this.currentCommentType = commentType
         this.commentUrl = path()['commentListLevel']
-        switch (id) {
-          case 2:
-            // 好评
-            this.commentUrl += '?goodsId=' +
-              this.productionDetail['goodsId'] +
-              '&level=1'
+        switch (commentType) {
+          case 2: // 好评
+            this.commentUrl += '?goodsId=' + this.goodsId + '&level=1'
             break
-          case 3:
-            // 中评
-            this.commentUrl += '?goodsId=' +
-              this.productionDetail['goodsId'] +
-              '&level=2'
+          case 3: // 中评
+            this.commentUrl += '?goodsId=' + this.goodsId + '&level=2'
             break
-          case 4:
-            // 差评
-            this.commentUrl += '?goodsId=' +
-              this.productionDetail['goodsId'] +
-              '&level=3'
+          case 4: // 差评
+            this.commentUrl += '?goodsId=' + this.goodsId + '&level=3'
             break
-          case 5:
-            // 有图
-            this.commentUrl = path()['commentListImg'] + '?goodsId=' +
-              this.productionDetail['goodsId']
+          case 5: // 有图
+            this.commentUrl = path()['commentListImg'] + '?goodsId=' + this.goodsId
             break
           default:
             this.commentUrl = null
@@ -251,7 +223,7 @@
         this.selectType(product)
         let cartInfo = {
           propertiesId: product['propertiesId'],
-          goodsId: this.productionDetail['goodsId']
+          goodsId: this.productionItem['goodsId']
         }
         this.$emit('tocart', cartInfo)
       },
@@ -261,17 +233,17 @@
       selectType(product) {
         if (!product) {
           this.selection = '请选择版本'
-          this.productionDetail['price'] = 0
+          this.productionItem['price'] = 0
           return false
         }
-        this.selectedPropertiesId = product['propertiesId']
+        // 显示选择的参数
         let text = ''
         for (let key in product['text']) {
           let val = product['text'][key]
           text += val + ' '
         }
         this.selection = (text === '' ? '请选择版本' : text)
-        this.productionDetail['price'] = product['price']
+        this.productionItem['price'] = product['price']
       },
       /**
        * 显示商品参数选择对话框
@@ -285,7 +257,7 @@
        * @param index
        */
       changeTab(index) {
-        this.currentProductionNavIndex = index
+        this.currentNavIndex = index
         if (index === 1) {
           // 获取详情
           this.getDetail()
@@ -308,6 +280,7 @@
       },
       show() {
         this.productionShow = true
+        this.isNewPage = true
       },
       hide() {
         this.productionShow = false
@@ -317,18 +290,18 @@
        */
       getProduction() {
         this.isVisited = false
-        let productId = this.productionSimple['goodsId']
+        let productId = this.goodsId
         let url = path()['productionDetail'] + '?goodsId=' + productId
         this.$http.get(url).then((response) => {
           let status = response.body['status']
-          this.productionDetail = null
+          this.productionItem = null
           if (status === 0) {
             let data = response.body['data']
             this.propertiesList = data['propertiesList']
-            this.productionDetail = data
+            this.productionItem = data
             this.initScroll()
             // slider组件数据
-            let imgList = this.productionDetail['subImages'].split(',')
+            let imgList = this.productionItem['subImages'].split(',')
             for (let i = 0; i < imgList.length; i++) {
               let img = imgList[i]
               let item = {
@@ -344,16 +317,19 @@
               let properties = this.propertiesList[i]
               properties['text'] = JSON.parse(properties['text'])
             }
-            this.productionDetail['price'] = 0
+            this.productionItem['price'] = 0
           } else {
             let msg = response.body['msg']
             console.log(msg)
           }
         })
       },
+      /**
+       * 获取商品介绍
+       */
       getDetail() {
         this.$http.get(path()['productionDesc'] +
-          '?goodsId=' + this.productionDetail['goodsId']).then((response) => {
+          '?goodsId=' + this.productionItem['goodsId']).then((response) => {
           let status = response.body['status']
           if (status === 0) {
             let data = response.body['data']
@@ -377,7 +353,7 @@
         this.isLoadingComment = true
         if (!this.commentUrl) {
           this.commentUrl = path()['commentList'] + '?goodsId=' +
-            this.productionDetail['goodsId']
+            this.goodsId
         }
         this.$http.get(this.commentUrl + '&pageNum=' + this.pageNum).then((response) => {
           this.isLoadingComment = false
@@ -385,11 +361,12 @@
           if (status === 0) {
             let data = response.body['data']
             this.hasNextPage = data.hasNextPage
-            if (this.isChanged) {
+            if (this.isNewPage || this.isChanged) {
+              // 切换商品或筛选评论后重置评论列表
               this.commentList = data['list']
               for (let i = 0; i < this.commentList.length; i++) {
                 let item = this.commentList[i]
-                // 将评论的图片保存到数组
+                // 将图片json字符串转换为到数组
                 if (item['images']) {
                   if (typeof item['images'] === 'string') {
                     item['images'] = item['images'].split(',')
@@ -399,9 +376,10 @@
                 }
               }
             } else {
+              // 点击加载更多, 追加数据到评论列表
               for (let i = 0; i < data['list'].length; i++) {
                 let item = data['list'][i]
-                // 将评论的图片保存到数组
+                // 将图片json字符串转换为到数组
                 if (item['images']) {
                   if (typeof item['images'] === 'string') {
                     item['images'] = item['images'].split(',')
@@ -475,6 +453,10 @@
       overflow hidden
       .production-info
         height 100%
+        display flex
+        flex-direction column
+        .production-content
+          flex 1
         .production-nav
           width 100%
           height 3em

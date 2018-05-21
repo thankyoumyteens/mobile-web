@@ -21,7 +21,7 @@
     </section>
     <search @find="find" ref="search"></search>
     <productions @search="openSearch" @detail="detail" ref="productions" :productionInfo="productionInfo"></productions>
-    <production ref="production" :productionSimple="productionSimple" @tocart="toCart"></production>
+    <production ref="production" :goodsId="goodsId" @tocart="toCart"></production>
   </div>
 </template>
 
@@ -57,7 +57,7 @@
     },
     data() {
       return {
-        productionSimple: null,
+        goodsId: null,
         productionInfo: null,
         currentComponent: 'home',
         user: null
@@ -122,7 +122,7 @@
         }
       },
       detail(item) {
-        this.productionSimple = item
+        this.goodsId = item['goodsId']
         this.$refs.production.show()
       },
       openProductions(category) {
