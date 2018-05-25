@@ -4,7 +4,7 @@
       <v-header titleText="选择收货地址" actionText="确定" @back="hide" @action="doReset"></v-header>
       <div class="si-content">
         <wv-group title="选择地址">
-          <wv-cell title="请选择" is-link :value="address | pickerValueFilter" @click.native="addressPickerShow = true" />
+          <wv-cell title="请选择" is-link :value="address | pickerValueFilter" @click.native="addressPickerShow = true"/>
         </wv-group>
         <wv-picker
           :visible.sync="addressPickerShow"
@@ -40,8 +40,9 @@
     }
     return typeof chinaAreaData[provinceCode] === 'object' ? Object.values(chinaAreaData[provinceCode]) : []
   }
+
   // 获取某一市下的区/县
-  function getAreas (province, city) {
+  function getAreas(province, city) {
     let provinceCode, cityCode
     for (let i in chinaAreaData[86]) {
       if (province === chinaAreaData[86][i]) {
@@ -68,7 +69,7 @@
       split,
       VHeader
     },
-    data () {
+    data() {
       return {
         isShow: false,
         addressPickerShow: false,
@@ -86,13 +87,13 @@
         ]
       }
     },
-    mounted () {
+    mounted() {
       this.$nextTick(() => {
         this.$refs.addressPicker.setValues(['湖北省', '宜昌市', '长阳土家族自治县'])
       })
     },
     filters: {
-      pickerValueFilter (val) {
+      pickerValueFilter(val) {
         if (Array.isArray(val)) {
           return val.toString()
         } else {
@@ -101,7 +102,7 @@
       }
     },
     methods: {
-      onAddressChange (picker, addressValues, slotIndex) {
+      onAddressChange(picker, addressValues, slotIndex) {
         if (slotIndex === 0) {
           const cities = getCities(addressValues[0])
           picker.setColumnValues(1, cities)
@@ -110,18 +111,18 @@
           picker.setColumnValues(2, getAreas(addressValues[0], addressValues[1]))
         }
       },
-      confirmAddress (picker) {
+      confirmAddress(picker) {
         this.address = picker.getValues()
         console.log(this.address)
       },
-      doReset () {
+      doReset() {
         this.$emit('success', this.address)
         this.hide()
       },
-      show () {
+      show() {
         this.isShow = true
       },
-      hide () {
+      hide() {
         this.isShow = false
       }
     }
@@ -129,20 +130,14 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  @keyframes bounce-in
-    0%
-      transform translate3d(100%, 0, 0)
-    100%
-      transform translate3d(0, 0, 0)
-  @keyframes bounce-out
-    0%
-      transform translate3d(0, 0, 0)
-    100%
-      transform translate3d(100%, 0, 0)
+  @import "../../../commons/mixin.styl"
+
   .user-info-move-enter-active
     animation bounce-in .2s linear
+
   .user-info-move-leave-active
     animation bounce-out .2s linear
+
   .select-address
     position fixed
     top 0

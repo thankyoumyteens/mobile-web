@@ -142,6 +142,10 @@
         }
         this.$refs.search.show()
       },
+      /**
+       * 搜索商品
+       * @param text
+       */
       find(text) {
         let o = {
           'type': 's',

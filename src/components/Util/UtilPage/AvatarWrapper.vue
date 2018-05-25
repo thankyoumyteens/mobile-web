@@ -31,7 +31,7 @@
         type: Object
       }
     },
-    data () {
+    data() {
       return {
         isShow: false,
         avatarUrl: '',
@@ -43,7 +43,7 @@
       }
     },
     methods: {
-      selectFile () {
+      selectFile() {
         if (!this.$refs.upload_file.files[0]) {
           return
         }
@@ -51,7 +51,7 @@
         this.msg = '上传'
         this.msgSelect = this.$refs.upload_file.files[0].name
       },
-      updateAvatar () {
+      updateAvatar() {
         if (!this.isEnableUpdate) {
           return
         }
@@ -70,7 +70,7 @@
           }
         })
       },
-      uploadAvatar () {
+      uploadAvatar() {
         if (!this.$refs.upload_file.files[0]) {
           return
         }
@@ -105,14 +105,14 @@
           }
         })
       },
-      show () {
+      show() {
         this.isShow = true
         this.isEnable = false
         this.msgSelect = '选择图片'
         this.msg = '请选择文件'
         this.isEnableUpdate = false
       },
-      hide () {
+      hide() {
         this.isShow = false
       }
     }
@@ -120,20 +120,14 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  @keyframes bounce-in
-    0%
-      transform translate3d(100%, 0, 0)
-    100%
-      transform translate3d(0, 0, 0)
-  @keyframes bounce-out
-    0%
-      transform translate3d(0, 0, 0)
-    100%
-      transform translate3d(100%, 0, 0)
+  @import "../../../commons/mixin.styl"
+
   .user-info-move-enter-active
     animation bounce-in .2s linear
+
   .user-info-move-leave-active
     animation bounce-out .2s linear
+
   .avatar-wrapper
     position fixed
     top 0

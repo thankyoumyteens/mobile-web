@@ -28,3 +28,29 @@ bg-image($url)
   background-image url($url+"@2x.png")
   @media (-webkit-min-device-pixel-ratio: 3),(min-device-pixel-ratio: 3)
     background-image url($url+"@3x.png")
+
+
+@keyframes bounce-in
+  0%
+    transform translate3d(100%, 0, 0)
+  100%
+    transform translate3d(0, 0, 0)
+
+@keyframes bounce-out
+  0%
+    transform translate3d(0, 0, 0)
+  100%
+    transform translate3d(100%, 0, 0)
+
+@keyframes bounce-in-vertical
+  0%
+    transform translate3d(0, 100%, 0)
+  100%
+    transform translate3d(0, 0, 0)
+
+@keyframes bounce-out-vertical
+  0%
+    transform translate3d(0, 0, 0)
+  100%
+    transform translate3d(0, 100%, 0)
+

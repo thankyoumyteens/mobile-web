@@ -75,7 +75,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import { Dialog } from 'we-vue'
+  import {Dialog} from 'we-vue'
   import VHeader from '@/components/Util/Header/Header'
   import split from '@/components/Util/Split/Split'
   import splits from '@/components/Util/Split/SplitSmall'
@@ -144,7 +144,7 @@
       hide() {
         this.isShow = false
       },
-      initScroll () {
+      initScroll() {
         this.$nextTick(() => {
           if (!this.scWrapperScroll) {
             this.scWrapperScroll = new BetterScroll(this.$refs.scWrapper, {
@@ -155,7 +155,7 @@
           }
         })
       },
-      getOrderDetail (orderId) {
+      getOrderDetail(orderId) {
         this.$http.post(path()['orderDetail'], {
           orderId: orderId
         }).then(response => {
@@ -174,18 +174,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-
-  @keyframes bounce-in
-    0%
-      transform translate3d(100%, 0, 0)
-    100%
-      transform translate3d(0, 0, 0)
-
-  @keyframes bounce-out
-    0%
-      transform translate3d(0, 0, 0)
-    100%
-      transform translate3d(100%, 0, 0)
+  @import "../../../commons/mixin.styl"
 
   .wait-pay-move-enter-active
     animation bounce-in .2s linear

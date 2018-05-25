@@ -53,7 +53,7 @@
         type: Object
       }
     },
-    data () {
+    data() {
       return {
         scrollShippingList: null,
         isShow: false,
@@ -61,16 +61,16 @@
       }
     },
     watch: {
-      'user' () {
+      'user'() {
         this.getShippingList()
         this.initScroll()
       }
     },
     methods: {
-      showEditor (shipping) {
+      showEditor(shipping) {
         this.$refs.shippingEditor.show(shipping)
       },
-      deleteShipping (shippingId) {
+      deleteShipping(shippingId) {
         this.$http.get(path()['deleteShipping'] + '?shippingId=' + shippingId).then(response => {
           let res = response.body
           if (res['status'] === 0) {
@@ -89,7 +89,7 @@
           }
         })
       },
-      initScroll () {
+      initScroll() {
         this.$nextTick(() => {
           if (!this.scrollShippingList) {
             this.scrollShippingList = new BetterScroll(this.$refs.shippingListWrapper, {
@@ -100,15 +100,15 @@
           }
         })
       },
-      show () {
+      show() {
         this.isShow = true
         this.getShippingList()
         this.initScroll()
       },
-      hide () {
+      hide() {
         this.isShow = false
       },
-      getShippingList () {
+      getShippingList() {
         if (this.user !== null && this.user !== undefined) {
           this.$http.get(path()['shippingList']).then(response => {
             let res = response.body
@@ -127,20 +127,14 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  @keyframes bounce-in
-    0%
-      transform translate3d(100%, 0, 0)
-    100%
-      transform translate3d(0, 0, 0)
-  @keyframes bounce-out
-    0%
-      transform translate3d(0, 0, 0)
-    100%
-      transform translate3d(100%, 0, 0)
+  @import "../../../commons/mixin.styl"
+
   .user-info-move-enter-active
     animation bounce-in .2s linear
+
   .user-info-move-leave-active
     animation bounce-out .2s linear
+
   .shipping-wrapper
     position fixed
     top 0

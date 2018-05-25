@@ -178,7 +178,7 @@
         if (!this.isOk) {
           this.$emit('selected', null)
         } else {
-        this.$emit('selected', this.propertiesList[index])
+          this.$emit('selected', this.propertiesList[index])
         }
         this.selectShow = false
       }
@@ -188,18 +188,6 @@
 
 <style lang="stylus" rel="stylesheet/stylus">
   @import "../../../commons/mixin.styl"
-
-  @keyframes bounce-in-vertical
-    0%
-      transform translate3d(0, 100%, 0)
-    100%
-      transform translate3d(0, 0, 0)
-
-  @keyframes bounce-out-vertical
-    0%
-      transform translate3d(0, 0, 0)
-    100%
-      transform translate3d(0, 100%, 0)
 
   .select-move-enter-active
     animation bounce-in-vertical .2s linear

@@ -26,7 +26,7 @@
       split,
       VHeader
     },
-    data () {
+    data() {
       return {
         isShow: false,
         pwdOld: '',
@@ -35,7 +35,7 @@
       }
     },
     methods: {
-      doReset () {
+      doReset() {
         if (this.pwdNew !== this.pwdNewRepeat) {
           Dialog({
             title: '提示',
@@ -64,10 +64,10 @@
           }
         })
       },
-      show () {
+      show() {
         this.isShow = true
       },
-      hide () {
+      hide() {
         this.isShow = false
       }
     }
@@ -75,20 +75,14 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  @keyframes bounce-in
-    0%
-      transform translate3d(100%, 0, 0)
-    100%
-      transform translate3d(0, 0, 0)
-  @keyframes bounce-out
-    0%
-      transform translate3d(0, 0, 0)
-    100%
-      transform translate3d(100%, 0, 0)
+  @import "../../../commons/mixin.styl"
+
   .user-info-move-enter-active
     animation bounce-in .2s linear
+
   .user-info-move-leave-active
     animation bounce-out .2s linear
+
   .reset-password-wrapper
     position fixed
     top 0

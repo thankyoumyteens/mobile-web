@@ -35,7 +35,7 @@
       split,
       VHeader
     },
-    data () {
+    data() {
       return {
         isShow: false,
         label: '',
@@ -50,7 +50,7 @@
       }
     },
     methods: {
-      doNext () {
+      doNext() {
         switch (this.step) {
           case 1:
             // 获取问题
@@ -66,7 +66,7 @@
             break
         }
       },
-      getQuestion () {
+      getQuestion() {
         if (!this.username) {
           return
         }
@@ -87,7 +87,7 @@
           }
         })
       },
-      checkAnswer () {
+      checkAnswer() {
         if (!this.answer) {
           return
         }
@@ -111,7 +111,7 @@
           }
         })
       },
-      doReset () {
+      doReset() {
         this.$http.post(path()['questionResetPassword'], {
           'username': this.username,
           'password': this.pwdNew,
@@ -134,7 +134,7 @@
           }
         })
       },
-      show () {
+      show() {
         this.isShow = true
         this.label = '继续'
         this.step = 1
@@ -146,7 +146,7 @@
         this.isShowQuestion = false
         this.isResetPassword = false
       },
-      hide () {
+      hide() {
         this.isShow = false
       }
     }
@@ -154,20 +154,14 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  @keyframes bounce-in
-    0%
-      transform translate3d(100%, 0, 0)
-    100%
-      transform translate3d(0, 0, 0)
-  @keyframes bounce-out
-    0%
-      transform translate3d(0, 0, 0)
-    100%
-      transform translate3d(100%, 0, 0)
+  @import "../../../commons/mixin.styl"
+
   .user-info-move-enter-active
     animation bounce-in .2s linear
+
   .user-info-move-leave-active
     animation bounce-out .2s linear
+
   .reset-password-wrapper
     position fixed
     top 0

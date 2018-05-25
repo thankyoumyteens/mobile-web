@@ -27,17 +27,17 @@
     components: {
       split
     },
-    data () {
+    data() {
       return {
         searchShow: false,
         historyList: []
       }
     },
     methods: {
-      addToBar (item) {
+      addToBar(item) {
         document.getElementById('searchContent').value = item
       },
-      show () {
+      show() {
         document.getElementById('searchContent').value = ''
         let history = localStorage.getItem('history')
         if (history !== null) {
@@ -51,10 +51,10 @@
         }
         this.searchShow = true
       },
-      hide () {
+      hide() {
         this.searchShow = false
       },
-      search () {
+      search() {
         let searchContent = document.getElementById('searchContent').value
         this.$emit('find', searchContent)
         // 存储搜索历史
@@ -73,26 +73,18 @@
 <style lang="stylus" rel="stylesheet/stylus">
   @import "../../../commons/mixin.styl"
 
-  @keyframes bounce-in
-    0%
-      transform translate3d(100%, 0, 0)
-    100%
-      transform translate3d(0, 0, 0)
-  @keyframes bounce-out
-    0%
-      transform translate3d(0, 0, 0)
-    100%
-      transform translate3d(100%, 0, 0)
   .search-move-enter-active
     animation bounce-in .2s linear
+
   .search-move-leave-active
     animation bounce-out .2s linear
+
   .search
     position fixed
     top 0
     left 0
     bottom 0
-    z-index 990
+    z-index 991
     width 100%
     background #fff
     box-sizing border-box

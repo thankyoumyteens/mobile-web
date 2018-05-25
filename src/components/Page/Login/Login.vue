@@ -33,7 +33,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import { Dialog } from 'we-vue'
+  import {Dialog} from 'we-vue'
   import VHeader from '@/components/Util/Header/Header'
   import qrpw from '@/components/Util/UtilPage/QuestionResetPasswordWrapper'
   import {
@@ -45,7 +45,7 @@
       qrpw,
       VHeader
     },
-    data () {
+    data() {
       return {
         isShow: false,
         isLogin: true,
@@ -67,7 +67,7 @@
       /**
        * 注册
        */
-      doRegister () {
+      doRegister() {
         let username = this.usernameRegister
         let password = this.passwordRegister
         let repeatPassword = this.repeatPassword
@@ -140,7 +140,7 @@
       /**
        * 登陆
        */
-      doLogin () {
+      doLogin() {
         let username = this.username
         let password = this.password
         if (username === '' || password === '') {
@@ -168,16 +168,16 @@
           }
         })
       },
-      changeContent () {
+      changeContent() {
         this.isLogin = !this.isLogin
       },
-      forgetPassword () {
+      forgetPassword() {
         this.$refs.qrpw.show()
       },
-      show () {
+      show() {
         this.isShow = true
       },
-      hide () {
+      hide() {
         this.isShow = false
       }
     }
@@ -185,20 +185,14 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  @keyframes bounce-in
-    0%
-      transform translate3d(100%, 0, 0)
-    100%
-      transform translate3d(0, 0, 0)
-  @keyframes bounce-out
-    0%
-      transform translate3d(0, 0, 0)
-    100%
-      transform translate3d(100%, 0, 0)
+  @import "../../../commons/mixin.styl"
+
   .login-move-enter-active
     animation bounce-in .2s linear
+
   .login-move-leave-active
     animation bounce-out .2s linear
+
   .login
     position fixed
     top 0

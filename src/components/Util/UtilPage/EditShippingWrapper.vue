@@ -7,7 +7,7 @@
           <wv-input label="收货人" placeholder="请输入内容" v-model="receiverName"></wv-input>
           <wv-input label="电话" placeholder="请输入电话" v-model="receiverMobile" type="number"></wv-input>
           <wv-input label="收货地址" v-model="msg" :readonly="true">
-            <button class="weui-vcode-btn" @click="showShippingSelectAddress" slot="ft">选择收货地址</button >
+            <button class="weui-vcode-btn" @click="showShippingSelectAddress" slot="ft">选择收货地址</button>
           </wv-input>
           <wv-input label="详细地址" placeholder="请输入详细地址" v-model="receiverAddress"></wv-input>
           <wv-input label="邮编" placeholder="请输入邮编" v-model="receiverZip" type="number"></wv-input>
@@ -19,7 +19,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import { Dialog } from 'we-vue'
+  import {Dialog} from 'we-vue'
   import VHeader from '@/components/Util/Header/Header'
   import sa from '@/components/Util/UtilPage/SelectAddress'
   import split from '@/components/Util/Split/Split'
@@ -33,7 +33,7 @@
       sa,
       VHeader
     },
-    data () {
+    data() {
       return {
         isShow: false,
         shipping: null,
@@ -47,14 +47,14 @@
       }
     },
     methods: {
-      fillAddress (address) {
+      fillAddress(address) {
         this.address = address
         this.msg = address[0] + ' ' + address[1] + ' ' + address[2]
       },
-      showShippingSelectAddress () {
+      showShippingSelectAddress() {
         this.$refs.saWrapper.show()
       },
-      doUpdateShipping () {
+      doUpdateShipping() {
         let receiverProvince = this.address[0]
         let receiverCity = this.address[1]
         let receiverDistrict = this.address[2]
@@ -81,7 +81,7 @@
           }
         })
       },
-      show (shipping) {
+      show(shipping) {
         this.isShow = true
         if (shipping) {
           let address = [shipping['receiverProvince'], shipping['receiverCity'], shipping['receiverDistrict']]
@@ -101,7 +101,7 @@
           this.receiverZip = ''
         }
       },
-      hide () {
+      hide() {
         this.isShow = false
       }
     }
@@ -109,20 +109,14 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  @keyframes bounce-in
-    0%
-      transform translate3d(100%, 0, 0)
-    100%
-      transform translate3d(0, 0, 0)
-  @keyframes bounce-out
-    0%
-      transform translate3d(0, 0, 0)
-    100%
-      transform translate3d(100%, 0, 0)
+  @import "../../../commons/mixin.styl"
+
   .user-info-move-enter-active
     animation bounce-in .2s linear
+
   .user-info-move-leave-active
     animation bounce-out .2s linear
+
   .edit-shipping-wrapper
     position fixed
     top 0

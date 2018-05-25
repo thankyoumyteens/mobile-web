@@ -34,7 +34,7 @@
         type: Object
       }
     },
-    data () {
+    data() {
       return {
         isShow: false,
         username: '',
@@ -46,7 +46,7 @@
       }
     },
     methods: {
-      doUpdate () {
+      doUpdate() {
         if (!(/^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/.test(this.email))) {
           Dialog({
             title: '提示',
@@ -87,7 +87,7 @@
           }
         })
       },
-      show () {
+      show() {
         this.isShow = true
         if (this.user) {
           this.username = this.user['username']
@@ -98,7 +98,7 @@
           this.answer = this.user['answer']
         }
       },
-      hide () {
+      hide() {
         this.isShow = false
       }
     }
@@ -106,20 +106,14 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  @keyframes bounce-in
-    0%
-      transform translate3d(100%, 0, 0)
-    100%
-      transform translate3d(0, 0, 0)
-  @keyframes bounce-out
-    0%
-      transform translate3d(0, 0, 0)
-    100%
-      transform translate3d(100%, 0, 0)
+  @import "../../../commons/mixin.styl"
+
   .user-info-move-enter-active
     animation bounce-in .2s linear
+
   .user-info-move-leave-active
     animation bounce-out .2s linear
+
   .user-info-wrapper
     position fixed
     top 0

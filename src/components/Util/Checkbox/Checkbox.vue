@@ -13,22 +13,22 @@
         defaultValue: false
       }
     },
-    data () {
+    data() {
       return {
         isChecked: this.checked
       }
     },
     methods: {
-      check () {
+      check() {
         this.isChecked = true
       },
-      uncheck () {
+      uncheck() {
         this.isChecked = false
       },
-      toggleCheck () {
+      toggleCheck() {
         this.isChecked = !this.isChecked
       },
-      checkStatus () {
+      checkStatus() {
         return this.isChecked
       }
     }

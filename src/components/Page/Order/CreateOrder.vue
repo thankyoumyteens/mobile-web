@@ -25,20 +25,22 @@
       <div class="sc-wrapper" ref="scWrapper">
         <div>
           <div class="cart-list">
-              <div class="cart-item" v-for="(item,index) in cartList">
-                <div class="cart-item-img"><img :src="item['mainImage']" alt=""></div>
-                <div class="cart-item-detail">
-                  <p class="cart-item-title">{{item['productName']}}</p>
-                  <p class="cart-item-type">{{item['typeStr']}}</p>
-                  <p class="cart-item-price">￥{{item['unitPrice']}}</p>
+            <div class="cart-item" v-for="(item,index) in cartList">
+              <div class="cart-item-img"><img :src="item['mainImage']" alt=""></div>
+              <div class="cart-item-detail">
+                <p class="cart-item-title">{{item['productName']}}</p>
+                <p class="cart-item-type">{{item['typeStr']}}</p>
+                <p class="cart-item-price">￥{{item['unitPrice']}}</p>
+              </div>
+              <div class="cart-item-count">
+                <div @click="cartItemSub(index)" class="cart-item-count-item cart-item-count-op cart-item-count-sub">-
                 </div>
-                <div class="cart-item-count">
-                  <div @click="cartItemSub(index)" class="cart-item-count-item cart-item-count-op cart-item-count-sub">-</div>
-                  <div class="cart-item-count-item cart-item-count-text">{{item['quantity']}}</div>
-                  <div @click="cartItemAdd(index)" class="cart-item-count-item cart-item-count-op cart-item-count-add">+</div>
+                <div class="cart-item-count-item cart-item-count-text">{{item['quantity']}}</div>
+                <div @click="cartItemAdd(index)" class="cart-item-count-item cart-item-count-op cart-item-count-add">+
                 </div>
               </div>
             </div>
+          </div>
         </div>
       </div>
     </div>
@@ -60,7 +62,7 @@
       split,
       VHeader
     },
-    data () {
+    data() {
       return {
         isShow: false,
         cartList: [],
@@ -71,7 +73,7 @@
       }
     },
     methods: {
-      cartItemSub (index) {
+      cartItemSub(index) {
         let item = this.cartList[index]
         this.$http.get(path()['sub'] + '?cartId=' + item['id']).then(response => {
           let res = response.body
@@ -85,7 +87,7 @@
           }
         })
       },
-      cartItemAdd (index) {
+      cartItemAdd(index) {
         let item = this.cartList[index]
         this.$http.get(path()['add'] + '?cartId=' + item['id']).then(response => {
           let res = response.body
@@ -99,21 +101,21 @@
           }
         })
       },
-      prevOne () {
+      prevOne() {
         if (this.shippingIndex <= 0) {
           this.shippingIndex = this.shippingList.length - 1
         } else {
           this.shippingIndex--
         }
       },
-      nextOne () {
+      nextOne() {
         if (this.shippingIndex >= this.shippingList.length - 1) {
           this.shippingIndex = 0
         } else {
           this.shippingIndex++
         }
       },
-      doReset () {
+      doReset() {
         if (this.shippingList <= 0) {
           Dialog({
             title: '提示',
@@ -135,7 +137,7 @@
           }
         })
       },
-      show (cartList, pageNum) {
+      show(cartList, pageNum) {
         this.pageNum = pageNum
         this.getShippingList()
         let index = 0
@@ -148,10 +150,10 @@
         this.initScroll()
         this.isShow = true
       },
-      hide () {
+      hide() {
         this.isShow = false
       },
-      initScroll () {
+      initScroll() {
         this.$nextTick(() => {
           if (!this.scWrapperScroll) {
             this.scWrapperScroll = new BetterScroll(this.$refs.scWrapper, {
@@ -162,7 +164,7 @@
           }
         })
       },
-      getShippingList () {
+      getShippingList() {
         this.$http.get(path()['shippingList']).then(response => {
           let res = response.body
           if (res['status'] === 0) {
@@ -179,20 +181,14 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  @keyframes bounce-in
-    0%
-      transform translate3d(100%, 0, 0)
-    100%
-      transform translate3d(0, 0, 0)
-  @keyframes bounce-out
-    0%
-      transform translate3d(0, 0, 0)
-    100%
-      transform translate3d(100%, 0, 0)
+  @import "../../../commons/mixin.styl"
+
   .user-info-move-enter-active
     animation bounce-in .2s linear
+
   .user-info-move-leave-active
     animation bounce-out .2s linear
+
   .create-order
     position fixed
     top 0

@@ -20,7 +20,7 @@
       <div @click="openOrderPayed" class="order-info-item"><i class="icon-list2"></i><span
         class="order-info-title">待收货</span></div>
       <!--<div @click="openOrderSent" class="order-info-item"><i class="icon-list2"></i><span-->
-        <!--class="order-info-title">待收货</span></div>-->
+      <!--class="order-info-title">待收货</span></div>-->
       <!--<div @click="openOrderAll" class="order-info-item"><i class="icon-list"></i><span-->
       <!--class="order-info-title">待评价</span></div>-->
     </div>
@@ -33,7 +33,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import { Dialog } from 'we-vue'
+  import {Dialog} from 'we-vue'
   import split from '@/components/Util/Split/Split'
   import login from '@/components/Page/Login/Login'
   import info from '@/components/Page/UserInfo/UserInfo'

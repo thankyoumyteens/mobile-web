@@ -46,12 +46,12 @@
       }
     },
     watch: {
-      'productionInfo' () {
+      'productionInfo'() {
         this.getProductionList()
         this.initScroll()
       }
     },
-    data () {
+    data() {
       return {
         scrollProductionList1: null,
         productionsShow: false,
@@ -64,17 +64,21 @@
       }
     },
     methods: {
-      getMore () {
+      getMore() {
         this.pageNum++
         this.getProductionList()
       },
-      showDetail (item) {
+      showDetail(item) {
         this.$emit('detail', item)
       },
-      openSearchPage () {
+      /**
+       * 打开搜索页面
+       */
+      openSearchPage() {
         this.$emit('search', 'Productions')
+        this.hide()
       },
-      initScroll () {
+      initScroll() {
         this.$nextTick(() => {
           if (!this.$refs.scrollWrapperProductionList) return
           if (!this.scrollProductionList1) {
@@ -86,17 +90,17 @@
           }
         })
       },
-      show () {
+      show() {
         this.productionsShow = true
         this.productionList = []
         this.pageNum = 1
         this.initScroll()
       },
-      hide () {
+      hide() {
         this.productionsShow = false
         this.scrollProductionList1 = null
       },
-      getProductionList () {
+      getProductionList() {
         this.isLoading = true
         let type = this.productionInfo['type']
         let data = this.productionInfo['data']
@@ -136,20 +140,12 @@
 <style lang="stylus" rel="stylesheet/stylus">
   @import "../../../commons/mixin.styl"
 
-  @keyframes bounce-in
-    0%
-      transform translate3d(100%, 0, 0)
-    100%
-      transform translate3d(0, 0, 0)
-  @keyframes bounce-out
-    0%
-      transform translate3d(0, 0, 0)
-    100%
-      transform translate3d(100%, 0, 0)
   .search-move-enter-active
     animation bounce-in .2s linear
+
   .search-move-leave-active
     animation bounce-out .2s linear
+
   .productions
     position fixed
     top 0

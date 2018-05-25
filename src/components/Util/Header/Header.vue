@@ -14,34 +14,34 @@
 </template>
 
 <script type="text/ecmascript-6">
-    export default {
-      props: {
-        actionText: {
-          type: String,
-          default: ''
-        },
-        titleText: {
-          type: String,
-          default: ''
-        },
-        isFixed: {
-          type: Boolean,
-          default: false
-        },
-        backgroundColor: {
-          type: String,
-          default: '#e64340'
-        }
+  export default {
+    props: {
+      actionText: {
+        type: String,
+        default: ''
       },
-      methods: {
-        back() {
-          this.$emit('back')
-        },
-        action() {
-          this.$emit('action')
-        }
+      titleText: {
+        type: String,
+        default: ''
+      },
+      isFixed: {
+        type: Boolean,
+        default: false
+      },
+      backgroundColor: {
+        type: String,
+        default: '#e64340'
+      }
+    },
+    methods: {
+      back() {
+        this.$emit('back')
+      },
+      action() {
+        this.$emit('action')
       }
     }
+  }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">

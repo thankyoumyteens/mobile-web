@@ -26,10 +26,14 @@
               </div>
               <splits></splits>
               <div class="order-list-item-detail">
-                <p class="order-list-item-title" @click="doCancel(index, item['orderNo'])" v-if="item['status']===10">取消订单</p>
-                <p class="order-list-item-title" @click="doPay(item['orderId'], item['orderNo'])" v-if="item['status']===10">去支付</p>
-                <p class="order-list-item-title" @click="sendDeliveryMessage(item['orderNo'])" v-if="item['status']===20">提醒发货</p>
-                <p class="order-list-item-title" @click="doConfirm(index, item['orderNo'])" v-if="item['status']===40">确认收货</p>
+                <p class="order-list-item-title" @click="doCancel(index, item['orderNo'])" v-if="item['status']===10">
+                  取消订单</p>
+                <p class="order-list-item-title" @click="doPay(item['orderId'], item['orderNo'])"
+                   v-if="item['status']===10">去支付</p>
+                <p class="order-list-item-title" @click="sendDeliveryMessage(item['orderNo'])"
+                   v-if="item['status']===20">提醒发货</p>
+                <p class="order-list-item-title" @click="doConfirm(index, item['orderNo'])" v-if="item['status']===40">
+                  确认收货</p>
                 <p class="order-list-item-title" @click="doComment(index, item)" v-if="item['status']===50">评论</p>
                 <p class="order-list-item-price">￥{{item['totalPrice']}}</p>
               </div>
@@ -50,7 +54,7 @@
 
 <script type="text/ecmascript-6">
   import Vue from 'vue'
-  import { Dialog } from 'we-vue'
+  import {Dialog} from 'we-vue'
   import VHeader from '@/components/Util/Header/Header'
   import split from '@/components/Util/Split/Split'
   import splits from '@/components/Util/Split/SplitSmall'
@@ -71,7 +75,7 @@
       VHeader,
       MakeComment
     },
-    data () {
+    data() {
       return {
         isShow: false,
         orderList: [],
@@ -151,7 +155,7 @@
       doPay(orderId, orderNo) {
         this.$refs.waitpWaitPay.showById(orderId, orderNo)
       },
-      show (type) {
+      show(type) {
         this.orderList = []
         this.pageNum = 1
         switch (type) {
@@ -175,15 +179,15 @@
         this.getOrderList()
         this.isShow = true
       },
-      hide () {
+      hide() {
         this.isShow = false
         this.olistWrapperScroll = null
       },
-      showOrderDetail (orderId) {
+      showOrderDetail(orderId) {
         console.log(orderId)
         this.$refs.comp_od.show(orderId)
       },
-      initScroll () {
+      initScroll() {
         // if (!this.$refs.olistWrapper) return
         this.$nextTick(() => {
           if (!this.olistWrapperScroll) {
@@ -195,11 +199,11 @@
           }
         })
       },
-      getMore () {
+      getMore() {
         this.pageNum++
         this.getOrderList()
       },
-      getOrderList () {
+      getOrderList() {
         this.isLoading = true
         let url = ''
         switch (this.status) {
@@ -245,20 +249,14 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  @keyframes bounce-in
-    0%
-      transform translate3d(100%, 0, 0)
-    100%
-      transform translate3d(0, 0, 0)
-  @keyframes bounce-out
-    0%
-      transform translate3d(0, 0, 0)
-    100%
-      transform translate3d(100%, 0, 0)
+  @import "../../../commons/mixin.styl"
+
   .user-info-move-enter-active
     animation bounce-in .2s linear
+
   .user-info-move-leave-active
     animation bounce-out .2s linear
+
   .order-list
     position fixed
     top 0

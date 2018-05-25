@@ -12,15 +12,15 @@
       <split></split>
       <div class="ui-show ui-underline" @click="showDetail">
         <div class="uis-title">个人信息</div>
-        <div class="uis-icon"> > </div>
+        <div class="uis-icon"> ></div>
       </div>
       <div class="ui-show ui-underline" @click="showShipping">
         <div class="uis-title">收货地址</div>
-        <div class="uis-icon"> > </div>
+        <div class="uis-icon"> ></div>
       </div>
       <div class="ui-show" @click="resetPassword">
         <div class="uis-title">修改密码</div>
-        <div class="uis-icon"> > </div>
+        <div class="uis-icon"> ></div>
       </div>
       <split></split>
       <div @click="logout" class="u-logout">
@@ -59,31 +59,31 @@
         type: Object
       }
     },
-    data () {
+    data() {
       return {
         isShow: false
       }
     },
     methods: {
-      changeAvatarSuccess (uri) {
+      changeAvatarSuccess(uri) {
         this.$emit('avatar', uri)
       },
-      updateSuccess (user) {
+      updateSuccess(user) {
         this.$emit('update', user)
       },
-      resetPassword () {
+      resetPassword() {
         this.$refs.rpw.show()
       },
-      changeAvatar () {
+      changeAvatar() {
         this.$refs.aw.show()
       },
-      showShipping () {
+      showShipping() {
         this.$refs.sw.show()
       },
-      showDetail () {
+      showDetail() {
         this.$refs.uiw.show()
       },
-      logout () {
+      logout() {
         this.$http.post(path()['logout']).then(response => {
           let res = response.body
           if (res['status'] === 0) {
@@ -94,10 +94,10 @@
           }
         })
       },
-      show () {
+      show() {
         this.isShow = true
       },
-      hide () {
+      hide() {
         this.isShow = false
       }
     }
@@ -105,20 +105,14 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  @keyframes bounce-in
-    0%
-      transform translate3d(100%, 0, 0)
-    100%
-      transform translate3d(0, 0, 0)
-  @keyframes bounce-out
-    0%
-      transform translate3d(0, 0, 0)
-    100%
-      transform translate3d(100%, 0, 0)
+  @import "../../../commons/mixin.styl"
+
   .user-info-move-enter-active
     animation bounce-in .2s linear
+
   .user-info-move-leave-active
     animation bounce-out .2s linear
+
   .user-info
     position fixed
     top 0

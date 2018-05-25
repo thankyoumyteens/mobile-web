@@ -55,19 +55,24 @@
               <section class="production-review" v-show="currentNavIndex===2">
                 <div class="pr-top">
                   <div class="pr-top-star">
-                    <div class="pr-top-star-item" @click="changeStar(1)" :class="[currentCommentType==1?'active-item':'']">
+                    <div class="pr-top-star-item" @click="changeStar(1)"
+                         :class="[currentCommentType==1?'active-item':'']">
                       全部
                     </div>
-                    <div class="pr-top-star-item" @click="changeStar(2)" :class="[currentCommentType==2?'active-item':'']">
+                    <div class="pr-top-star-item" @click="changeStar(2)"
+                         :class="[currentCommentType==2?'active-item':'']">
                       好评
                     </div>
-                    <div class="pr-top-star-item" @click="changeStar(3)" :class="[currentCommentType==3?'active-item':'']">
+                    <div class="pr-top-star-item" @click="changeStar(3)"
+                         :class="[currentCommentType==3?'active-item':'']">
                       中评
                     </div>
-                    <div class="pr-top-star-item" @click="changeStar(4)" :class="[currentCommentType==4?'active-item':'']">
+                    <div class="pr-top-star-item" @click="changeStar(4)"
+                         :class="[currentCommentType==4?'active-item':'']">
                       差评
                     </div>
-                    <div class="pr-top-star-item" @click="changeStar(5)" :class="[currentCommentType==5?'active-item':'']">
+                    <div class="pr-top-star-item" @click="changeStar(5)"
+                         :class="[currentCommentType==5?'active-item':'']">
                       有图
                     </div>
                   </div>
@@ -341,7 +346,7 @@
           }
         })
       },
-      getMore () {
+      getMore() {
         this.pageNum++
         this.isChanged = false
         this.getCommentList()
@@ -405,18 +410,6 @@
 
 <style lang="stylus" rel="stylesheet/stylus">
   @import "../../../commons/mixin.styl"
-
-  @keyframes bounce-in
-    0%
-      transform translate3d(100%, 0, 0)
-    100%
-      transform translate3d(0, 0, 0)
-
-  @keyframes bounce-out
-    0%
-      transform translate3d(0, 0, 0)
-    100%
-      transform translate3d(100%, 0, 0)
 
   .production-move-enter-active
     animation bounce-in .2s linear

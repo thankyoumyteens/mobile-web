@@ -27,7 +27,7 @@
                 <i class="el-icon-plus"></i>
               </el-upload>
               <!--<el-dialog :visible.sync="dialogVisible">-->
-                <!--<img width="100%" :src="dialogImageUrl" alt="">-->
+              <!--<img width="100%" :src="dialogImageUrl" alt="">-->
               <!--</el-dialog>-->
             </div>
             <div class="comment-row">
@@ -43,7 +43,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import { Dialog } from 'we-vue'
+  import {Dialog} from 'we-vue'
   import BetterScroll from 'better-scroll'
   import VHeader from '@/components/Util/Header/Header'
   import {
@@ -134,7 +134,7 @@
           }
         })
       },
-      initScroll () {
+      initScroll() {
         this.$nextTick(() => {
           if (!this.makeCommentScroll) {
             this.makeCommentScroll = new BetterScroll(this.$refs.makeCommentScrollWrapper, {
@@ -159,17 +159,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  @keyframes bounce-in
-    0%
-      transform translate3d(100%, 0, 0)
-    100%
-      transform translate3d(0, 0, 0)
-
-  @keyframes bounce-out
-    0%
-      transform translate3d(0, 0, 0)
-    100%
-      transform translate3d(100%, 0, 0)
+  @import "../../../commons/mixin.styl"
 
   .make-comment-move-enter-active
     animation bounce-in .2s linear
