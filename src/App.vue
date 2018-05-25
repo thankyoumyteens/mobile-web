@@ -28,9 +28,9 @@
 <script>
   import router from './router'
   import {Dialog} from 'we-vue'
-  import search from '@/components/Page/Search/Search'
-  import productions from '@/components/Page/Productions/Productions'
-  import production from '@/components/Page/Production/Production'
+  import Search from '@/components/Page/Search/Search'
+  import Productions from '@/components/Page/Productions/Productions'
+  import Production from '@/components/Page/Production/Production'
   import {
     path
   } from '@/commons/address.js'
@@ -38,9 +38,9 @@
   export default {
     name: 'app',
     components: {
-      search,
-      productions,
-      production
+      Search,
+      Productions,
+      Production
     },
     created() {
       this.getUserInfo()
