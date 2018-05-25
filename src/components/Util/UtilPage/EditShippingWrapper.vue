@@ -13,7 +13,7 @@
           <wv-input label="邮编" placeholder="请输入邮编" v-model="receiverZip" type="number"></wv-input>
         </wv-group>
       </div>
-      <sa ref="saWrapper" @success="fillAddress"></sa>
+      <select-address ref="saWrapper" @success="fillAddress"></select-address>
     </div>
   </transition>
 </template>
@@ -21,16 +21,16 @@
 <script type="text/ecmascript-6">
   import {Dialog} from 'we-vue'
   import VHeader from '@/components/Util/Header/Header'
-  import sa from '@/components/Util/UtilPage/SelectAddress'
-  import split from '@/components/Util/Split/Split'
+  import SelectAddress from '@/components/Util/UtilPage/SelectAddress'
+  import Split from '@/components/Util/Split/Split'
   import {
     path
   } from '@/commons/address.js'
 
   export default {
     components: {
-      split,
-      sa,
+      Split,
+      SelectAddress,
       VHeader
     },
     data() {

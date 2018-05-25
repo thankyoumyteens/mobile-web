@@ -19,14 +19,14 @@
 <script type="text/ecmascript-6">
   import {Dialog} from 'we-vue'
   import VHeader from '@/components/Util/Header/Header'
-  import split from '@/components/Util/Split/Split'
+  import Split from '@/components/Util/Split/Split'
   import {
     path
   } from '@/commons/address.js'
 
   export default {
     components: {
-      split,
+      Split,
       VHeader
     },
     props: {

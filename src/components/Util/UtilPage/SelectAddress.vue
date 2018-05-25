@@ -23,7 +23,7 @@
 <script type="text/ecmascript-6">
   import chinaAreaData from 'china-area-data'
   import VHeader from '@/components/Util/Header/Header'
-  import split from '@/components/Util/Split/Split'
+  import Split from '@/components/Util/Split/Split'
   import {
     path
   } from '@/commons/address.js'
@@ -66,7 +66,7 @@
 
   export default {
     components: {
-      split,
+      Split,
       VHeader
     },
     data() {

@@ -117,17 +117,16 @@
       <div class="ph-buttons">
         <button class="ph-button ph-add-cart" @click="showSelect">加入购物车</button>
       </div>
-      <selecttype ref="selecttype" @selected="selectType" @cart="addToCart"></selecttype>
+      <select-type ref="selecttype" @selected="selectType" @cart="addToCart"></select-type>
     </div>
   </transition>
 </template>
 
 <script type="text/ecmascript-6">
   import Vue from 'vue'
-  import star from '@/components/Util/Star/Star'
-  import split from '@/components/Util/Split/Split'
-  import splits from '@/components/Util/Split/SplitSmall'
-  import selecttype from '@/components/Util/SelectType/SelectType'
+  import Star from '@/components/Util/Star/Star'
+  import Split from '@/components/Util/Split/Split'
+  import SelectType from '@/components/Util/SelectType/SelectType'
   import BetterScroll from 'better-scroll'
   import slider from 'vue-concise-slider'
   import {
@@ -137,10 +136,9 @@
   export default {
     components: {
       slider,
-      split,
-      splits,
-      star,
-      selecttype
+      Split,
+      Star,
+      SelectType
     },
     props: {
       goodsId: {

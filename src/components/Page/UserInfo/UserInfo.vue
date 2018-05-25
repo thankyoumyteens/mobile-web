@@ -26,32 +26,32 @@
       <div @click="logout" class="u-logout">
         退出登录
       </div>
-      <uiw ref="uiw" :user="user" @success="updateSuccess"></uiw>
-      <sw ref="sw" :user="user"></sw>
-      <aw ref="aw" :user="user" @avatar="changeAvatarSuccess"></aw>
-      <rpw ref="rpw"></rpw>
+      <user-info-wrapper ref="uiw" :user="user" @success="updateSuccess"></user-info-wrapper>
+      <shipping-wrapper ref="sw" :user="user"></shipping-wrapper>
+      <avatar-wrapper ref="aw" :user="user" @avatar="changeAvatarSuccess"></avatar-wrapper>
+      <reset-password-wrapper ref="rpw"></reset-password-wrapper>
     </div>
   </transition>
 </template>
 
 <script type="text/ecmascript-6">
   import VHeader from '@/components/Util/Header/Header'
-  import split from '@/components/Util/Split/Split'
-  import uiw from '@/components/Util/UtilPage/UserInfoWrapper'
-  import sw from '@/components/Util/UtilPage/ShippingWrapper'
-  import aw from '@/components/Util/UtilPage/AvatarWrapper'
-  import rpw from '@/components/Util/UtilPage/ResetPasswordWrapper'
+  import Split from '@/components/Util/Split/Split'
+  import UserInfoWrapper from '@/components/Util/UtilPage/UserInfoWrapper'
+  import ShippingWrapper from '@/components/Util/UtilPage/ShippingWrapper'
+  import AvatarWrapper from '@/components/Util/UtilPage/AvatarWrapper'
+  import ResetPasswordWrapper from '@/components/Util/UtilPage/ResetPasswordWrapper'
   import {
     path
   } from '@/commons/address.js'
 
   export default {
     components: {
-      split,
-      uiw,
-      sw,
-      aw,
-      rpw,
+      Split,
+      UserInfoWrapper,
+      ShippingWrapper,
+      AvatarWrapper,
+      ResetPasswordWrapper,
       VHeader
     },
     props: {

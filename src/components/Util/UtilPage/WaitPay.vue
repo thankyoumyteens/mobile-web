@@ -32,7 +32,7 @@
             <split></split>
             <div class="order-list-item-order-status">{{orderDetail['statusMsg']}}</div>
             <div class="order-list-item-order-no">订单号: {{orderDetail['orderNo']}}</div>
-            <splits></splits>
+            <split :size="0.5"></split>
             <div class="order-item-list-wrapper">
               <div class="oil-item" v-for="orderItem in orderDetail['itemList']">
                 <div class="order-item-list-item-img"><img :src="orderItem['mainImage']" alt=""></div>
@@ -42,7 +42,7 @@
                 <div class="order-item-item-list-item-price">￥{{orderItem['totalPrice']}}</div>
               </div>
             </div>
-            <splits></splits>
+            <split :size="0.1"></split>
             <div class="order-list-item-detail">
               <p class="order-list-item-price">￥{{orderDetail['payment']}}</p>
             </div>
@@ -77,8 +77,7 @@
 <script type="text/ecmascript-6">
   import {Dialog} from 'we-vue'
   import VHeader from '@/components/Util/Header/Header'
-  import split from '@/components/Util/Split/Split'
-  import splits from '@/components/Util/Split/SplitSmall'
+  import Split from '@/components/Util/Split/Split'
   import BetterScroll from 'better-scroll'
   import {
     path
@@ -86,8 +85,7 @@
 
   export default {
     components: {
-      split,
-      splits,
+      Split,
       VHeader
     },
     data() {

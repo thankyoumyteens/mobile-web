@@ -21,11 +21,11 @@
 
 <script type="text/ecmascript-6">
   import Vue from 'vue'
-  import split from '@/components/Util/Split/Split'
+  import Split from '@/components/Util/Split/Split'
 
   export default {
     components: {
-      split
+      Split
     },
     data() {
       return {

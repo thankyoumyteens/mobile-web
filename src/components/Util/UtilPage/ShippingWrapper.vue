@@ -27,7 +27,7 @@
           </div>
         </div>
       </div>
-      <edit ref="shippingEditor" @success="getShippingList"></edit>
+      <edit-shipping-wrapper ref="shippingEditor" @success="getShippingList"></edit-shipping-wrapper>
     </div>
   </transition>
 </template>
@@ -35,8 +35,8 @@
 <script type="text/ecmascript-6">
   import {Dialog} from 'we-vue'
   import VHeader from '@/components/Util/Header/Header'
-  import split from '@/components/Util/Split/Split'
-  import edit from '@/components/Util/UtilPage/EditShippingWrapper'
+  import Split from '@/components/Util/Split/Split'
+  import EditShippingWrapper from '@/components/Util/UtilPage/EditShippingWrapper'
   import BetterScroll from 'better-scroll'
   import {
     path
@@ -44,8 +44,8 @@
 
   export default {
     components: {
-      split,
-      edit,
+      Split,
+      EditShippingWrapper,
       VHeader
     },
     props: {

@@ -19,32 +19,28 @@
         class="order-info-title">待付款</span></div>
       <div @click="openOrderPayed" class="order-info-item"><i class="icon-list2"></i><span
         class="order-info-title">待收货</span></div>
-      <!--<div @click="openOrderSent" class="order-info-item"><i class="icon-list2"></i><span-->
-      <!--class="order-info-title">待收货</span></div>-->
-      <!--<div @click="openOrderAll" class="order-info-item"><i class="icon-list"></i><span-->
-      <!--class="order-info-title">待评价</span></div>-->
     </div>
     <split></split>
     <login ref="login" @success="loginSuccess"></login>
-    <info ref="userInfo" :user="user" @logout="logoutSuccess" @avatar="changeAvatarSuccess"
-          @update="updateSuccess"></info>
-    <olist ref="orlist"></olist>
+    <user-info ref="userInfo" :user="user" @logout="logoutSuccess" @avatar="changeAvatarSuccess"
+               @update="updateSuccess"></user-info>
+    <order-list ref="orlist"></order-list>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import {Dialog} from 'we-vue'
-  import split from '@/components/Util/Split/Split'
-  import login from '@/components/Page/Login/Login'
-  import info from '@/components/Page/UserInfo/UserInfo'
-  import olist from '@/components/Page/Order/OrderList'
+  import Split from '@/components/Util/Split/Split'
+  import Login from '@/components/Page/Login/Login'
+  import UserInfo from '@/components/Page/UserInfo/UserInfo'
+  import OrderList from '@/components/Page/Order/OrderList'
 
   export default {
     components: {
-      split,
-      login,
-      info,
-      olist
+      Split,
+      Login,
+      UserInfo,
+      OrderList
     },
     props: {
       user: {
