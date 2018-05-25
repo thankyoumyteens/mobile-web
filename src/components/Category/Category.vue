@@ -11,7 +11,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import Vue from 'vue'
   import {
     path
   } from '@/commons/address.js'

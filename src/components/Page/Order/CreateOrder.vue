@@ -51,7 +51,7 @@
   import Vue from 'vue'
   import {Dialog} from 'we-vue'
   import VHeader from '@/components/Util/Header/Header'
-  import split from '@/components/Util/Split/Split'
+  import Split from '@/components/Util/Split/Split'
   import BetterScroll from 'better-scroll'
   import {
     path
@@ -59,7 +59,7 @@
 
   export default {
     components: {
-      split,
+      Split,
       VHeader
     },
     data() {

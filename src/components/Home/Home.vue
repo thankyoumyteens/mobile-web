@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <header>
+      <!--轮播图-->
       <div class="wall">
         <transition-group class="img-wrapper" tag="div" name="image">
           <img @click="openDetail(item)" :src="item" v-show="index===currentImgIndex" class="img-item"
@@ -11,6 +12,7 @@
                 :class="{'count-active':index===currentImgIndex}" :key="index"></span>
         </div>
       </div>
+      <!--搜索框-->
       <div @click="openSearchPage" class="search-bar">
         <i class="search-bar-icon icon-search"></i>
         <div>{{placeholder}}</div>

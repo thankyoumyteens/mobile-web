@@ -26,7 +26,7 @@
             <split></split>
             <div class="order-list-item-order-status">{{orderDetail['statusMsg']}}</div>
             <div class="order-list-item-order-no">订单号: {{orderDetail['orderNo']}}</div>
-            <splits></splits>
+            <split :size="0.5"></split>
             <div class="order-item-list-wrapper">
               <div class="oil-item" v-for="orderItem in orderDetail['itemList']">
                 <div class="order-item-list-item-img"><img :src="orderItem['mainImage']" alt=""></div>
@@ -36,7 +36,7 @@
                 <div class="order-item-item-list-item-price">￥{{orderItem['totalPrice']}}</div>
               </div>
             </div>
-            <splits></splits>
+            <split :size="0.1"></split>
             <div class="order-list-item-detail">
               <p class="order-list-item-title" @click="doCancel(orderDetail['orderNo'])"
                  v-if="orderDetail['status']===10">取消订单</p>
@@ -72,19 +72,17 @@
           </div>
         </div>
       </div>
-      <waitp ref="waitpWaitPay"></waitp>
+      <wait-pay ref="waitpWaitPay"></wait-pay>
       <make-comment ref="makeComment"></make-comment>
     </div>
   </transition>
 </template>
 
 <script type="text/ecmascript-6">
-  import Vue from 'vue'
   import {Dialog} from 'we-vue'
   import VHeader from '@/components/Util/Header/Header'
-  import split from '@/components/Util/Split/Split'
-  import splits from '@/components/Util/Split/SplitSmall'
-  import waitp from '@/components/Util/UtilPage/WaitPay'
+  import Split from '@/components/Util/Split/Split'
+  import WaitPay from '@/components/Util/UtilPage/WaitPay'
   import MakeComment from '@/components/Page/Production/MakeComment'
   import BetterScroll from 'better-scroll'
   import {
@@ -93,9 +91,8 @@
 
   export default {
     components: {
-      split,
-      splits,
-      waitp,
+      Split,
+      WaitPay,
       VHeader,
       MakeComment
     },

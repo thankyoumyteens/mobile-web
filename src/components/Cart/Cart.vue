@@ -40,26 +40,26 @@
       <div class="pay-total">合计:￥{{totalPrice}}</div>
       <div class="pay-button" @click="createOrderBefore">结算</div>
     </div>
-    <co ref="coComp" @success="createOrderSuccess"></co>
-    <waitp ref="waitpWaitPay"></waitp>
+    <create-order ref="coComp" @success="createOrderSuccess"></create-order>
+    <wait-pay ref="waitpWaitPay"></wait-pay>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import Vue from 'vue'
   import {Dialog} from 'we-vue'
-  import co from '@/components/Page/Order/CreateOrder'
-  import checkbox from '@/components/Util/Checkbox/Checkbox'
-  import waitp from '@/components/Util/UtilPage/WaitPay'
+  import CreateOrder from '@/components/Page/Order/CreateOrder'
+  import Checkbox from '@/components/Util/Checkbox/Checkbox'
+  import WaitPay from '@/components/Util/UtilPage/WaitPay'
   import {
     path
   } from '@/commons/address.js'
 
   export default {
     components: {
-      checkbox,
-      co,
-      waitp
+      Checkbox,
+      CreateOrder,
+      WaitPay
     },
     props: {
       user: {
@@ -229,7 +229,7 @@
         let totalPrice = 0.0
         for (let i = 0; i < this.cartList.length; i++) {
           let item = this.cartList[i]
-          if (item['checked'] === 1) {
+          if (item && item['checked'] === 1) {
             totalPrice += (parseFloat(item['unitPrice']) * item['quantity'])
           }
         }
@@ -256,14 +256,15 @@
           this.$http.get(path()['getCart'] + '?pageNum=' + this.pageNum).then(response => {
             this.isLoading = false
             let res = response.body
-            console.log(res)
             if (res['status'] === 0) {
               let data = res['data']
               for (let i = 0; i < data['list'].length; i++) {
                 let item = data['list'][i]
-                // 下一页数据追加到数组末尾
-                let index = this.cartList.length
-                Vue.set(this.cartList, index, item)
+                if (item) {
+                  // 下一页数据追加到数组末尾
+                  let index = this.cartList.length
+                  Vue.set(this.cartList, index, item)
+                }
               }
               this.computeTotalPrice()
             } else {

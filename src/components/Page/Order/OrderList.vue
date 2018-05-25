@@ -14,7 +14,7 @@
             <div class="order-list-item" v-for="(item,index) in orderList">
               <div class="order-list-item-order-no">订单号: {{item['orderNo']}}</div>
               <div class="order-list-item-order-status">{{item['statusMsg']}}</div>
-              <splits></splits>
+              <split :size="0.5"></split>
               <div class="order-item-list-wrapper" @click="showOrderDetail(item['orderId'])">
                 <div class="oil-item" v-for="orderItem in item['orderItemList']">
                   <div class="order-item-list-item-img"><img :src="orderItem['mainImage']" alt=""></div>
@@ -24,7 +24,7 @@
                   <div class="order-item-item-list-item-price">￥{{orderItem['totalPrice']}}</div>
                 </div>
               </div>
-              <splits></splits>
+              <split :size="0.1"></split>
               <div class="order-list-item-detail">
                 <p class="order-list-item-title" @click="doCancel(index, item['orderNo'])" v-if="item['status']===10">
                   取消订单</p>
@@ -45,8 +45,8 @@
           </div>
         </div>
       </div>
-      <od ref="comp_od"></od>
-      <waitp ref="waitpWaitPay"></waitp>
+      <order-detail ref="comp_od"></order-detail>
+      <wait-pay ref="waitpWaitPay"></wait-pay>
       <make-comment ref="makeComment"></make-comment>
     </div>
   </transition>
@@ -56,10 +56,9 @@
   import Vue from 'vue'
   import {Dialog} from 'we-vue'
   import VHeader from '@/components/Util/Header/Header'
-  import split from '@/components/Util/Split/Split'
-  import splits from '@/components/Util/Split/SplitSmall'
-  import od from '@/components/Page/Order/OrderDetail'
-  import waitp from '@/components/Util/UtilPage/WaitPay'
+  import Split from '@/components/Util/Split/Split'
+  import OrderDetail from '@/components/Page/Order/OrderDetail'
+  import WaitPay from '@/components/Util/UtilPage/WaitPay'
   import MakeComment from '@/components/Page/Production/MakeComment'
   import BetterScroll from 'better-scroll'
   import {
@@ -68,10 +67,9 @@
 
   export default {
     components: {
-      split,
-      splits,
-      od,
-      waitp,
+      Split,
+      OrderDetail,
+      WaitPay,
       VHeader,
       MakeComment
     },

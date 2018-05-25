@@ -27,7 +27,7 @@
           <wv-button type="warn" :is-loading="isRegDoing" @click="doRegister">注册</wv-button>
         </wv-group>
       </div>
-      <qrpw ref="qrpw"></qrpw>
+      <question-reset-password-wrapper ref="qrpw"></question-reset-password-wrapper>
     </div>
   </transition>
 </template>
@@ -35,14 +35,14 @@
 <script type="text/ecmascript-6">
   import {Dialog} from 'we-vue'
   import VHeader from '@/components/Util/Header/Header'
-  import qrpw from '@/components/Util/UtilPage/QuestionResetPasswordWrapper'
+  import QuestionResetPasswordWrapper from '@/components/Util/UtilPage/QuestionResetPasswordWrapper'
   import {
     path
   } from '@/commons/address.js'
 
   export default {
     components: {
-      qrpw,
+      QuestionResetPasswordWrapper,
       VHeader
     },
     data() {
