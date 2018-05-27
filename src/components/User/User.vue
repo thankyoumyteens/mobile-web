@@ -22,7 +22,10 @@
     </div>
     <split></split>
     <login ref="login" @success="loginSuccess"></login>
-    <user-info ref="userInfo" :user="user" @logout="logoutSuccess" @avatar="changeAvatarSuccess"
+    <user-info ref="userInfo"
+               :user="user"
+               @logout="logoutSuccess"
+               @avatar="changeAvatarSuccess"
                @update="updateSuccess"></user-info>
     <order-list ref="orlist"></order-list>
   </div>

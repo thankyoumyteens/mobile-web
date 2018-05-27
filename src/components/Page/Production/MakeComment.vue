@@ -46,16 +46,12 @@
   import {Dialog} from 'we-vue'
   import BetterScroll from 'better-scroll'
   import VHeader from '@/components/Util/Header/Header'
-  import {
-    path
-  } from '@/commons/address.js'
+  import {path} from '@/commons/address'
+  import {ResponseCode} from '@/commons/config'
 
   export default {
     components: {
       VHeader
-    },
-    mounted() {
-      // a
     },
     data() {
       return {
@@ -118,7 +114,7 @@
           str: JSON.stringify(params)
         }).then(response => {
           let res = response.body
-          if (res['status'] === 0) {
+          if (res['status'] === ResponseCode.SUCCESS) {
             Dialog({
               title: '提示',
               message: res['msg'],
@@ -146,7 +142,6 @@
         })
       },
       show(order) {
-        console.log(order)
         this.order = order
         this.isShow = true
         this.initScroll()

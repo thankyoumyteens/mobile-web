@@ -104,7 +104,7 @@
                       <div class="pr-item-order">
                         购买日期: {{item['orderCreateTime']}}
                       </div>
-                      <splits></splits>
+                      <split :size="0.5"></split>
                     </div>
                   </div>
                 </div>
@@ -129,9 +129,8 @@
   import SelectType from '@/components/Util/SelectType/SelectType'
   import BetterScroll from 'better-scroll'
   import slider from 'vue-concise-slider'
-  import {
-    path
-  } from '@/commons/address.js'
+  import {path} from '@/commons/address'
+  import {ResponseCode} from '@/commons/config'
 
   export default {
     components: {
@@ -298,7 +297,7 @@
         this.$http.get(url).then((response) => {
           let status = response.body['status']
           this.productionItem = null
-          if (status === 0) {
+          if (status === ResponseCode.SUCCESS) {
             let data = response.body['data']
             this.propertiesList = data['propertiesList']
             this.productionItem = data
@@ -334,9 +333,8 @@
         this.$http.get(path()['productionDesc'] +
           '?goodsId=' + this.productionItem['goodsId']).then((response) => {
           let status = response.body['status']
-          if (status === 0) {
-            let data = response.body['data']
-            this.goodsDesc = data
+          if (status === ResponseCode.SUCCESS) {
+            this.goodsDesc = response.body['data']
             this.initScroll()
           } else {
             let msg = response.body['msg']
@@ -361,7 +359,7 @@
         this.$http.get(this.commentUrl + '&pageNum=' + this.pageNum).then((response) => {
           this.isLoadingComment = false
           let status = response.body['status']
-          if (status === 0) {
+          if (status === ResponseCode.SUCCESS) {
             let data = response.body['data']
             this.hasNextPage = data.hasNextPage
             if (this.isNewPage || this.isChanged) {

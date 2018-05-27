@@ -24,9 +24,6 @@
   import chinaAreaData from 'china-area-data'
   import VHeader from '@/components/Util/Header/Header'
   import Split from '@/components/Util/Split/Split'
-  import {
-    path
-  } from '@/commons/address.js'
 
   const provinces = Object.values(chinaAreaData[86])
   // 获取某一省下的市

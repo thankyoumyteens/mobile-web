@@ -26,15 +26,21 @@
               </div>
               <split :size="0.1"></split>
               <div class="order-list-item-detail">
-                <p class="order-list-item-title" @click="doCancel(index, item['orderNo'])" v-if="item['status']===10">
-                  取消订单</p>
-                <p class="order-list-item-title" @click="doPay(item['orderId'], item['orderNo'])"
-                   v-if="item['status']===10">去支付</p>
-                <p class="order-list-item-title" @click="sendDeliveryMessage(item['orderNo'])"
-                   v-if="item['status']===20">提醒发货</p>
-                <p class="order-list-item-title" @click="doConfirm(index, item['orderNo'])" v-if="item['status']===40">
-                  确认收货</p>
-                <p class="order-list-item-title" @click="doComment(index, item)" v-if="item['status']===50">评论</p>
+                <p class="order-list-item-title"
+                   @click="doCancel(index, item['orderNo'])"
+                   v-if="item['status']===orderStatus.NOT_PAY">取消订单</p>
+                <p class="order-list-item-title"
+                   @click="doPay(item['orderId'], item['orderNo'])"
+                   v-if="item['status']===orderStatus.NOT_PAY">去支付</p>
+                <p class="order-list-item-title"
+                   @click="sendDeliveryMessage(item['orderNo'])"
+                   v-if="item['status']===orderStatus.PAYED">提醒发货</p>
+                <p class="order-list-item-title"
+                   @click="doConfirm(index, item['orderNo'])"
+                   v-if="item['status']===orderStatus.SENT">确认收货</p>
+                <p class="order-list-item-title"
+                   @click="doComment(index, item)"
+                   v-if="item['status']===orderStatus.SUCCESS">评论</p>
                 <p class="order-list-item-price">￥{{item['totalPrice']}}</p>
               </div>
               <split></split>
@@ -61,9 +67,8 @@
   import WaitPay from '@/components/Util/UtilPage/WaitPay'
   import MakeComment from '@/components/Page/Production/MakeComment'
   import BetterScroll from 'better-scroll'
-  import {
-    path
-  } from '@/commons/address.js'
+  import {path} from '@/commons/address'
+  import {ResponseCode, OrderStatus} from '@/commons/config'
 
   export default {
     components: {
@@ -85,14 +90,18 @@
         olistWrapperScroll: null,
         status: -1,
         title: '',
-        isLoading: false
+        isLoading: false,
+        orderStatus: {}
       }
+    },
+    created() {
+      this.orderStatus = OrderStatus
     },
     methods: {
       sendDeliveryMessage(orderNo) {
         this.$http.get(path()['sendDeliveryMessage'] + '?orderNo=' + orderNo).then(response => {
           let res = response.body
-          if (res['status'] === 0) {
+          if (res['status'] === ResponseCode.SUCCESS) {
             Dialog({
               title: '提示',
               message: '提醒发货成功',
@@ -113,8 +122,8 @@
       doConfirm(index, orderNo) {
         this.$http.get(path()['orderConfirm'] + '?orderNo=' + orderNo).then(response => {
           let res = response.body
-          if (res['status'] === 0) {
-            this.orderList[index]['status'] = 50
+          if (res['status'] === ResponseCode.SUCCESS) {
+            this.orderList[index]['status'] = OrderStatus.SUCCESS
             this.orderList[index]['statusMsg'] = '已完成'
             Dialog({
               title: '提示',
@@ -133,8 +142,8 @@
       doCancel(index, orderNo) {
         this.$http.get(path()['orderCancel'] + '?orderNo=' + orderNo).then(response => {
           let res = response.body
-          if (res['status'] === 0) {
-            this.orderList[index]['status'] = 0
+          if (res['status'] === ResponseCode.SUCCESS) {
+            this.orderList[index]['status'] = OrderStatus.CANCELED
             this.orderList[index]['statusMsg'] = '已取消'
             Dialog({
               title: '提示',
@@ -186,7 +195,6 @@
         this.$refs.comp_od.show(orderId)
       },
       initScroll() {
-        // if (!this.$refs.olistWrapper) return
         this.$nextTick(() => {
           if (!this.olistWrapperScroll) {
             this.olistWrapperScroll = new BetterScroll(this.$refs.olistWrapper, {
@@ -221,7 +229,7 @@
         this.$http.get(url).then(response => {
           this.isLoading = false
           let res = response.body
-          if (res['status'] === 0) {
+          if (res['status'] === ResponseCode.SUCCESS) {
             let data = response.body['data']['list']
             this.pages = response.body['data']['pages']
             this.hasNextPage = response.body['data']['hasNextPage']

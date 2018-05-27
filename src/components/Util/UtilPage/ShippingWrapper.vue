@@ -38,9 +38,8 @@
   import Split from '@/components/Util/Split/Split'
   import EditShippingWrapper from '@/components/Util/UtilPage/EditShippingWrapper'
   import BetterScroll from 'better-scroll'
-  import {
-    path
-  } from '@/commons/address.js'
+  import {path} from '@/commons/address'
+  import {ResponseCode} from '@/commons/config'
 
   export default {
     components: {
@@ -73,7 +72,7 @@
       deleteShipping(shippingId) {
         this.$http.get(path()['deleteShipping'] + '?shippingId=' + shippingId).then(response => {
           let res = response.body
-          if (res['status'] === 0) {
+          if (res['status'] === ResponseCode.SUCCESS) {
             Dialog({
               title: '提示',
               message: res['msg'],
@@ -112,7 +111,7 @@
         if (this.user !== null && this.user !== undefined) {
           this.$http.get(path()['shippingList']).then(response => {
             let res = response.body
-            if (res['status'] === 0) {
+            if (res['status'] === ResponseCode.SUCCESS) {
               let data = res['data']
               this.shippingList = data
               this.initScroll()

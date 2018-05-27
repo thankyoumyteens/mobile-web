@@ -36,9 +36,8 @@
   import {Dialog} from 'we-vue'
   import VHeader from '@/components/Util/Header/Header'
   import QuestionResetPasswordWrapper from '@/components/Util/UtilPage/QuestionResetPasswordWrapper'
-  import {
-    path
-  } from '@/commons/address.js'
+  import {path} from '@/commons/address'
+  import {ResponseCode} from '@/commons/config'
 
   export default {
     components: {
@@ -121,7 +120,7 @@
           let res = response.body
           // this.regText = '注册'
           this.isRegDoing = false
-          if (res['status'] === 0) {
+          if (res['status'] === ResponseCode.SUCCESS) {
             Dialog({
               title: '注册成功',
               message: res['msg'],
@@ -155,7 +154,7 @@
           let res = response.body
           // this.loginText = '登陆'
           this.isLoginDoing = false
-          if (res['status'] === 0) {
+          if (res['status'] === ResponseCode.SUCCESS) {
             let data = res['data']
             this.$emit('success', data)
             this.hide()

@@ -17,9 +17,8 @@
   import {Dialog} from 'we-vue'
   import VHeader from '@/components/Util/Header/Header'
   import Split from '@/components/Util/Split/Split'
-  import {
-    path
-  } from '@/commons/address.js'
+  import {path} from '@/commons/address'
+  import {ResponseCode} from '@/commons/config'
 
   export default {
     components: {
@@ -60,7 +59,7 @@
           'avatar': this.avatarUri
         }).then(response => {
           let res = response.body
-          if (res['status'] === 0) {
+          if (res['status'] === ResponseCode.SUCCESS) {
             Dialog({
               title: '提示',
               message: res['msg'],
@@ -86,7 +85,7 @@
         }
         this.$http.post(path()['uploadAvatar'], formData, config).then(response => {
           let res = response.body
-          if (res['status'] === 0) {
+          if (res['status'] === ResponseCode.SUCCESS) {
             this.isEnable = false
             this.isEnableUpdate = true
             this.msg = '上传完成'

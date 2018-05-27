@@ -23,9 +23,8 @@
   import VHeader from '@/components/Util/Header/Header'
   import SelectAddress from '@/components/Util/UtilPage/SelectAddress'
   import Split from '@/components/Util/Split/Split'
-  import {
-    path
-  } from '@/commons/address.js'
+  import {path} from '@/commons/address'
+  import {ResponseCode} from '@/commons/config'
 
   export default {
     components: {
@@ -69,7 +68,7 @@
           'receiverZip': this.receiverZip
         }).then(response => {
           let res = response.body
-          if (res['status'] === 0) {
+          if (res['status'] === ResponseCode.SUCCESS) {
             this.$emit('success', res['data'])
             this.hide()
           } else {

@@ -41,9 +41,8 @@
   import ShippingWrapper from '@/components/Util/UtilPage/ShippingWrapper'
   import AvatarWrapper from '@/components/Util/UtilPage/AvatarWrapper'
   import ResetPasswordWrapper from '@/components/Util/UtilPage/ResetPasswordWrapper'
-  import {
-    path
-  } from '@/commons/address.js'
+  import {path} from '@/commons/address'
+  import {ResponseCode} from '@/commons/config'
 
   export default {
     components: {
@@ -86,7 +85,7 @@
       logout() {
         this.$http.post(path()['logout']).then(response => {
           let res = response.body
-          if (res['status'] === 0) {
+          if (res['status'] === ResponseCode.SUCCESS) {
             this.$emit('logout')
             this.hide()
           } else {

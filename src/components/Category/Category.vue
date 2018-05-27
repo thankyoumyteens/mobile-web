@@ -11,15 +11,14 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {
-    path
-  } from '@/commons/address.js'
+  import {path} from '@/commons/address'
+  import {ResponseCode} from '@/commons/config'
 
   export default {
     created() {
       this.$http.get(path()['categoryList']).then((response) => {
         let status = response.body['status']
-        if (status === 0) {
+        if (status === ResponseCode.SUCCESS) {
           this.categoryList = response.body['data']
         } else {
         }

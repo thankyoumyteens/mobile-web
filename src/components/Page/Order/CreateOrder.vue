@@ -53,9 +53,8 @@
   import VHeader from '@/components/Util/Header/Header'
   import Split from '@/components/Util/Split/Split'
   import BetterScroll from 'better-scroll'
-  import {
-    path
-  } from '@/commons/address.js'
+  import {path} from '@/commons/address'
+  import {ResponseCode} from '@/commons/config'
 
   export default {
     components: {
@@ -77,11 +76,9 @@
         let item = this.cartList[index]
         this.$http.get(path()['sub'] + '?cartId=' + item['id']).then(response => {
           let res = response.body
-          console.log(res)
-          if (res['status'] === 0) {
+          if (res['status'] === ResponseCode.SUCCESS) {
             let quantity = this.cartList[index]['quantity']
             this.cartList[index]['quantity'] = (quantity - 1)
-            // this.computeTotalPrice()
           } else {
             console.log(res['msg'])
           }
@@ -91,8 +88,7 @@
         let item = this.cartList[index]
         this.$http.get(path()['add'] + '?cartId=' + item['id']).then(response => {
           let res = response.body
-          console.log(res)
-          if (res['status'] === 0) {
+          if (res['status'] === ResponseCode.SUCCESS) {
             let quantity = this.cartList[index]['quantity']
             this.cartList[index]['quantity'] = (quantity + 1)
             // this.computeTotalPrice()
@@ -129,7 +125,7 @@
           'pageNum': this.pageNum
         }).then(response => {
           let res = response.body
-          if (res['status'] === 0) {
+          if (res['status'] === ResponseCode.SUCCESS) {
             this.$emit('success', res['data'])
             this.hide()
           } else {
@@ -167,9 +163,8 @@
       getShippingList() {
         this.$http.get(path()['shippingList']).then(response => {
           let res = response.body
-          if (res['status'] === 0) {
-            let data = res['data']
-            this.shippingList = data
+          if (res['status'] === ResponseCode.SUCCESS) {
+            this.shippingList = res['data']
             this.initScroll()
           } else {
             console.log(res['msg'])

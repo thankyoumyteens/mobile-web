@@ -79,9 +79,8 @@
   import VHeader from '@/components/Util/Header/Header'
   import Split from '@/components/Util/Split/Split'
   import BetterScroll from 'better-scroll'
-  import {
-    path
-  } from '@/commons/address.js'
+  import {path} from '@/commons/address'
+  import {ResponseCode} from '@/commons/config'
 
   export default {
     components: {
@@ -114,7 +113,7 @@
       queryPayStatus() {
         this.$http.get(path()['alipayQuery'] + '?orderNo=' + this.orderDetail['orderNo']).then(response => {
           let res = response.body
-          if (res['status'] === 0) {
+          if (res['status'] === ResponseCode.SUCCESS) {
             Dialog({
               title: '提示',
               message: res['msg'],
@@ -158,9 +157,8 @@
           orderId: orderId
         }).then(response => {
           let res = response.body
-          if (res['status'] === 0) {
-            let data = res['data']
-            this.orderDetail = data
+          if (res['status'] === ResponseCode.SUCCESS) {
+            this.orderDetail = res['data']
             this.initScroll()
           } else {
             console.log(res['msg'])

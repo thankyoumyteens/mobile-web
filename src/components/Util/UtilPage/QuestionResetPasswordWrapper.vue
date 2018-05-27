@@ -26,9 +26,8 @@
   import {Dialog} from 'we-vue'
   import VHeader from '@/components/Util/Header/Header'
   import Split from '@/components/Util/Split/Split'
-  import {
-    path
-  } from '@/commons/address.js'
+  import {path} from '@/commons/address'
+  import {ResponseCode} from '@/commons/config'
 
   export default {
     components: {
@@ -74,7 +73,7 @@
           'username': this.username
         }).then(response => {
           let res = response.body
-          if (res['status'] === 0) {
+          if (res['status'] === ResponseCode.SUCCESS) {
             this.question = res['data']
             this.isShowQuestion = true
             this.step = 2
@@ -97,7 +96,7 @@
           'answer': this.answer
         }).then(response => {
           let res = response.body
-          if (res['status'] === 0) {
+          if (res['status'] === ResponseCode.SUCCESS) {
             this.token = res['data']
             this.isResetPassword = true
             this.step = 3
@@ -118,7 +117,7 @@
           'token': this.token
         }).then(response => {
           let res = response.body
-          if (res['status'] === 0) {
+          if (res['status'] === ResponseCode.SUCCESS) {
             Dialog({
               title: '提示',
               message: res['msg'],

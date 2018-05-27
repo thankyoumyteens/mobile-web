@@ -35,9 +35,8 @@
 <script type="text/ecmascript-6">
   import Vue from 'vue'
   import BetterScroll from 'better-scroll'
-  import {
-    path
-  } from '@/commons/address.js'
+  import {path} from '@/commons/address'
+  import {ResponseCode} from '@/commons/config'
 
   export default {
     props: {
@@ -115,7 +114,7 @@
         this.$http.get(url).then((response) => {
           let status = response.body['status']
           this.isLoading = false
-          if (status === 0) {
+          if (status === ResponseCode.SUCCESS) {
             let data = response.body['data']['list']
             this.pages = response.body['data']['pages']
             this.hasNextPage = response.body['data']['hasNextPage']

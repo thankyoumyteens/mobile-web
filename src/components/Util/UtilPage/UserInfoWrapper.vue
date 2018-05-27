@@ -20,9 +20,8 @@
   import {Dialog} from 'we-vue'
   import VHeader from '@/components/Util/Header/Header'
   import Split from '@/components/Util/Split/Split'
-  import {
-    path
-  } from '@/commons/address.js'
+  import {path} from '@/commons/address'
+  import {ResponseCode} from '@/commons/config'
 
   export default {
     components: {
@@ -71,7 +70,7 @@
           'phone': this.phone
         }).then(response => {
           let res = response.body
-          if (res['status'] === 0) {
+          if (res['status'] === ResponseCode.SUCCESS) {
             Dialog({
               title: '成功',
               message: res['msg'],

@@ -38,14 +38,21 @@
             </div>
             <split :size="0.1"></split>
             <div class="order-list-item-detail">
-              <p class="order-list-item-title" @click="doCancel(orderDetail['orderNo'])"
-                 v-if="orderDetail['status']===10">取消订单</p>
-              <p class="order-list-item-title" @click="doPay(orderDetail)" v-if="orderDetail['status']===10">去支付</p>
-              <p class="order-list-item-title" @click="sendDeliveryMessage(orderDetail['orderNo'])"
-                 v-if="orderDetail['status']===20">提醒发货</p>
-              <p class="order-list-item-title" @click="doConfirm(orderDetail['orderNo'])"
-                 v-if="orderDetail['status']===40">确认收货</p>
-              <p class="order-list-item-title" @click="doComment(orderDetail)" v-if="orderDetail['status']===50">评论</p>
+              <p class="order-list-item-title"
+                 @click="doCancel(orderDetail['orderNo'])"
+                 v-if="orderDetail['status']===orderStatus.NOT_PAY">取消订单</p>
+              <p class="order-list-item-title"
+                 @click="doPay(orderDetail)"
+                 v-if="orderDetail['status']===orderStatus.NOT_PAY">去支付</p>
+              <p class="order-list-item-title"
+                 @click="sendDeliveryMessage(orderDetail['orderNo'])"
+                 v-if="orderDetail['status']===orderStatus.PAYED">提醒发货</p>
+              <p class="order-list-item-title"
+                 @click="doConfirm(orderDetail['orderNo'])"
+                 v-if="orderDetail['status']===orderStatus.SENT">确认收货</p>
+              <p class="order-list-item-title"
+                 @click="doComment(orderDetail)"
+                 v-if="orderDetail['status']===orderStatus.SUCCESS">评论</p>
               <p class="order-list-item-price">￥{{orderDetail['payment']}}</p>
             </div>
             <split></split>
@@ -85,9 +92,8 @@
   import WaitPay from '@/components/Util/UtilPage/WaitPay'
   import MakeComment from '@/components/Page/Production/MakeComment'
   import BetterScroll from 'better-scroll'
-  import {
-    path
-  } from '@/commons/address.js'
+  import {path} from '@/commons/address'
+  import {ResponseCode, OrderStatus} from '@/commons/config'
 
   export default {
     components: {
@@ -101,14 +107,21 @@
         isShow: false,
         orderId: null,
         orderDetail: null,
-        scWrapperScroll: null
+        scWrapperScroll: null,
+        orderStatus: {}
       }
     },
+    created() {
+      this.orderStatus = OrderStatus
+    },
     methods: {
+      /**
+       * 提醒发货
+       */
       sendDeliveryMessage(orderNo) {
         this.$http.get(path()['sendDeliveryMessage'] + '?orderNo=' + orderNo).then(response => {
           let res = response.body
-          if (res['status'] === 0) {
+          if (res['status'] === ResponseCode.SUCCESS) {
             Dialog({
               title: '提示',
               message: '提醒发货成功',
@@ -123,16 +136,23 @@
           }
         })
       },
+      /**
+       * 评论
+       */
       doComment(order) {
         order.orderItemList = order.itemList
         order.itemList = null
         this.$refs.makeComment.show(order)
       },
+      /**
+       * 确认收货
+       * @param orderNo
+       */
       doConfirm(orderNo) {
         this.$http.get(path()['orderConfirm'] + '?orderNo=' + orderNo).then(response => {
           let res = response.body
-          if (res['status'] === 0) {
-            this.orderDetail['status'] = 50
+          if (res['status'] === ResponseCode.SUCCESS) {
+            this.orderDetail['status'] = OrderStatus.SUCCESS
             this.orderDetail['statusMsg'] = '已完成'
             Dialog({
               title: '提示',
@@ -148,11 +168,15 @@
           }
         })
       },
+      /**
+       * 取消订单
+       * @param orderNo
+       */
       doCancel(orderNo) {
         this.$http.get(path()['orderCancel'] + '?orderNo=' + orderNo).then(response => {
           let res = response.body
-          if (res['status'] === 0) {
-            this.orderDetail['status'] = 0
+          if (res['status'] === ResponseCode.SUCCESS) {
+            this.orderDetail['status'] = OrderStatus.CANCELED
             this.orderDetail['statusMsg'] = '已取消'
             Dialog({
               title: '提示',
@@ -196,9 +220,8 @@
           orderId: this.orderId
         }).then(response => {
           let res = response.body
-          if (res['status'] === 0) {
-            let data = res['data']
-            this.orderDetail = data
+          if (res['status'] === ResponseCode.SUCCESS) {
+            this.orderDetail = res['data']
             this.initScroll()
           } else {
             console.log(res['msg'])

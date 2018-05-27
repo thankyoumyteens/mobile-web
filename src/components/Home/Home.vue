@@ -33,9 +33,8 @@
 <script type="text/ecmascript-6">
   import Vue from 'vue'
   import GeoMap from '@/components/Page/Map/Map'
-  import {
-    path
-  } from '@/commons/address.js'
+  import {path} from '@/commons/address'
+  import {ResponseCode} from '@/commons/config'
 
   export default {
     components: {
@@ -46,7 +45,7 @@
       this.$http.get(path()['homeImgList']).then((response) => {
         let status = response.body['status']
         let data = response.body['data']
-        if (status === 0) {
+        if (status === ResponseCode.SUCCESS) {
           for (let i = 0; i < data.length; i++) {
             let item = data[i]
             Vue.set(this.imgList, i, item)
@@ -63,7 +62,7 @@
         let status = response.body['status']
         let msg = response.body['msg']
         let data = response.body['data']
-        if (status === 0) {
+        if (status === ResponseCode.SUCCESS) {
           this.placeholder = data
         } else {
           console.log(msg)
