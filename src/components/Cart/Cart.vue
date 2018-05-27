@@ -51,9 +51,8 @@
   import CreateOrder from '@/components/Page/Order/CreateOrder'
   import Checkbox from '@/components/Util/Checkbox/Checkbox'
   import WaitPay from '@/components/Util/UtilPage/WaitPay'
-  import {
-    path
-  } from '@/commons/address.js'
+  import {path} from '@/commons/address'
+  import {ResponseCode} from '@/commons/config'
 
   export default {
     components: {
@@ -107,7 +106,7 @@
       deleteCartItem(cartId) {
         this.$http.get(path()['deleteCartItem'] + '?cartId=' + cartId).then((response) => {
           let res = response.body
-          if (res.status === 0) {
+          if (res.status === ResponseCode.SUCCESS) {
             Dialog({
               title: '提示',
               message: res.msg,
@@ -129,7 +128,11 @@
       },
       createOrderBefore() {
         if (!this.checkCart()) {
-          alert('请选择商品')
+          Dialog({
+            title: '提示',
+            message: '请选择商品',
+            skin: 'ios'
+          })
           return false
         }
         this.$refs.coComp.show(this.cartList, this.pageNum)
@@ -165,8 +168,7 @@
         let item = this.cartList[index]
         this.$http.get(path()['sub'] + '?cartId=' + item['id']).then(response => {
           let res = response.body
-          console.log(res)
-          if (res['status'] === 0) {
+          if (res['status'] === ResponseCode.SUCCESS) {
             let quantity = this.cartList[index]['quantity']
             this.cartList[index]['quantity'] = (quantity - 1)
             this.computeTotalPrice()
@@ -179,8 +181,7 @@
         let item = this.cartList[index]
         this.$http.get(path()['add'] + '?cartId=' + item['id']).then(response => {
           let res = response.body
-          console.log(res)
-          if (res['status'] === 0) {
+          if (res['status'] === ResponseCode.SUCCESS) {
             let quantity = this.cartList[index]['quantity']
             this.cartList[index]['quantity'] = (quantity + 1)
             this.computeTotalPrice()
@@ -195,8 +196,7 @@
       checkItem(item, index) {
         this.$http.get(path()['check'] + '?cartId=' + item['id']).then(response => {
           let res = response.body
-          console.log(res)
-          if (res['status'] === 0) {
+          if (res['status'] === ResponseCode.SUCCESS) {
             let checked = this.cartList[index]['checked']
             this.cartList[index]['checked'] = (checked === 1 ? 0 : 1)
             this.computeTotalPrice()
@@ -211,8 +211,7 @@
       checkAll() {
         this.$http.get(path()['checkAll']).then(response => {
           let res = response.body
-          console.log(res)
-          if (res['status'] === 0) {
+          if (res['status'] === ResponseCode.SUCCESS) {
             for (let i = 0; i < this.cartList.length; i++) {
               this.cartList[i]['checked'] = 1
             }
@@ -240,7 +239,7 @@
           this.$http.get(path()['getCart'] + '?pageNum=' + this.pageNum).then(response => {
             let res = response.body
             console.log(res)
-            if (res['status'] === 0) {
+            if (res['status'] === ResponseCode.SUCCESS) {
               let data = res['data']
               this.cartList = data['list']
               this.computeTotalPrice()
@@ -256,7 +255,7 @@
           this.$http.get(path()['getCart'] + '?pageNum=' + this.pageNum).then(response => {
             this.isLoading = false
             let res = response.body
-            if (res['status'] === 0) {
+            if (res['status'] === ResponseCode.SUCCESS) {
               let data = res['data']
               for (let i = 0; i < data['list'].length; i++) {
                 let item = data['list'][i]
