@@ -154,8 +154,6 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  @import "../../../commons/mixin.styl"
-
   .make-comment-move-enter-active
     animation bounce-in .2s linear
 

@@ -2,9 +2,9 @@
   <transition name="search-move">
     <div class="search" v-show="searchShow">
       <header class="border-1px">
-        <div class="close" @click="hide"><i class="icon-cross"></i></div>
+        <div class="close" @click="hide"> < </div>
         <div class="search-bar-page">
-          <i class="search-bar-icon icon-search"></i>
+          <i class="search-bar-icon iconfont icon-suosou"></i>
           <input type="text" id="searchContent" name="searchContent">
         </div>
         <div class="search-button" @click="search">搜索</div>
@@ -71,7 +71,6 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  @import "../../../commons/mixin.styl"
 
   .search-move-enter-active
     animation bounce-in .2s linear
@@ -102,7 +101,7 @@
         .search-bar-icon
           position absolute
           left 1em
-          top 0.5em
+          top 0.3em
           color #777
         input
           border 0

@@ -14,7 +14,7 @@
       </div>
       <!--搜索框-->
       <div @click="openSearchPage" class="search-bar">
-        <i class="search-bar-icon icon-search"></i>
+        <i class="search-bar-icon iconfont icon-suosou"></i>
         <div>{{placeholder}}</div>
       </div>
     </header>
@@ -32,14 +32,10 @@
 
 <script type="text/ecmascript-6">
   import Vue from 'vue'
-  import GeoMap from '@/components/Page/Map/Map'
   import {path} from '@/commons/address'
   import {ResponseCode} from '@/commons/config'
 
   export default {
-    components: {
-      GeoMap
-    },
     created() {
       // 获取图片
       this.$http.get(path()['homeImgList']).then((response) => {
@@ -167,7 +163,7 @@
       .search-bar-icon
         position absolute
         left 1em
-        top 0.5em
+        top 0.3em
         color #777
       div
         color #777

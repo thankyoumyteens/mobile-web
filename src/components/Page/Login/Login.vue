@@ -184,8 +184,6 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  @import "../../../commons/mixin.styl"
-
   .login-move-enter-active
     animation bounce-in .2s linear
 

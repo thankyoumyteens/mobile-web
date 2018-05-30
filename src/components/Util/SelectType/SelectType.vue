@@ -1,7 +1,7 @@
 <template>
   <transition name="select-move">
     <div class="select-type border-1px" v-if="propertiesList" v-show="selectShow">
-      <div class="close" @click="hide"><i class="icon-cross"></i></div>
+      <div class="close" @click="hide">x</div>
       <div class="st-main">
         <header class="border-1px">
           <div class="st-img">
@@ -186,8 +186,6 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  @import "../../../commons/mixin.styl"
-
   .select-move-enter-active
     animation bounce-in-vertical .2s linear
 

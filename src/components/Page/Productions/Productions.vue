@@ -1,13 +1,7 @@
 <template>
   <transition name="search-move">
     <div class="productions" v-show="productionsShow">
-      <header class="border-1px">
-        <div class="close" @click="hide"><i class="icon-cross"></i></div>
-        <div @click="openSearchPage" class="productions-search-bar">
-          <i class="search-bar-icon icon-search"></i>
-          <div>搜索商品</div>
-        </div>
-      </header>
+      <v-header titleText="商品" @back="hide"></v-header>
       <div class="loading" v-if="isLoading&&productionList.length<=0">
         <wv-spinner type="dot-circle" :size="50"></wv-spinner>
       </div>
@@ -23,6 +17,7 @@
               <p class="production-price">￥{{production['price']}}</p>
               <p class="production-review">{{production['subtitle']}}</p>
             </div>
+            <split :size="0.05" class="clear-float"></split>
           </div>
 
           <div class="next-page" @click="getMore" v-show="hasNextPage">点击加载更多</div>
@@ -37,8 +32,14 @@
   import BetterScroll from 'better-scroll'
   import {path} from '@/commons/address'
   import {ResponseCode} from '@/commons/config'
+  import Split from '@/components/Util/Split/Split'
+  import VHeader from '@/components/Util/Header/Header'
 
   export default {
+    components: {
+      Split,
+      VHeader
+    },
     props: {
       productionInfo: {
         type: Object
@@ -137,8 +138,6 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  @import "../../../commons/mixin.styl"
-
   .search-move-enter-active
     animation bounce-in .2s linear
 
@@ -154,49 +153,10 @@
     width 100%
     background #fff
     box-sizing border-box
-    header
-      width 100%
-      height 4em
-      padding 1em
-      box-sizing border-box
-      text-align center
-      background #fff
-      border-1px(#ccc)
-      .close
-        margin-top 0.3em
-        margin-right 0.5em
-        float left
-      .productions-search-bar
-        width 70%
-        position relative
-        display inline-block
-        .search-bar-icon
-          position absolute
-          left 1em
-          top 0.5em
-          color #777
-        div
-          text-align left
-          border 0
-          outline none
-          background #ccc
-          color #777
-          line-height 2em
-          padding 0
-          padding-left 3em
-          border-top-left-radius 2em
-          border-bottom-left-radius 2em
-          border-top-right-radius 2em
-          border-bottom-right-radius 2em
-      .search-button
-        margin-left 0.5em
-        font-size 1.3em
-        float right
-        margin-top 0.1em
     .production-list
       position fixed
       z-index -1
-      top 5em
+      top 50px
       left 0
       bottom 0
       right 0

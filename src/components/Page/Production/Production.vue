@@ -1,7 +1,7 @@
 <template>
   <transition name="production-move">
     <div class="production" v-show="productionShow">
-      <div class="close" @click="hide"><i class="icon-cross"></i></div>
+      <div class="close" @click="hide"> < </div>
       <div class="loading" v-if="currentNavIndex===0&&!productionItem">
         <wv-spinner type="dot-circle" :size="50"></wv-spinner>
       </div>
@@ -405,8 +405,6 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  @import "../../../commons/mixin.styl"
-
   .production-move-enter-active
     animation bounce-in .2s linear
 
@@ -429,8 +427,9 @@
     .ph-img
       height 100%
     .close
-      margin-top 0.9em
-      margin-left 0.5em
+      font-size 1.5em
+      margin-top 0.15em
+      margin-left 0.3em
       float left
     .production-detail
       position fixed

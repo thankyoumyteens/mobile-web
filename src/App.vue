@@ -10,14 +10,14 @@
     </section>
     <section id="navBar">
       <div @click="goTo('home')" :class="[currentComponent=='home'?'nav-active':'']" class="nav-item"><i
-        class="nav-item-icon icon-home"></i><span class="nav-item-text">首页</span></div>
+        class="nav-item-icon iconfont icon-shouye"></i><span class="nav-item-text">首页</span></div>
       <div @click="goTo('category')" :class="[currentComponent=='category'?'nav-active':'']" class="nav-item"><i
-        class="nav-item-icon icon-list"></i><span class="nav-item-text">分类</span></div>
+        class="nav-item-icon iconfont icon-leimupinleifenleileibie"></i><span class="nav-item-text">分类</span></div>
       <!--<div @click="goTo('recommend')" :class="[currentComponent=='recommend'?'nav-active':'']" class="nav-item"><i class="nav-item-icon icon-eye"></i><span class="nav-item-text">发现</span></div>-->
       <div @click="goTo('cart')" :class="[currentComponent=='cart'?'nav-active':'']" class="nav-item"><i
-        class="nav-item-icon icon-cart"></i><span class="nav-item-text">购物车</span></div>
+        class="nav-item-icon iconfont icon-gouwuche"></i><span class="nav-item-text">购物车</span></div>
       <div @click="goTo('user')" :class="[currentComponent=='user'?'nav-active':'']" class="nav-item"><i
-        class="nav-item-icon icon-user"></i><span class="nav-item-text">我的</span></div>
+        class="nav-item-icon iconfont icon-yonghu"></i><span class="nav-item-text">我的</span></div>
     </section>
     <search @find="find" ref="search"></search>
     <productions @search="openSearch" @detail="detail" ref="productions" :productionInfo="productionInfo"></productions>
@@ -194,5 +194,5 @@
           color #e64340
         .nav-item-icon
           display block
-          font-size 2em
+          font-size 1.3em
 </style>

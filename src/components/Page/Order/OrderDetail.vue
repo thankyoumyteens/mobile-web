@@ -233,8 +233,6 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  @import "../../../commons/mixin.styl"
-
   .user-info-move-enter-active
     animation bounce-in .2s linear
 
