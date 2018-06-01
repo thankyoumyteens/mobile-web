@@ -124,7 +124,7 @@
               skin: 'ios'
             })
             this.$emit('done', this.orderIndex)
-            this.hide() // todo orderList更新status
+            this.hide()
           } else {
             Dialog({
               title: '提示',
