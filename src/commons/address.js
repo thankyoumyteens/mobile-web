@@ -5,8 +5,8 @@ export function path() {
   let local = ''
   let server = 'http://localhost:8088/mobile/'
   let remote = 'http://zhaoshengzhi.com:8080/mobile/'
-  // server = local
-  // server = remote
+  server = local
+  server = remote
   return {
     /**
      * 用户
@@ -38,6 +38,7 @@ export function path() {
     'commentListImg': server + 'comment/list_img.do', // 筛选有图评论
     'makeComment': server + 'comment/create_list.do', // 评论
     'uploadImg': server + 'comment/upload.do', // 上传图片
+    'addToFavorite': server + 'favorite/add.do', // 上传图片
     /**
      * 购物车
      */

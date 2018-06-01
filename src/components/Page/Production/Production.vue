@@ -1,7 +1,7 @@
 <template>
   <transition name="production-move">
     <div class="production" v-show="productionShow">
-      <div class="close" @click="hide"> < </div>
+      <div class="close" @click="hide"> <</div>
       <div class="loading" v-if="currentNavIndex===0&&!productionItem">
         <wv-spinner type="dot-circle" :size="50"></wv-spinner>
       </div>
@@ -31,6 +31,10 @@
                     <!-- 设置loading,可自定义 -->
                     <div slot="loading">加载中...</div>
                   </slider>
+                  <div class="favorite-container" @click="addToFavorite">
+                    <img class="favorite-button" src="./star.png" alt="收藏">
+                    <span class="favorite-text">收藏</span>
+                  </div>
                 </div>
                 <div class="ph-name">
                   {{productionItem['name']}}
@@ -129,6 +133,7 @@
   import SelectType from '@/components/Util/SelectType/SelectType'
   import BetterScroll from 'better-scroll'
   import slider from 'vue-concise-slider'
+  import {Dialog} from 'we-vue'
   import {path} from '@/commons/address'
   import {ResponseCode} from '@/commons/config'
 
@@ -162,7 +167,7 @@
         selection: '请选择版本',
         currentNavIndex: 0, // 商品/详情/评论
         scrollProduction: null,
-        productionItem: null,
+        productionItem: null, // 当前商品
         isLoadingComment: false, // 控制显示加载中的效果
         commentList: [], // 评论列表
         commentUrl: '', // 评论列表的请求地址
@@ -228,6 +233,25 @@
           goodsId: this.productionItem['goodsId']
         }
         this.$emit('tocart', cartInfo)
+      },
+      addToFavorite() {
+        let goodsId = this.productionItem.goodsId
+        this.$http.get(path()['addToFavorite'] + '?goodsId=' + goodsId).then((response) => {
+          let res = response.body
+          if (res.status === ResponseCode.SUCCESS) {
+            Dialog({
+              title: '提示',
+              message: '添加收藏成功',
+              skin: 'ios'
+            })
+          } else {
+            Dialog({
+              title: '提示',
+              message: res.msg,
+              skin: 'ios'
+            })
+          }
+        })
       },
       /**
        * 记录选中的参数
@@ -461,10 +485,21 @@
         .production-home
           height 100%
           .ph-image-show
-            /*position relative*/
+            position relative
             width 100%
             overflow hidden
             height 15em
+            .favorite-container
+              position absolute
+              right 1em
+              bottom 1em
+              z-index 2
+              width 1.7em
+              .favorite-button
+                width 1.7em
+                height 1.7em
+              .favorite-text
+                font-size 0.8em
             .ph-image-wrapper
               position absolute
               left 0
