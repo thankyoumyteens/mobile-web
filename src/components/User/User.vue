@@ -18,7 +18,7 @@
       <div @click="openOrderNotPay" class="order-info-item"><i class="iconfont icon-daifukuan"></i><span
         class="order-info-title">待付款</span></div>
       <div @click="openOrderPayed" class="order-info-item"><i class="iconfont icon-icon3"></i><span
-        class="order-info-title">待收货</span></div>
+        class="order-info-title">待发货</span></div>
     </div>
     <split></split>
     <login ref="login" @success="loginSuccess"></login>

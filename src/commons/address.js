@@ -6,7 +6,7 @@ export function path() {
   let server = 'http://localhost:8088/mobile/'
   let remote = 'http://zhaoshengzhi.com:8080/mobile/'
   // server = local
-  server = remote
+  // server = remote
   return {
     /**
      * 用户
@@ -67,6 +67,7 @@ export function path() {
     'orderList': server + 'order/list.do', // 订单列表
     'orderListNotPay': server + 'order/list_not_pay.do', // 未付款订单列表
     'orderListPayed': server + 'order/list_payed.do', // 已付款订单列表
+    'orderListSent': server + 'order/list_sent.do', // 已发货订单列表
     'orderDetail': server + 'order/detail.do', // 订单详情
     'orderDetailByNo': server + 'order/detail_by_no.do', // 订单详情
     /**

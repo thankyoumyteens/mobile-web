@@ -16,19 +16,17 @@
               </div>
             </div>
             <div class="comment-row">
+              <!--:file-list="fileList2[index]"-->
               <el-upload
+                :data="{index: index}"
                 :action="uploadUrl"
+                :file-list="fileList2[index]"
                 list-type="picture-card"
-                :file-list="fileList2"
                 :before-upload="beforeUpload"
-                :on-preview="handlePictureCardPreview"
                 :on-success="uploadSuccess"
                 :on-remove="handleRemove">
                 <i class="el-icon-plus"></i>
               </el-upload>
-              <!--<el-dialog :visible.sync="dialogVisible">-->
-              <!--<img width="100%" :src="dialogImageUrl" alt="">-->
-              <!--</el-dialog>-->
             </div>
             <div class="comment-row">
               <wv-group>
@@ -55,9 +53,8 @@
     },
     data() {
       return {
+        orderIndex: 0,
         fileList2: [],
-        dialogImageUrl: '',
-        dialogVisible: false,
         uploadUrl: '',
         imgList: [],
         starList: [],
@@ -73,14 +70,22 @@
       handleRemove(file, fileList) {
         console.log(file, fileList)
       },
-      uploadSuccess(res, file) {
-        this.imgList.push(res.data.uri)
-        this.fileList2.push({
+      uploadSuccess(res, file, fileList) {
+        console.log(res)
+        // 上传图片时将商品索引(order.orderItemList[index])发送到服务器,
+        // 上传成功后从服务器取回商品索引
+        // 根据索引记录不同商品上传的图片
+        if (!this.imgList[res.data.index]) {
+          this.imgList[res.data.index] = []
+        }
+        this.imgList[res.data.index].push(res.data.uri)
+        if (!this.fileList2[res.data.index]) {
+          this.fileList2[res.data.index] = []
+        }
+        this.fileList2[res.data.index].push({
           url: res.data.url
         })
-        this.initScroll() // todo 无效
-        console.log(this.imgList)
-        console.log(this.dialogImageUrl)
+        this.initScroll()
       },
       beforeUpload() {
         if (this.imgList && this.imgList.length >= 5) {
@@ -92,9 +97,7 @@
           return false
         }
       },
-      handlePictureCardPreview(file) {
-        this.dialogImageUrl = file.url
-        this.dialogVisible = true
+      handlePictureCardPreview() {
       },
       addComment() {
         let params = []
@@ -103,13 +106,13 @@
           let commentItem = {
             goodsId: orderItem.goodsId,
             orderItemId: orderItem.orderItemId,
-            star: this.starList[index],
-            text: this.commentList[index],
-            images: this.imgList.join(',')
+            star: this.starList[index] ? this.starList[index] : 5,
+            text: this.commentList[index] ? this.commentList[index] : '',
+            images: this.imgList[index] ? this.imgList[index].join(',') : ''
           }
           params.push(commentItem)
         }
-        console.log(params)
+        console.log('评论 -> ' + params)
         this.$http.post(path()['makeComment'], {
           str: JSON.stringify(params)
         }).then(response => {
@@ -120,6 +123,7 @@
               message: res['msg'],
               skin: 'ios'
             })
+            this.$emit('done', this.orderIndex)
             this.hide() // todo orderList更新status
           } else {
             Dialog({
@@ -141,7 +145,8 @@
           }
         })
       },
-      show(order) {
+      show(index, order) {
+        this.orderIndex = index
         this.order = order
         this.isShow = true
         this.initScroll()
@@ -177,6 +182,11 @@
       height 5em
       line-height 5em
     .comment-wrapper
+      overflow hidden
+      position absolute
+      top 50px
+      bottom 0
+      width 100%
       .order-item
         width 90%
         margin 0 auto

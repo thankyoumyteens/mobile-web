@@ -18,6 +18,8 @@ export const ResponseCode = {
  * 订单状态
  */
 export const OrderStatus = {
+  // 全部
+  ALL: -1,
   // 已取消
   CANCELED: 0,
   // 未付款

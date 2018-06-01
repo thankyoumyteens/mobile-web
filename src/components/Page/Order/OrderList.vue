@@ -53,7 +53,7 @@
       </div>
       <order-detail ref="comp_od"></order-detail>
       <wait-pay ref="waitpWaitPay"></wait-pay>
-      <make-comment ref="makeComment"></make-comment>
+      <make-comment ref="makeComment" @done="updateStatus"></make-comment>
     </div>
   </transition>
 </template>
@@ -98,6 +98,10 @@
       this.orderStatus = OrderStatus
     },
     methods: {
+      updateStatus(index) {
+        this.orderList[index]['status'] = OrderStatus.CLOSED
+        this.orderList[index]['statusMsg'] = ''
+      },
       sendDeliveryMessage(orderNo) {
         this.$http.get(path()['sendDeliveryMessage'] + '?orderNo=' + orderNo).then(response => {
           let res = response.body
@@ -117,7 +121,7 @@
         })
       },
       doComment(index, order) {
-        this.$refs.makeComment.show(order)
+        this.$refs.makeComment.show(index, order)
       },
       doConfirm(index, orderNo) {
         this.$http.get(path()['orderConfirm'] + '?orderNo=' + orderNo).then(response => {
@@ -168,19 +172,19 @@
         switch (type) {
           case 'all':
             this.title = '全部订单'
-            this.status = -1
+            this.status = OrderStatus.ALL
             break
           case 'notPay':
             this.title = '待付款'
-            this.status = 1
+            this.status = OrderStatus.NOT_PAY
             break
           case 'payed':
-            this.title = '待收货'
-            this.status = 2
+            this.title = '待发货'
+            this.status = OrderStatus.PAYED
             break
           case 'sent':
             this.title = '待收货'
-            this.status = 3
+            this.status = OrderStatus.SENT
             break
         }
         this.getOrderList()
@@ -213,17 +217,17 @@
         this.isLoading = true
         let url = ''
         switch (this.status) {
-          case -1:
+          case OrderStatus.ALL:
             url = path()['orderList'] + '?pageNum=' + this.pageNum
             break
-          case 1:
+          case OrderStatus.NOT_PAY:
             url = path()['orderListNotPay'] + '?pageNum=' + this.pageNum
             break
-          case 2:
+          case OrderStatus.PAYED:
             url = path()['orderListPayed'] + '?pageNum=' + this.pageNum
             break
-          case 3:
-            url = path()['orderListPayed'] + '?pageNum=' + this.pageNum
+          case OrderStatus.SENT:
+            url = path()['orderListSent'] + '?pageNum=' + this.pageNum
             break
         }
         this.$http.get(url).then(response => {
