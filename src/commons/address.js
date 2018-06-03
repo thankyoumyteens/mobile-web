@@ -5,8 +5,8 @@ export function path() {
   let local = ''
   let server = 'http://localhost:8088/mobile/'
   let remote = 'http://zhaoshengzhi.com:8080/mobile/'
-  server = local
-  server = remote
+  // server = local
+  // server = remote
   return {
     /**
      * 用户

@@ -33,3 +33,13 @@ export const OrderStatus = {
   // 交易关闭(评论后)
   CLOSED: 60
 }
+
+/**
+ * 收藏类型
+ */
+export const FavoriteType = {
+  // 商品
+  GOODS: 0,
+  // 店铺
+  SHOP: 1
+}

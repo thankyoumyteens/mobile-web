@@ -135,7 +135,7 @@
   import slider from 'vue-concise-slider'
   import {Dialog} from 'we-vue'
   import {path} from '@/commons/address'
-  import {ResponseCode} from '@/commons/config'
+  import {ResponseCode, FavoriteType} from '@/commons/config'
 
   export default {
     components: {
@@ -236,7 +236,10 @@
       },
       addToFavorite() {
         let goodsId = this.productionItem.goodsId
-        this.$http.get(path()['addToFavorite'] + '?goodsId=' + goodsId).then((response) => {
+        this.$http.post(path()['addToFavorite'], {
+          goodsId: goodsId,
+          type: FavoriteType.GOODS
+        }).then((response) => {
           let res = response.body
           if (res.status === ResponseCode.SUCCESS) {
             Dialog({
