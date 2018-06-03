@@ -243,7 +243,6 @@
               let index = this.orderList.length
               Vue.set(this.orderList, index, item)
             }
-            console.log(this.hasNextPage)
             this.initScroll()
           } else {
             Dialog({

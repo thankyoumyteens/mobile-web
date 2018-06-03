@@ -92,7 +92,11 @@
                         <div class="pr-item-top-date">
                           {{item['createTime']}}
                         </div>
-                        <star class="star-comp" :size="36" :score="item['star']"></star>
+                        <el-rate
+                          class="star-comp" disabled show-score text-color="#ff9900"
+                          v-model="item['star']"
+                          score-template="{value}">
+                        </el-rate>
                       </div>
                       <div class="pr-item-text clear-float">
                         {{item['text']}}
@@ -128,7 +132,6 @@
 
 <script type="text/ecmascript-6">
   import Vue from 'vue'
-  import Star from '@/components/Util/Star/Star'
   import Split from '@/components/Util/Split/Split'
   import SelectType from '@/components/Util/SelectType/SelectType'
   import BetterScroll from 'better-scroll'
@@ -141,7 +144,6 @@
     components: {
       slider,
       Split,
-      Star,
       SelectType
     },
     props: {
