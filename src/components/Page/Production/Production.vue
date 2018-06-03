@@ -93,7 +93,7 @@
                           {{item['createTime']}}
                         </div>
                         <el-rate
-                          class="star-comp" disabled show-score text-color="#ff9900"
+                          class="star-comp" disabled show-text text-color="#ff9900"
                           v-model="item['star']"
                           score-template="{value}">
                         </el-rate>
