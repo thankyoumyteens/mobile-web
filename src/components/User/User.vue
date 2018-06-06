@@ -12,14 +12,23 @@
         <div class="ui-username">{{user['nickname']}}</div>
       </div>
     </div>
-    <div class="order-info">
+    <section class="order-info">
       <div @click="openOrderAll" class="order-info-item"><i class="iconfont icon-quanbudingdan"></i><span
         class="order-info-title">全部订单</span></div>
       <div @click="openOrderNotPay" class="order-info-item"><i class="iconfont icon-daifukuan"></i><span
         class="order-info-title">待付款</span></div>
       <div @click="openOrderPayed" class="order-info-item"><i class="iconfont icon-icon3"></i><span
         class="order-info-title">待发货</span></div>
-    </div>
+    </section>
+    <split :size="0.5"></split>
+    <section class="favorite-container" v-if="isUser">
+      <div class="favorite-item">
+        <span class="favorite-count">{{favoriteGoodsCount}}</span><span class="favorite-text">收藏的商品</span>
+      </div>
+      <div class="favorite-item">
+        <span class="favorite-count">{{favoriteShopCount}}</span><span class="favorite-text">收藏的店铺</span>
+      </div>
+    </section>
     <split></split>
     <login ref="login" @success="loginSuccess"></login>
     <user-info ref="userInfo"
@@ -37,6 +46,8 @@
   import Login from '@/components/Page/Login/Login'
   import UserInfo from '@/components/Page/UserInfo/UserInfo'
   import OrderList from '@/components/Page/Order/OrderList'
+  import {path} from '@/commons/address'
+  import {ResponseCode, FavoriteType} from '@/commons/config'
 
   export default {
     components: {
@@ -52,20 +63,51 @@
     },
     data() {
       return {
-        isUser: false
+        isUser: false,
+        favoriteGoodsCount: 0,
+        favoriteShopCount: 0
       }
     },
     watch: {
       'user'() {
         this.isUser = this.user !== null && this.user !== undefined
+        if (this.isUser) {
+          this.getFavoriteList(FavoriteType.GOODS)
+          this.getFavoriteList(FavoriteType.SHOP)
+        }
       }
     },
     created() {
       if (this.user !== null && this.user !== undefined) {
         this.isUser = true
       }
+      if (this.isUser) {
+        this.getFavoriteList(FavoriteType.GOODS)
+        this.getFavoriteList(FavoriteType.SHOP)
+      }
     },
     methods: {
+      getFavoriteList(type) {
+        this.$http.get(path()['getFavoriteCount'] + '?type=' + type).then((response) => {
+          let res = response.body
+          if (res.status === ResponseCode.SUCCESS) {
+            switch (type) {
+              case FavoriteType.GOODS:
+                this.favoriteGoodsCount = res.data
+                break
+              case FavoriteType.SHOP:
+                this.favoriteShopCount = res.data
+                break
+            }
+          } else {
+            Dialog({
+              title: '提示',
+              message: res.msg,
+              skin: 'ios'
+            })
+          }
+        })
+      },
       openOrderAll() {
         if (this.user !== null && this.user !== undefined) {
           this.$refs.orlist.show('all')
@@ -177,4 +219,18 @@
           width 100%
           display inline-block
           color #000
+    .favorite-container
+      display flex
+      .favorite-item
+        flex 1
+        text-align center
+        .favorite-count
+          display block
+          font-weight bold
+          height 3em
+          line-height 3em
+        .favorite-text
+          display block
+          height 2em
+          line-height 2em
 </style>

@@ -38,7 +38,9 @@ export function path() {
     'commentListImg': server + 'comment/list_img.do', // 筛选有图评论
     'makeComment': server + 'comment/create_list.do', // 评论
     'uploadImg': server + 'comment/upload.do', // 上传图片
-    'addToFavorite': server + 'favorite/add.do', // 上传图片
+    'addToFavorite': server + 'favorite/add.do', // 添加收藏
+    'getFavoriteList': server + 'favorite/list.do', // 收藏列表
+    'getFavoriteCount': server + 'favorite/count.do', // 收藏数量
     /**
      * 购物车
      */
