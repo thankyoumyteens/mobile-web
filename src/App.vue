@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" v-if="isMobile">
     <header></header>
     <section id="viewer">
       <!--<keep-alive>-->
@@ -43,6 +43,12 @@
       Production
     },
     created() {
+      if (!(/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent))) {
+        alert('请使用手机浏览')
+        this.isMobile = false
+      } else {
+        this.isMobile = true
+      }
       this.getUserInfo()
       // 刷新页面后保持底部导航栏选中样式
       let address = this.$route.path
@@ -60,7 +66,8 @@
         goodsId: null,
         productionInfo: null,
         currentComponent: 'home',
-        user: null
+        user: null,
+        isMobile: false
       }
     },
     methods: {
