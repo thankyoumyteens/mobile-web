@@ -2,15 +2,15 @@
   <transition name="production-move">
     <div class="production" v-show="productionShow">
       <div class="close" @click="hide"> <</div>
-      <div class="loading" v-if="currentNavIndex===0&&!productionItem">
-        <wv-spinner type="dot-circle" :size="50"></wv-spinner>
-      </div>
-      <div class="loading" v-if="currentNavIndex===1&&!goodsDesc">
-        <wv-spinner type="dot-circle" :size="50"></wv-spinner>
-      </div>
-      <div class="loading comment-loading" v-if="isLoadingComment&&currentNavIndex===2">
-        <wv-spinner type="dot-circle" :size="50"></wv-spinner>
-      </div>
+      <!--<div class="loading" v-if="currentNavIndex===0&&!productionItem">-->
+      <!--<wv-spinner type="dot-circle" :size="50"></wv-spinner>-->
+      <!--</div>-->
+      <!--<div class="loading" v-if="currentNavIndex===1&&!goodsDesc">-->
+        <!--<wv-spinner type="dot-circle" :size="50"></wv-spinner>-->
+      <!--</div>-->
+      <!--<div class="loading comment-loading" v-if="isLoadingComment&&currentNavIndex===2">-->
+        <!--<wv-spinner type="dot-circle" :size="50"></wv-spinner>-->
+      <!--</div>-->
       <section class="production-detail">
         <div class="production-info">
           <div class="production-nav">
@@ -24,7 +24,10 @@
                  :class="[currentNavIndex==2?'active':'']">评价
             </div>
           </div>
-          <div class="production-content scroll-wrapper" ref="scrollWrapperProduction">
+          <div class="production-content scroll-wrapper"
+               v-loading="(currentNavIndex===0&&!productionItem)||
+               (currentNavIndex===1&&!goodsDesc)||(isLoadingComment&&currentNavIndex===2)"
+               ref="scrollWrapperProduction">
             <div>
               <!--商品-->
               <section class="production-home" v-if="productionItem" v-show="currentNavIndex===0">
