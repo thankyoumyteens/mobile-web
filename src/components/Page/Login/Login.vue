@@ -184,6 +184,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+  @import "../../../commons/styles/color.styl"
   .login-move-enter-active
     animation bounce-in .2s linear
 
@@ -204,7 +205,7 @@
       width 95%
       height 2em
       line-height 2em
-      color #e64340
+      color main-red
       margin-left 2.5%
       text-decoration underline
 </style>

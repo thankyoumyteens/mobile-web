@@ -9,7 +9,7 @@ import ElementUI from 'element-ui'
 // 加载样式
 import 'we-vue/lib/style.css'
 import 'element-ui/lib/theme-chalk/index.css'
-import '@/commons/index.styl'
+import '@/commons/styles/index.styl'
 
 Vue.use(VueResource)
 Vue.use(WeVue)

@@ -107,6 +107,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+  @import "../../commons/styles/color.styl"
   .image-enter-active
     transform translateX(0)
     transition all 1s ease
@@ -149,7 +150,7 @@
             display inline-block
             margin-right 0.5em
             &.count-active
-              background #e64340 !important
+              background main-red !important
     .search-bar
       background #fff
       position absolute

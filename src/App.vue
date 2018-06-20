@@ -175,6 +175,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+  @import "commons/styles/color.styl"
   #app
     width 100%
     border 0
@@ -198,7 +199,7 @@
         text-align center
         color #555
         &.nav-active
-          color #e64340
+          color main-red
         .nav-item-icon
           display block
           font-size 1.3em

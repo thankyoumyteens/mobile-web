@@ -277,6 +277,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+  @import "../../commons/styles/color.styl"
   .cart
     width 100%
     .cart-list
@@ -323,7 +324,7 @@
             font-size 0.8em
             line-height 3em
           .cart-item-price
-            color #e64340
+            color main-red
         .cart-item-delete
           position absolute
           right 1em
@@ -368,7 +369,7 @@
         position absolute
         right 0
         top 0
-        background-color #e64340
+        background-color main-red
         color #fff
         width 5em
         line-height 3em

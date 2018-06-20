@@ -39,6 +39,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+  @import "../../../commons/styles/color.styl"
   .checkbox
     width 1.5em
     height 1.5em
@@ -51,7 +52,7 @@
       height 1.5em
       vertical-align top
       &.check
-        color #e64340
+        color checkbox-red
       i
         vertical-align top
         font-size 1.5em
@@ -67,5 +68,5 @@
         left 25%
         top 25%
         border-radius 50%
-        background crimson
+        background checkbox-red
 </style>

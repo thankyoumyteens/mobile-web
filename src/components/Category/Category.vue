@@ -49,9 +49,6 @@
       width 95%
       margin auto
       text-align center
-      border-1px(#000)
-      &:last-child
-        border-none()
       .company-logo
         padding 0.5em
         img

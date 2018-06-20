@@ -186,6 +186,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+  @import "../../../commons/styles/color.styl"
   .select-move-enter-active
     animation bounce-in-vertical .2s linear
 
@@ -222,7 +223,7 @@
             width 100%
             height 100%
         .st-price
-          color #e31d1a
+          color main-red
       .st-select
         width 100%
         .st-select-box
@@ -238,7 +239,7 @@
             color #000
             margin 0.5em
             &.selected
-              background #e31d1a
+              background main-red
               color #fff
     .st-buttons
       position fixed
@@ -249,7 +250,7 @@
       .st-button
         height 100%
         color #fff
-        background #e31d1a
+        background main-red
         outline none
         border 0
       .st-add-cart

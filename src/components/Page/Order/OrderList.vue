@@ -258,6 +258,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+  @import "../../../commons/styles/color.styl"
   .user-info-move-enter-active
     animation bounce-in .2s linear
 
@@ -295,7 +296,7 @@
           position absolute
           right 0.5em
           top 0.3em
-          color crimson
+          color main-red
         .order-item-list-wrapper
           width 100%
           .oil-item
@@ -340,7 +341,7 @@
               position absolute
               bottom 0.5em
               right 1em
-              color crimson
+              color main-red
         .order-list-item-detail
           width 100%
           display flex
@@ -360,5 +361,5 @@
             flex 1
             margin-right 1em
             text-align right
-            color crimson
+            color main-red
 </style>

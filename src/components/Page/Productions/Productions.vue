@@ -138,6 +138,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+  @import "../../../commons/styles/color.styl"
   .search-move-enter-active
     animation bounce-in .2s linear
 
@@ -181,7 +182,7 @@
           .production-title
             font-weight bold
           .production-price
-            color #e31d1a
+            color price-red
           .production-review
             color #777
 </style>

@@ -176,6 +176,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+  @import "../../../commons/styles/color.styl"
   .user-info-move-enter-active
     animation bounce-in .2s linear
 
@@ -256,7 +257,7 @@
             font-size 0.8em
             line-height 3em
           .cart-item-price
-            color crimson
+            color main-red
         .cart-item-count
           position absolute
           right 1em

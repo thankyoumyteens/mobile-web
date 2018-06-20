@@ -5,7 +5,10 @@
       <div class="loading" v-if="currentNavIndex===0&&!productionItem">
         <wv-spinner type="dot-circle" :size="50"></wv-spinner>
       </div>
-      <div class="loading" v-if="isLoadingComment&&currentNavIndex===2&&commentList.length<=0">
+      <div class="loading" v-if="currentNavIndex===1&&!goodsDesc">
+        <wv-spinner type="dot-circle" :size="50"></wv-spinner>
+      </div>
+      <div class="loading comment-loading" v-if="isLoadingComment&&currentNavIndex===2">
         <wv-spinner type="dot-circle" :size="50"></wv-spinner>
       </div>
       <section class="production-detail">
@@ -434,6 +437,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+  @import "../../../commons/styles/color.styl"
   .production-move-enter-active
     animation bounce-in .2s linear
 
@@ -449,6 +453,13 @@
     width 100%
     background #fff
     box-sizing border-box
+    .comment-loading
+      height 100%
+      line-height 100%
+      display flex
+      justify-content center
+      align-items center
+      background rgba(0, 0, 0, 0.5)
     .ph-img-wp
       width 100%
       font-size 14px
@@ -486,7 +497,7 @@
             line-height 3em
             text-align center
             &.active
-              color #e31d1a
+              color main-red
         .production-home
           height 100%
           .ph-image-show
@@ -525,12 +536,12 @@
             margin 0.5em auto
           .ph-remark
             width 95%
-            color #e31d1a
+            color main-red
             margin 0.5em auto
             font-size 0.9em
           .ph-price
             width 95%
-            color #e31d1a
+            color price-red
             margin 0.5em auto
             font-size 1.7em
             font-weight bold
@@ -557,23 +568,27 @@
           .pr-top
             width 100%
             .pr-top-percent
-              color #e31d1a
+              color main-red
               text-align right
               width 80%
               padding 0 10%
               border-1px(#ccc)
             .pr-top-star
               width 100%
+              display flex
+              flex-wrap wrap
               .pr-top-star-item
+                flex-grow 1
                 display inline-block
                 margin 0.3em
                 height 1.5em
                 padding 0 0.3em
                 line-height 1.5em
-                border-radius 0.5em
-                background #c35d7a
+                border-radius 0.1em
+                background #ddd
+                text-align center
                 &.active-item
-                  background #e31d1a
+                  background main-red
                   color #fff
           .pr-list
             width 100%
@@ -622,7 +637,7 @@
       .ph-button
         height 100%
         color #fff
-        background #e31d1a
+        background main-red
         outline none
         border 0
       .ph-add-cart
