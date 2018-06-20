@@ -2,13 +2,13 @@
   <transition name="search-move">
     <div class="productions" v-show="productionsShow">
       <v-header titleText="商品" @back="hide"></v-header>
-      <div class="loading" v-if="isLoading">
+      <div class="loading" v-if="isLoading&&productionList.length<=0">
         <wv-spinner type="dot-circle" :size="50"></wv-spinner>
       </div>
       <div class="loading" v-if="!isLoading&&productionList.length<=0">
         暂无商品
       </div>
-      <section class="production-list scroll-wrapper" ref="scrollWrapperProductionList">
+      <section class="production-list scroll-wrapper" v-if="productionList.length>0" ref="scrollWrapperProductionList">
         <div>
           <div class="production-item border-1px" @click="showDetail(production)" v-for="production in productionList">
             <div class="production-img"><img :src="production['mainImage']" alt=""></div>
