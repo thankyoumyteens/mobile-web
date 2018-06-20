@@ -19,7 +19,6 @@
             </div>
             <split :size="0.05" class="clear-float"></split>
           </div>
-
           <div class="next-page" @click="getMore" v-show="hasNextPage">点击加载更多</div>
         </div>
       </section>
