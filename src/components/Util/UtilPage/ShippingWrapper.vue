@@ -112,8 +112,7 @@
           this.$http.get(path()['shippingList']).then(response => {
             let res = response.body
             if (res['status'] === ResponseCode.SUCCESS) {
-              let data = res['data']
-              this.shippingList = data
+              this.shippingList = res['data']
               this.initScroll()
             } else {
               console.log(res['msg'])

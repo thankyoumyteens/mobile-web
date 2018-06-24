@@ -102,15 +102,17 @@
       addComment() {
         let params = []
         for (let index in this.order.orderItemList) {
-          let orderItem = this.order.orderItemList[index]
-          let commentItem = {
-            goodsId: orderItem.goodsId,
-            orderItemId: orderItem.orderItemId,
-            star: this.starList[index] ? this.starList[index] : 5,
-            text: this.commentList[index] ? this.commentList[index] : '',
-            images: this.imgList[index] ? this.imgList[index].join(',') : ''
+          if (this.order.orderItemList.hasOwnProperty(index)) {
+            let orderItem = this.order.orderItemList[index]
+            let commentItem = {
+              goodsId: orderItem.goodsId,
+              orderItemId: orderItem.orderItemId,
+              star: this.starList[index] ? this.starList[index] : 5,
+              text: this.commentList[index] ? this.commentList[index] : '',
+              images: this.imgList[index] ? this.imgList[index].join(',') : ''
+            }
+            params.push(commentItem)
           }
-          params.push(commentItem)
         }
         console.log('评论 -> ' + params)
         this.$http.post(path()['makeComment'], {

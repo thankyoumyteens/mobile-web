@@ -6,22 +6,22 @@
       <!--<wv-spinner type="dot-circle" :size="50"></wv-spinner>-->
       <!--</div>-->
       <!--<div class="loading" v-if="currentNavIndex===1&&!goodsDesc">-->
-        <!--<wv-spinner type="dot-circle" :size="50"></wv-spinner>-->
+      <!--<wv-spinner type="dot-circle" :size="50"></wv-spinner>-->
       <!--</div>-->
       <!--<div class="loading comment-loading" v-if="isLoadingComment&&currentNavIndex===2">-->
-        <!--<wv-spinner type="dot-circle" :size="50"></wv-spinner>-->
+      <!--<wv-spinner type="dot-circle" :size="50"></wv-spinner>-->
       <!--</div>-->
       <section class="production-detail">
         <div class="production-info">
           <div class="production-nav">
             <div class="production-nav-item border-1px" @click="changeTab(0)"
-                 :class="[currentNavIndex==0?'active':'']">商品
+                 :class="[currentNavIndex===0?'active':'']">商品
             </div>
             <div class="production-nav-item border-1px" @click="changeTab(1)"
-                 :class="[currentNavIndex==1?'active':'']">详情
+                 :class="[currentNavIndex===1?'active':'']">详情
             </div>
             <div class="production-nav-item border-1px" @click="changeTab(2)"
-                 :class="[currentNavIndex==2?'active':'']">评价
+                 :class="[currentNavIndex===2?'active':'']">评价
             </div>
           </div>
           <div class="production-content scroll-wrapper"
@@ -66,23 +66,23 @@
                 <div class="pr-top">
                   <div class="pr-top-star">
                     <div class="pr-top-star-item" @click="changeStar(1)"
-                         :class="[currentCommentType==1?'active-item':'']">
+                         :class="[currentCommentType===1?'active-item':'']">
                       全部
                     </div>
                     <div class="pr-top-star-item" @click="changeStar(2)"
-                         :class="[currentCommentType==2?'active-item':'']">
+                         :class="[currentCommentType===2?'active-item':'']">
                       好评
                     </div>
                     <div class="pr-top-star-item" @click="changeStar(3)"
-                         :class="[currentCommentType==3?'active-item':'']">
+                         :class="[currentCommentType===3?'active-item':'']">
                       中评
                     </div>
                     <div class="pr-top-star-item" @click="changeStar(4)"
-                         :class="[currentCommentType==4?'active-item':'']">
+                         :class="[currentCommentType===4?'active-item':'']">
                       差评
                     </div>
                     <div class="pr-top-star-item" @click="changeStar(5)"
-                         :class="[currentCommentType==5?'active-item':'']">
+                         :class="[currentCommentType===5?'active-item':'']">
                       有图
                     </div>
                   </div>
@@ -275,9 +275,14 @@
         }
         // 显示选择的参数
         let text = ''
-        for (let key in product['text']) {
-          let val = product['text'][key]
-          text += val + ' '
+        let productText = product['text']
+        if (productText) {
+          for (let key in productText) {
+            if (productText.hasOwnProperty(key)) {
+              let val = productText[key]
+              text += val + ' '
+            }
+          }
         }
         this.selection = (text === '' ? '请选择版本' : text)
         this.productionItem['price'] = product['price']

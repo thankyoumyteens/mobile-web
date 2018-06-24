@@ -89,10 +89,8 @@
             this.isEnable = false
             this.isEnableUpdate = true
             this.msg = '上传完成'
-            let uri = res['data']['uri']
-            let url = res['data']['url']
-            this.avatarUrl = url
-            this.avatarUri = uri
+            this.avatarUri = res['data']['uri']
+            this.avatarUrl = res['data']['url']
           } else {
             Dialog({
               title: '提示',

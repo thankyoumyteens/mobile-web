@@ -3,7 +3,7 @@
     <div class="cart-list" v-if="cartList.length>0">
       <div class="cart-item" v-for="(item,index) in cartList">
         <div class="cart-item-checkbox" @click="checkItem(item, index)">
-          <checkbox :checked="item['checked']==1"></checkbox>
+          <checkbox :checked="item['checked']===1"></checkbox>
           <div class="pay-bar-checkbox-text"></div>
         </div>
         <div class="cart-item-img" @click="showDetailFromCart(item)"><img :src="item['mainImage']" alt=""></div>

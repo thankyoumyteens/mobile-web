@@ -68,10 +68,6 @@
        * 选择商品参数
        */
       doSelect(key, index) {
-        console.log('key->' + key)
-        console.log('currentIndex->' + index)
-        console.log('arrIndex->' + this.indexObj[key])
-        console.log(this.indexObj[key] === index)
         this.indexObj[key] = index
         let tmp = this.totalMoney
         this.totalMoney = 0
@@ -163,7 +159,9 @@
           console.log(this.propertiesList.length)
           let list = []
           for (let index in this.propertiesList) {
-            list.push(this.propertiesList[index]['text'])
+            if (this.propertiesList.hasOwnProperty(index)) {
+              list.push(this.propertiesList[index]['text'])
+            }
           }
           this.formatMap(list)
           this.totalMoney = 0
