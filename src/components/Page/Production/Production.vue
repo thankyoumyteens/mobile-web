@@ -1,7 +1,7 @@
 <template>
   <transition name="production-move">
-    <div class="production" v-show="productionShow">
-      <div class="close" @click="hide"> <</div>
+    <section class="production" v-show="productionShow">
+      <div class="close" @click="hide"><i class="el-icon-back"></i></div>
       <section class="production-detail">
         <div class="production-info">
           <!--顶部导航, 切换商品/详情/评论-->
@@ -93,12 +93,8 @@
                       <div class="pr-item-top">
                         <div class="pr-item-top-author">{{item['author']['nickname']}}</div>
                         <div class="pr-item-top-date">{{item['createTime']}}</div>
-                        <el-rate
-                          class="star-comp"
-                          disabled show-text
-                          text-color="#ff9900"
-                          v-model="item['star']"
-                          score-template="{value}">
+                        <el-rate class="star-comp" disabled show-text text-color="#ff9900"
+                                 v-model="item['star']" score-template="{value}">
                         </el-rate>
                       </div>
                       <!--评论文本-->
@@ -126,7 +122,7 @@
         <button class="ph-button ph-add-cart" @click="showSelect">加入购物车</button>
       </div>
       <select-type ref="selecttype" @selected="selectType" @cart="addToCart"></select-type>
-    </div>
+    </section>
   </transition>
 </template>
 
