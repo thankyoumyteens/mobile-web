@@ -122,6 +122,7 @@
                     </div>
                   </div>
                 </div>
+                <div class="next-page" @click="getMore" v-show="commentList.length <= 0">暂无评论</div>
                 <div class="next-page" @click="getMore" v-show="hasNextPage">点击加载更多</div>
               </section>
             </div>
@@ -416,7 +417,9 @@
                   item['images'] = []
                 }
               }
+              this.isNewPage = false
             } else {
+              // todo 失效
               // 点击加载更多, 追加数据到评论列表
               for (let i = 0; i < data['list'].length; i++) {
                 let item = data['list'][i]
