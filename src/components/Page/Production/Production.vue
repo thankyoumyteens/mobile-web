@@ -419,7 +419,6 @@
               }
               this.isNewPage = false
             } else {
-              // todo 失效
               // 点击加载更多, 追加数据到评论列表
               for (let i = 0; i < data['list'].length; i++) {
                 let item = data['list'][i]
