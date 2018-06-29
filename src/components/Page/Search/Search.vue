@@ -2,14 +2,14 @@
   <transition name="search-move">
     <div class="search" v-show="searchShow">
       <header class="border-1px">
-        <div class="close" @click="hide"> < </div>
+        <div class="close" @click="hide"><i class="el-icon-back"></i></div>
         <div class="search-bar-page">
           <i class="search-bar-icon iconfont icon-suosou"></i>
           <input type="text" id="searchContent" name="searchContent">
         </div>
         <div class="search-button" @click="search">搜索</div>
       </header>
-      <!--<split></split>-->
+      <split :size="0.5"></split>
       <section class="history-wrapper">
         <h3 class="history-title border-1px">历史搜索</h3>
         <div class="history-item border-1px" @click="addToBar(item)" v-for="item in historyList">{{item}}</div>
@@ -40,7 +40,7 @@
       show() {
         document.getElementById('searchContent').value = ''
         let history = localStorage.getItem('history')
-        if (history !== null) {
+        if (history) {
           let arr = history.split(';')
           for (let i = 0; i < arr.length; i++) {
             if (i > 5) break // 显示5条历史记录
@@ -59,12 +59,12 @@
         this.$emit('find', searchContent)
         // 存储搜索历史
         let history = localStorage.getItem('history')
-        if (history !== null) {
+        if (history) {
           localStorage.setItem('history', searchContent + ';' + history)
         } else {
           localStorage.setItem('history', searchContent)
         }
-        this.hide()
+        // this.hide()
       }
     }
   }
@@ -89,13 +89,14 @@
     box-sizing border-box
     header
       padding 1em
-      text-align center
+      display flex
+      align-items center
       border-1px(#ccc)
       .close
-        margin-top 0.3em
-        margin-right 0.5em
-        float left
+        flex 1
+        text-align center
       .search-bar-page
+        flex 4
         position relative
         display inline-block
         .search-bar-icon
@@ -104,10 +105,12 @@
           top 0.3em
           color #777
         input
+          box-sizing border-box
           border 0
           outline none
-          background #ccc
+          background #eee
           color #777
+          width 100%
           height 2.5em
           padding 0
           padding-left 3em
@@ -116,10 +119,9 @@
           border-top-right-radius 2em
           border-bottom-right-radius 2em
       .search-button
-        margin-left 0.5em
+        flex 1
+        text-align center
         font-size 1.3em
-        float right
-        margin-top 0.1em
     .history-wrapper
       width 90%
       margin auto

@@ -383,6 +383,9 @@
           let status = response.body['status']
           if (status === ResponseCode.SUCCESS) {
             this.goodsDesc = response.body['data']
+            if (!this.goodsDesc) {
+              this.goodsDesc = ' '
+            }
             this.initScroll()
           } else {
             let msg = response.body['msg']
