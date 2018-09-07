@@ -67,6 +67,9 @@
        * 注册
        */
       doRegister() {
+        if (this.isRegDoing) {
+          return
+        }
         let username = this.usernameRegister
         let password = this.passwordRegister
         let repeatPassword = this.repeatPassword
@@ -140,6 +143,9 @@
        * 登陆
        */
       doLogin() {
+        if (this.isLoginDoing) {
+          return
+        }
         let username = this.username
         let password = this.password
         if (username === '' || password === '') {
