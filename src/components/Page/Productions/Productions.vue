@@ -149,7 +149,7 @@
     top 0
     left 0
     bottom 0
-    z-index 990
+    z-index 992
     width 100%
     background #fff
     box-sizing border-box

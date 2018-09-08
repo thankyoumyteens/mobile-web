@@ -43,3 +43,14 @@ export const FavoriteType = {
   // 店铺
   SHOP: 1
 }
+
+export const ComponentsConfigProduction = {
+  NAV_INDEX_GOODS: 0,
+  NAV_INDEX_DETAIL: 1,
+  NAV_INDEX_COMMENT: 2,
+  COMMENT_TYPE_ALL: 3,
+  COMMENT_TYPE_GOOD: 4,
+  COMMENT_TYPE_NORMAL: 5,
+  COMMENT_TYPE_BAD: 6,
+  COMMENT_TYPE_IMAGE: 7
+}

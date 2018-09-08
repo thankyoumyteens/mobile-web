@@ -1,16 +1,10 @@
 <template>
-  <div class="header-use-we-vue">
+  <header class="custom-header">
     <wv-header :title="titleText" :fixed="isFixed" :background-color="backgroundColor">
-      <div class="btn-back" slot="left" @click="back">
-        <
-        <!--<i class="iconfont icon-back" @click="$router.push('/')"></i>-->
-      </div>
-      <div class="btn-menu" slot="right" @click="action">
-        {{actionText}}
-        <!--<i class="iconfont icon-menu" @click="$router.push('/')"></i>-->
-      </div>
+      <div class="btn-back" slot="left" @click="back"><i class="el-icon-back"></i></div>
+      <div class="btn-menu" slot="right" @click="action">{{actionText}}</div>
     </wv-header>
-  </div>
+  </header>
 </template>
 
 <script type="text/ecmascript-6">
@@ -45,5 +39,6 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-
+  .custom-header
+    box-shadow 0 0.1em 0.2em 0.05em #ccc
 </style>
